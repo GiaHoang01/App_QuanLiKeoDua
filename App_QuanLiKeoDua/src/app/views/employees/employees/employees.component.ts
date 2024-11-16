@@ -101,6 +101,7 @@ export class EmployeesComponent implements OnInit {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.employee = response.data.employeeAccount;
+          console.log(this.data.employee);
         } else {
 
         }
@@ -137,16 +138,7 @@ export class EmployeesComponent implements OnInit {
 
   AddAccountEmployee() {
     const body = {
-      // Username:this.data.taiKhoan.Username,
-      // Password:this.data.taiKhoan.Password,
-      // MaNhomQuyen:this.data.taiKhoan.MaNhomQuyen,
-      // TenNV:this.data.employee.TenNV,
-      // Email:this.data.employee.Email,
-      // ChucVu:this.data.employee.ChucVu,
-      // DiaChi:this.data.employee.DiaChi,
-      // SDT:this.data.employee.SDT,
-      // NgaySinh: this.data.employee.NgaySinh,
-      // GioiTinh:this.data.employee.GioiTinh
+      NhanVienTaiKhoan:this.data.employee
     };
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "AddAccountEmployee", body).subscribe({
       next: (response: any) => {
