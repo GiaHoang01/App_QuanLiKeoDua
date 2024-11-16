@@ -1,0 +1,74 @@
+:root {
+    --p-paginator-padding: 1rem; /* Padding of root */
+    --p-paginator-gap: 0.5rem; /* Gap of root */
+    --p-paginator-border-radius: 8px; /* Border radius of root */
+    --p-paginator-background: none; /* Background of root */
+    --p-paginator-color: #333; /* Color of root */
+    --p-paginator-transition-duration: 0.3s; /* Transition duration of root */
+
+    --p-paginator-nav-button-background: #fff; /* Background of nav button */
+    --p-paginator-nav-button-hover-background: #4caf50; /* Hover background of nav button */
+    --p-paginator-nav-button-selected-background: #4caf50; /* Selected background of nav button */
+    --p-paginator-nav-button-color: black; /* Color of nav button */
+    --p-paginator-nav-button-hover-color: white; /* Hover color of nav button */
+    --p-paginator-nav-button-selected-color: white; /* Selected color of nav button */
+    --p-paginator-nav-button-width: 40px; /* Width of nav button */
+    --p-paginator-nav-button-height: 40px; /* Height of nav button */
+    --p-paginator-nav-button-border-radius: 4px; /* Border radius of nav button */
+
+    --p-paginator-nav-button-focus-ring-width: 2px; /* Focus ring width of nav button */
+    --p-paginator-nav-button-focus-ring-style: solid; /* Focus ring style of nav button */
+    --p-paginator-nav-button-focus-ring-color:#4caf50; /* Focus ring color of nav button */
+    --p-paginator-nav-button-focus-ring-offset: 2px; /* Focus ring offset of nav button */
+    --p-paginator-nav-button-focus-ring-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus ring shadow of nav button */
+
+    --p-paginator-current-page-report-color: #666; /* Color of current page report */
+    --p-paginator-jump-to-page-input-max-width: 100px; /* Max width of jump to page input */
+}
+
+.paginator {
+    padding: var(--p-paginator-padding);
+    gap: var(--p-paginator-gap);
+    border-radius: var(--p-paginator-border-radius);
+    background-color: transparent !important;
+    color: var(--p-paginator-color);
+   
+}
+
+.paginator-nav-button {
+    background: var(--p-paginator-nav-button-background);
+    color: var(--p-paginator-nav-button-color);
+    width: var(--p-paginator-nav-button-width);
+    height: var(--p-paginator-nav-button-height);
+    border-radius: var(--p-paginator-nav-button-border-radius);
+    transition: background var(--p-paginator-transition-duration), color var(--p-paginator-transition-duration);
+}
+
+.paginator-nav-button:hover {
+    background: var(--p-paginator-nav-button-hover-background);
+    color: var(--p-paginator-nav-button-hover-color);
+}
+
+.paginator-nav-button.selected {
+    background: var(--p-paginator-nav-button-selected-background);
+    color: var(--p-paginator-nav-button-selected-color);
+}
+
+.paginator-nav-button:focus {
+    outline: none;
+    box-shadow: var(--p-paginator-nav-button-focus-ring-shadow);
+    border: var(--p-paginator-nav-button-focus-ring-width) var(--p-paginator-nav-button-focus-ring-style) var(--p-paginator-nav-button-focus-ring-color);
+}
+
+.current-page-report {
+    color: var(--p-paginator-current-page-report-color);
+}
+
+.jump-to-page-input {
+    max-width: var(--p-paginator-jump-to-page-input-max-width);
+}
+
+.p-inputtext{
+    color: gray !important;
+    font-size: 14px; 
+}

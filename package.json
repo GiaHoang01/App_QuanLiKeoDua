@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@angular/animations": "^18.2.7",
+    "@angular/common": "^18.2.7",
+    "@angular/forms": "^18.2.7",
+    "@angular/localize": "^18.2.7",
+    "@angular/router": "^18.2.7",
+    "@coreui/angular": "^5.2.19"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^5.1.4"
+  }
+}

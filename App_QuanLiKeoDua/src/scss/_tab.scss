@@ -1,0 +1,61 @@
+
+
+.p-tabs{
+  background-color: transparent;
+}
+.p-tablist{
+  border: none !important;
+}
+
+
+.p-tablist-tab-list{
+  margin-bottom: 5px;
+  padding: 5px;
+  border: none !important;
+}
+
+.p-tab{
+  padding: 10px !important;
+  margin-right: 5px !important;
+}
+
+
+:root {
+  /* General TabView Styles */
+  --p-tabs-transition-duration: 0.3s; /* Smooth transition duration */
+  --p-tabs-tablist-border-width: 2px;/* Light background for the tablist */
+  --p-tabs-tablist-border-color: #d1d5db;
+
+  /* Default Tab Styles */
+  --p-tabs-tab-background: #ffffff; /* White background for tabs */
+  --p-tabs-tab-color: #555; /* Dark gray text for tabs */
+  --p-tabs-tab-border-width: 1px;
+  --p-tabs-tab-border-color: #d1d5db; /* Soft gray border */
+  --p-tabs-tab-padding: 12px 20px; /* Padding for a balanced look */
+  --p-tabs-tab-font-weight: 500;
+
+  /* Hover Tab Styles */
+  --p-tabs-tab-hover-background: #e9ecef; /* Light hover background */
+  --p-tabs-tab-hover-border-color: #adb5bd; /* Darker gray on hover */
+  --p-tabs-tab-hover-color: #333; /* Slightly darker text color on hover */
+
+  /* Active Tab Styles */
+  --p-tabs-tab-active-background: #4caf50; /* Blue background for active tab */
+  --p-tabs-tab-active-color: #ffffff; /* White text for active tab */
+  --p-tabs-tab-active-border-color: #4caf50;
+
+  /* Active Bar */
+  --p-tabs-active-bar-height: 3px; /* Thicker active bar */
+  --p-tabs-active-bar-background: #4caf50; /* Blue active bar */
+  --p-tabs-active-bar-bottom: 0px;
+
+  /* Transition Effect */
+  --p-tabs-tab-transition-duration: 0.3s;
+  --p-tabs-tab-hover-transition-duration: 0.3s;
+}
+
+/* Focus Ring */
+:focus {
+  outline: none;
+  box-shadow: 0 0 4px #4caf50;
+}

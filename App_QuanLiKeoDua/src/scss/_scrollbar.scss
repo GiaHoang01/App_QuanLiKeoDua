@@ -1,0 +1,36 @@
+/* Tùy chỉnh thanh cuộn cho tất cả phần tử */
+::-webkit-scrollbar {
+  width: 10px;  /* Chiều rộng thanh cuộn dọc */
+  height: 10px; /* Chiều cao thanh cuộn ngang */
+}
+
+/* Tùy chỉnh track (vùng chứa thanh cuộn) */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;  /* Màu nền của track */     /* Bo góc track */
+}
+
+/* Tùy chỉnh thanh cuộn (thumb) */
+::-webkit-scrollbar-thumb {
+  background-color: #888;  /* Màu của thanh cuộn */
+   /* Bo góc thanh cuộn */
+}
+
+/* Thay đổi màu của thanh cuộn khi hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;  /* Màu của thanh cuộn khi hover */
+}
+
+/* Tùy chỉnh thanh cuộn ngang */
+::-webkit-scrollbar-horizontal {
+  height: 10px;  /* Chiều cao thanh cuộn ngang */
+}
+
+/* Tùy chỉnh track của thanh cuộn ngang */
+::-webkit-scrollbar-track-x {
+  background-color: #f1f1f1;
+}
+
+/* Tùy chỉnh thumb của thanh cuộn ngang */
+::-webkit-scrollbar-thumb-x {
+  background-color: #888;
+}

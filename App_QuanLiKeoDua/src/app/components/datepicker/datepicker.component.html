@@ -1,0 +1,27 @@
+
+<input #input type="text"      
+    [className]="inputClass"
+    [bsConfig]="{ 
+    keepDatepickerOpened:true,
+    adaptivePosition:adaptivePosition, 
+    containerClass:'theme-blue bg-primary-50 ml-2 select-none shadow-4',
+    withTimepicker: isShowTime, 
+    showWeekNumbers:isShowWeek,
+    rangeInputFormat : format, 
+    dateInputFormat: format,
+    selectFromOtherMonth:true,
+    showTodayButton: isShowTodayBtn, 
+    todayPosition: 'center'                       
+    }"
+    required="true"
+    bsDatepicker
+    [placement]="placement"   
+    [(ngModel)]="dateValue" 
+    (keypress)="validateInput($event)"
+    (ngModelChange)="onSelectDate()"           
+    [dateCustomClasses]="dateCustomClasses"
+    [disabled]="isDisabled"
+    [name]="name"
+    
+>
+<!-- adaptivePosition:true, -->

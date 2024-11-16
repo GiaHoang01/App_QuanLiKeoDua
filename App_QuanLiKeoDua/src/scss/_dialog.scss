@@ -1,0 +1,55 @@
+/* Dialog root styles */
+:root {
+  --p-dialog-background: #fff; /* Set background color */
+  --p-dialog-border-color: #dcdcdc; /* Set border color */
+  --p-dialog-color: #333; /* Set text color */
+  --p-dialog-border-radius: 8px; /* Set border radius */
+  --p-dialog-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Set shadow */
+  --p-dialog-header-padding: 0.5rem; /* Padding for the header */
+  --p-dialog-header-gap: 0.5rem; /* Gap between header elements */
+  --p-dialog-title-font-size: 1.25rem; /* Title font size */
+  --p-dialog-title-font-weight: 600; /* Title font weight */
+  --p-dialog-content-padding: 1rem; /* Content padding */
+  --p-dialog-footer-padding: 1rem; /* Footer padding */
+  --p-dialog-footer-gap: 0.5rem; /* Footer gap */
+}
+
+/* Apply styles to p-dialog */
+.p-dialog .p-dialog-header {
+  padding: var(--p-dialog-header-padding);
+  gap: var(--p-dialog-header-gap);
+  background-color: #4caf50;
+  color: #fff;
+  border-bottom: 1px solid var(--p-dialog-border-color);
+}
+
+.p-dialog-title {
+  font-size: var(--p-dialog-title-font-size);
+  font-weight: var(--p-dialog-title-font-weight);
+  color: var(--p-dialog-color);
+}
+
+.p-dialog-content {
+  padding: var(--p-dialog-content-padding);
+  background: var(--p-dialog-background);
+  color: var(--p-dialog-color);
+  overflow: visible !important;
+  width: 1000px !important;
+}
+
+.p-dialog-footer {
+  padding: var(--p-dialog-footer-padding);
+  gap: var(--p-dialog-footer-gap);
+  border-top: 1px solid var(--p-dialog-border-color);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.p-dialog{
+  background: var(--p-dialog-background);
+  box-shadow: var(--p-dialog-shadow);
+  color: var(--p-dialog-color);
+  border-radius: 0px !important;
+  min-width: 500px !important;
+}
+

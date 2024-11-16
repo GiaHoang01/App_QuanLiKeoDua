@@ -1,0 +1,64 @@
+.error-text {
+    color: red; 
+    text-align: right; 
+    min-height: 20px;  
+}
+
+.error-text-center {
+    color: red;      
+    text-align: center; 
+    min-height: 20px;   
+}
+.form-group-button{
+    text-align: right !important;
+}
+/* Style cho nút */
+.btn-custom {
+    border-radius: 2px;
+    font-weight: bold;
+    padding: 2px 10px !important;
+    font-size: 12px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hiệu ứng hover cho nút */
+.btn-login:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+}
+
+.btn-register:hover {
+    background-color:#60be76;
+}
+
+/* Màu nền nút đăng nhập */
+.btn-login {
+    background-color: #007bff; /* Màu nền cho nút Login */
+    color: white; /* Màu chữ */
+}
+
+/* Màu nền nút đăng ký */
+.btn-register {
+    background-color: #28a745; /* Màu nền cho nút Register */
+    color: white; /* Màu chữ */
+}
+
+
+.p-button{
+    background-color: #4caf50 !important;
+    color: white !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.p-button .btn-cancel{
+    background-color: red !important; /* Màu nền cho nút Register */
+    color: white; /* Màu chữ */
+    padding: 10px !important;
+    border-radius: 5px !important;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 12px;
+}

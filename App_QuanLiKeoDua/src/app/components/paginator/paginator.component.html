@@ -1,0 +1,33 @@
+<div class="row" style="border: none !important">
+    <div class="col-5 d-flex justify-content-start" style="margin-top: 25px;">
+      <div class="row">
+        <div class="col-8">Số dòng</div>
+        <div class="col-4">
+          <p-select #dropdown [options]="options"
+            optionLabel="label" optionValue="value" 
+            [(ngModel)]="pageSize" 
+            styleClass="custom-select" 
+            (ngModelChange)="first = 0;onRowsChange()" 
+          /></div>
+      </div>
+    </div>
+    <div class="col-7 d-flex justify-content-end">
+      <div class="row">
+        <div class="col-12" style="margin-top: 25px;">
+          Tổng số dòng : {{totalRows}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p-paginator 
+          [first]="(pageIndex - 1) * pageSize" 
+          [rows]="pageSize" 
+          [totalRecords]="totalRows" 
+          [showFirstLastIcon]="(totalRows/pageSize) > 5"
+          (onPageChange)="onPageChange($event)">
+        </p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+  

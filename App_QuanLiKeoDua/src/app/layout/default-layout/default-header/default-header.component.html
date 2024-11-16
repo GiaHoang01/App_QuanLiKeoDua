@@ -1,0 +1,103 @@
+    <ng-container>
+        <c-container [fluid]="true" class="px-4">
+          <button
+            [cSidebarToggle]="sidebarId()"
+            cHeaderToggler
+            class="btn"
+            toggle="visible"
+            style="margin-inline-start: -14px; color:gray !important"
+            aria-label="Toggle sidebar navigation"
+          >
+          <i class="bi bi-list" title="menu"></i>
+          </button>
+          <c-header-nav class="d-none d-md-flex">
+            <c-nav-item>
+              <span>{{ title }}</span>
+            </c-nav-item>
+          </c-header-nav>
+      
+          <c-header-nav class="d-none d-md-flex ms-auto ">
+            <a cNavLink>
+              <i class="bi bi-bell-fill"></i>
+            </a>
+          </c-header-nav>
+      
+          <c-header-nav class="ms-auto ms-md-0">
+            <div class="nav-item py-1">
+              <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+            <ng-container *ngTemplateOutlet="themeDropdown" />
+            <div class="nav-item py-1">
+              <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+          </c-header-nav>
+      
+          <c-header-nav class="mx-0">
+            <ng-container *ngTemplateOutlet="userDropdown" />
+          </c-header-nav>
+      
+        </c-container>
+      </ng-container>
+      
+      <ng-template #userDropdown>
+        <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
+          <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
+            <c-avatar
+              shape="rounded-1"
+              [size]="'md'"
+              src="./assets/images/gia.jpg"
+              status="success"
+              textColor="primary"
+              alt="User avatar"
+            />
+          </button>
+          <ul cDropdownMenu class="pt-0 w-auto">
+            <li>
+              <h6 cDropdownHeader class="bg-body-secondary text-body-secondary fw-semibold py-2">
+                Infomation
+              </h6>
+            </li>
+            <li></li>
+            <li>
+              <a cDropdownItem routerLink="">
+                Profile
+              </a>
+            </li>
+            <li>
+              <hr cDropdownDivider />
+            </li>
+            <li>
+              <a cDropdownItem routerLink="">
+                Lock Account
+              </a>
+            </li>
+            <li>
+              <a cDropdownItem routerLink="/login">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </c-dropdown>
+      </ng-template>
+      
+      <ng-template #themeDropdown>
+        <c-dropdown alignment="end" variant="nav-item">
+          <button [caret]="false" cDropdownToggle aria-label="Open theme picker">
+            <i class="bi bi-moon-stars-fill"></i>
+          </button>
+          <div cDropdownMenu>
+            @for (mode of colorModes; track mode.name) {
+              <button
+                (click)="colorMode.set(mode.name)"
+                [active]="colorMode()===mode.name"
+                cDropdownItem
+                class="d-flex align-items-center"
+              >
+              <i class="fas fa-{{mode.icon}} me-2" style="font-size: 1.5rem;"></i>
+                {{ mode.text }}
+              </button>
+            }
+          </div>
+        </c-dropdown>
+      </ng-template>
+      

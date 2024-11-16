@@ -1,0 +1,156 @@
+:root {
+    /* Root Styles */
+    --p-datatable-transition-duration: 0.3s; /* Smooth transition */
+    --p-datatable-border-color: #e0e0e0; /* Light border color */
+  
+    /* Header Styles */
+    --p-datatable-header-background: #0056b3; /* Soft gray header background */
+    --p-datatable-header-border-color: #d3d3d3; /* Subtle border for header */
+    --p-datatable-header-color: #333; /* Dark text for better readability */
+    --p-datatable-header-border-width: 1px;
+    --p-datatable-header-padding: 12px; /* Padding for header cells */
+  
+    /* Header Cell Styles */
+    --p-datatable-header-cell-background: #E3EAF3; /* Light cell background */
+    --p-datatable-header-cell-hover-background: white; /* Hover effect */
+    --p-datatable-header-cell-selected-background: #bbd0fa; /* Selected */
+    --p-datatable-header-cell-border-color: #dcdcdc;
+    --p-datatable-header-cell-color: blue;
+    --p-datatable-header-cell-hover-color: blue;
+    --p-datatable-header-cell-selected-color: blue;
+    --p-datatable-header-cell-gap: 8px;
+    --p-datatable-header-cell-padding: 12px;
+  
+    /* Header Cell Focus Styles */
+    --p-datatable-header-cell-focus-ring-width: 2px;
+    --p-datatable-header-cell-focus-ring-style: solid;
+    --p-datatable-header-cell-focus-ring-color: #0056b3; /* Accent focus color */
+    --p-datatable-header-cell-focus-ring-offset: 2px;
+    --p-datatable-header-cell-focus-ring-shadow: 0 0 4px rgba(0, 86, 179, 0.5);
+  
+    /* Row Styles */
+    --p-datatable-row-background: #ffffff; /* White background */
+    --p-datatable-row-hover-background: #f0f8ff; /* Light blue on hover */
+    --p-datatable-row-selected-background: #bbd0fa; /* Highlighted selected row */
+    --p-datatable-row-color: #333;
+    --p-datatable-row-hover-color: #333;
+    --p-datatable-row-selected-color: #000;
+  
+    /* Row Striped Style */
+    --p-datatable-row-striped-background: #fafafa; /* Light striped row effect */
+  
+    /* Body Cell Styles */
+    --p-datatable-body-cell-border-color: #e0e0e0;
+    --p-datatable-body-cell-padding: 10px; /* Comfortable padding */
+    --p-datatable-body-cell-selected-border-color: #0056b3;
+  
+    /* Footer Styles */
+    --p-datatable-footer-background: #f5f5f5;
+    --p-datatable-footer-border-color: #d3d3d3;
+    --p-datatable-footer-color: #333;
+    --p-datatable-footer-border-width: 1px;
+    --p-datatable-footer-padding: 12px;
+  
+    /* Column Title & Footer Font Weight */
+    --p-datatable-column-title-font-weight: 600;
+    --p-datatable-column-footer-font-weight: 600;
+  
+    /* Drop Point Colors */
+    --p-datatable-drop-point-color-0: #b0bec5;
+    --p-datatable-drop-point-color-1: #90a4ae;
+    /* Add additional drop points as needed */
+  
+    /* Column Resizer Width */
+    --p-datatable-column-resizer-width-0: 2px;
+    /* Additional Resizer Widths as needed */
+  
+    /* Resize Indicator */
+    --p-datatable-resize-indicator-width: 2px;
+    --p-datatable-resize-indicator-color: #0056b3;
+  
+    /* Sort Icon */
+    --p-datatable-sort-icon-color: #666;
+    --p-datatable-sort-icon-hover-color: #333;
+  
+    /* Loading Icon */
+    --p-datatable-loading-icon-size: 20px;
+  
+    /* Row Toggle Button */
+    --p-datatable-row-toggle-button-color: #333;
+    --p-datatable-row-toggle-button-hover-background: #e9ecef;
+    --p-datatable-row-toggle-button-size: 24px;
+    --p-datatable-row-toggle-button-border-radius: 4px;
+  
+    /* Filter Styles */
+    --p-datatable-filter-inline-gap: 8px;
+    --p-datatable-filter-overlay-select-background: #ffffff;
+    --p-datatable-filter-overlay-select-border-color: #dcdcdc;
+    --p-datatable-filter-overlay-select-border-radius: 4px;
+    --p-datatable-filter-overlay-popover-background: #fafafa;
+    --p-datatable-filter-overlay-popover-border-color: #d3d3d3;
+    --p-datatable-filter-overlay-popover-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
+    /* Paginator */
+    --p-datatable-paginator-top-border-color: #d3d3d3;
+    --p-datatable-paginator-top-border-width: 1px;
+    --p-datatable-paginator-bottom-border-color: #d3d3d3;
+    --p-datatable-paginator-bottom-border-width: 1px;
+  }
+
+
+
+.p-datatable-table-container .text-sm{
+  width: 100px;
+  text-align: center;
+}
+
+.p-datatable-table-container .text-position{
+  width: 150px;
+  text-align: center;
+}
+
+.p-datatable-table-container .active-sm{
+  width: 34px;
+  min-width: 34px;
+  text-wrap: nowrap;
+  text-align: center;
+}
+
+.p-datatable-table-container .text-sex{
+  min-width: 100px !important;
+  text-align: center;
+}
+
+.p-datatable-table-container .text-address{
+  min-width: 300px !important;
+  text-align: center;
+}
+
+.p-datatable-table-container .text-phone{
+  min-width: 150px !important;
+  text-align: center;
+}
+
+.p-datatable-thead > tr > th.header-min {
+  min-width:150px;
+  text-align: center;
+}
+
+.p-datatable-thead > tr > th.header-tb {
+  min-width:300px;
+  text-align: center;
+}
+
+.p-datatable-thead > tr > th.header-gt {
+  min-width:100px;
+  text-align: center;
+}
+
+.p-datatable-thead > tr > th.header-max {
+  min-width:500px;
+  text-align: center;
+}
+
+.p-sortable-column-icon {
+  display: none !important;
+}
