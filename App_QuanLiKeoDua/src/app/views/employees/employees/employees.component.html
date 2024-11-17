@@ -100,8 +100,11 @@
   <!-- Header Template -->
   <ng-template pTemplate="header">
     <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
-      <span class="font-bold white-space-nowrap text-xl">
+      <span class="font-bold white-space-nowrap text-xl" *ngIf="IsUpdate">
         Cập nhật nhân viên
+      </span>
+      <span class="font-bold white-space-nowrap text-xl"*ngIf="!IsUpdate">
+        Thêm nhân viên
       </span>
     </div>
   </ng-template>
@@ -213,7 +216,7 @@
   <!-- Footer Template -->
   <ng-template pTemplate="footer">
     <div class="border-style-top">
-      <button type="submit" (click)="AddAccountEmployee()" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
+      <button type="submit" (click)="saveEmployee(true);" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
         Lưu
       </button>
       <button type="submit" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">

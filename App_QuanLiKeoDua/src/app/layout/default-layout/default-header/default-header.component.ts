@@ -27,6 +27,7 @@ import {
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 @Component({
   selector: 'app-default-header',
@@ -52,7 +53,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
 
   title: string=""; // Thêm biến title để lưu tên trang
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router,private authService: AuthService) {
     super();
   }
 
@@ -64,5 +65,10 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     });
   }
 
+  LogOut()
+  {
+    this.authService.clearTenDangNhap();
+    this.router.navigate(['/login']);
+  }
   sidebarId = input('');
 }

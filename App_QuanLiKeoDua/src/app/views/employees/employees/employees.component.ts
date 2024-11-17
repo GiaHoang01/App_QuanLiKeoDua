@@ -8,7 +8,7 @@ import { GlobalService } from '../../../../scss/services/global.service';
 import { UtilsService } from '../../../../scss/services/untils.service';
 import { APIService } from '../../../../scss/services/api.service';
 import { API_ENDPOINT } from '../../../../environments/environments';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
@@ -24,24 +24,26 @@ interface DataResult {
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [AppQuickSearchComponent,DatePickerComponent,ButtonModule, DropdownComponent, TableModule, CommonModule, PaginatorComponent, FormsModule,DialogModule,FormatDateDirective],
+  imports: [AppQuickSearchComponent, DatePickerComponent, ButtonModule, DropdownComponent, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
 export class EmployeesComponent implements OnInit {
   isExpanded: boolean = false;
+  maNV: string = "";
   title: any;
   selectedProduct!: any;
   pageSize: number = 5;
   pageIndex: number = 1;
-  value:string="";
+  value: string = "";
   gioiTinh = [
-    { label:"Vui lòng chọn ", value :""},
+    { label: "Vui lòng chọn ", value: "" },
     { label: "Nam", value: "Nam" },
     { label: "Nữ", value: "Nữ" },
     { label: "Khác", value: "Khác" },
   ];
-  IsShowPopupEdit:boolean=false;
+  IsShowPopupEdit: boolean = false;
+  IsUpdate: boolean = false;
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
@@ -52,31 +54,32 @@ export class EmployeesComponent implements OnInit {
     employees: [],
     nhomQuyens: []
   }
-  searchString: string="";
+  searchString: string = "";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService,) {
   }
 
   ngOnInit(): void {
-   
+
   }
-  showDetail(maNV:string)
-  {
+  showDetail(maNV: string) {
     this.GetEmployeeByID(maNV);
-    this.IsShowPopupEdit=true;
+    this.maNV=maNV;
+    this.IsUpdate = true;
+    this.IsShowPopupEdit = true;
   }
 
-  showAdd()
-  {
-    this.data.employee={};
-    this.IsShowPopupEdit=true;
+  showAdd() {
+    this.data.employee = {};
+    this.IsUpdate=false;
+    this.IsShowPopupEdit = true;
   }
 
   getData() {
     const body = {
-      SearchString:this.searchString,
-      PageSize:this.globalService.paging.PageSize,
-      PageIndex:this.globalService.paging.PageIndex,
+      SearchString: this.searchString,
+      PageSize: this.globalService.paging.PageSize,
+      PageIndex: this.globalService.paging.PageIndex,
     };
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "getAllEmployees", body).subscribe({
       next: (response: any) => {
@@ -95,10 +98,10 @@ export class EmployeesComponent implements OnInit {
       }
     });
   }
-  maNhomQuyen:string="";
+  maNhomQuyen: string = "";
   quickSearchNhomQuyen(searchString: string = '') {
     const body = {
-      SearchString:searchString,
+      SearchString: searchString,
     };
     this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "quickSearchNhomQuyen", body).subscribe({
       next: (response: any) => {
@@ -119,9 +122,9 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  GetEmployeeByID(maNV:string) {
+  GetEmployeeByID(maNV: string) {
     const body = {
-      MaNV:maNV,
+      MaNV: maNV,
     };
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "GetEmployeeByID", body).subscribe({
       next: (response: any) => {
@@ -140,9 +143,9 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  DeleteEmployee(maNV:string) {
+  DeleteEmployee(maNV: string) {
     const body = {
-      MaNV:maNV,
+      MaNV: maNV,
     };
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "DeleteEmployee", body).subscribe({
       next: (response: any) => {
@@ -161,15 +164,22 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  AddAccountEmployee() {
+  AddAccountEmployee(isClose: boolean) {
     const body = {
-      NhanVienTaiKhoan:this.data.employee
+      NhanVienTaiKhoan: this.data.employee
     };
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "AddAccountEmployee", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.IsShowPopupEdit=false;
-          this.getData();
+          if (isClose) {
+            this.IsShowPopupEdit = false;
+            this.IsUpdate = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
         } else {
 
         }
@@ -183,21 +193,57 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  saveEmployee(isAdd:boolean)
-  {
-    if(isAdd)
-    {
-      this.AddAccountEmployee();
+  UpdateAccountEmployee(isClose: boolean) {
+    const body = {
+      NhanVienTaiKhoan: this.data.employee,
+      MaNV: this.maNV
+    };
+    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "UpdateEmployee", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          if (isClose) {
+            this.IsUpdate = false;
+            this.IsShowPopupEdit = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  saveEmployee(isClose: boolean) {
+    if (isClose) {
+      if (this.IsUpdate) {
+        this.UpdateAccountEmployee(isClose);
+      }
+      else {
+        this.AddAccountEmployee(isClose);
+      }
     }
-    else
-    {
-      
+    else {
+      if (this.IsUpdate) {
+        this.UpdateAccountEmployee(isClose);
+      }
+      else {
+        this.AddAccountEmployee(isClose);
+      }
     }
   }
 
-  closeDialog()
-  {
-    this.IsShowPopupEdit=false;
+  closeDialog() {
+    this.IsShowPopupEdit = false;
   }
 
   onPageChange(event: any) {
