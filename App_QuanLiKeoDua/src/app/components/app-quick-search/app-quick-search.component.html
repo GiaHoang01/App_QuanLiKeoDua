@@ -1,0 +1,52 @@
+<p-toast position="bottom-right" preventOpenDuplicates="true" [style]="{width: '25vw '}" />
+
+    <input [formControl]="control" [name]="name" [placeholder]="placeHolder" autocomplete="off" type="text" class="pl-1" [ngClass]="inputClass" [style]="inputStyle"  [value]="value" #input (input)="InputEvent($event)"  (focus)="openPanel($event)">
+
+<p-confirmDialog/>
+<p-overlayPanel
+    [appendTo]="'body'"
+    [showTransitionOptions]="'0s cubic-bezier(0, 0, 0.2, 1)'"
+    [hideTransitionOptions]="'0s linear'" #op
+    [dismissable]="true"
+    [showCloseIcon]="false"
+    styleClass="p-2 overlayPanel">
+    <p-table 
+        [columns]="cols" 
+        [value]="filterObjectList"
+        id="QuickSearchTable"
+        class="show-panel select-none"
+        [scrollable]="true"              
+        selectionMode='single'
+        [(selection)]="selectedObject"
+        (onRowUnselect)="onRowSelect($event.data)"
+        (onRowSelect)="onRowSelect($event.data)"
+        [dataKey]="outputField" 
+        scrollHeight="flex"
+        
+        [tableStyle]="{'min-width': '250px'}">                 
+            <ng-template pTemplate="header"  let-columns>
+                <tr >
+                    <th *ngFor="let col of columns">
+                    {{ col.header }}
+                </th>
+                                
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                <tr  [pSelectableRow]="rowData" [ngClass]='{"active": i === selectedIndex}' [ngStyle]="setStyle(i,rowData[styleField])"  [attr.tabindex]="0">
+                    <td *ngFor="let col of columns">
+                    {{ rowData[col.field] }}
+                </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer" *ngIf="showFooter()">
+                <a selectab class="functionExtend" (click)="callFunctionExtend(extendFunctionLabel)">{{extendFunctionLabel}}</a>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="row-control footer">
+                    <td colspan="12" class="empty-message" >Không có dữ liệu.</td>
+                </tr>
+            </ng-template>         
+    </p-table>  
+</p-overlayPanel>
+ 

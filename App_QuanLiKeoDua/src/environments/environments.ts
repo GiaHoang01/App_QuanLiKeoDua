@@ -8,5 +8,8 @@ export const API_ENDPOINT = {
     EMPLOYEES_ENDPOINT: {
         EMPLOYEE: API_BASE + "NhanVien/",
     },
+    NHOMQUYEN_ENDPOINT: {
+        NhomQuyen: API_BASE + "NhomQuyen/",
+    },
   
 }

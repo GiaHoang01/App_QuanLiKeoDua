@@ -13,16 +13,18 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
+import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 
 
 interface DataResult {
   employee: any,
-  employees: any[]
+  employees: any[],
+  nhomQuyens: any[]
 }
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [DatePickerComponent,ButtonModule, DropdownComponent, TableModule, CommonModule, PaginatorComponent, FormsModule,DialogModule,FormatDateDirective],
+  imports: [AppQuickSearchComponent,DatePickerComponent,ButtonModule, DropdownComponent, TableModule, CommonModule, PaginatorComponent, FormsModule,DialogModule,FormatDateDirective],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -47,7 +49,8 @@ export class EmployeesComponent implements OnInit {
   ];
   data: DataResult = {
     employee: {},
-    employees:[]
+    employees: [],
+    nhomQuyens: []
   }
   searchString: string="";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
@@ -92,6 +95,29 @@ export class EmployeesComponent implements OnInit {
       }
     });
   }
+  maNhomQuyen:string="";
+  quickSearchNhomQuyen(searchString: string = '') {
+    const body = {
+      SearchString:searchString,
+    };
+    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "quickSearchNhomQuyen", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.nhomQuyens = response.data.nhomQuyens;
+          console.log(this.maNhomQuyen);
+          console.log(this.data.nhomQuyens);
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
 
   GetEmployeeByID(maNV:string) {
     const body = {
@@ -101,7 +127,6 @@ export class EmployeesComponent implements OnInit {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.employee = response.data.employeeAccount;
-          console.log(this.data.employee);
         } else {
 
         }
@@ -156,6 +181,18 @@ export class EmployeesComponent implements OnInit {
 
       }
     });
+  }
+
+  saveEmployee(isAdd:boolean)
+  {
+    if(isAdd)
+    {
+      this.AddAccountEmployee();
+    }
+    else
+    {
+      
+    }
   }
 
   closeDialog()

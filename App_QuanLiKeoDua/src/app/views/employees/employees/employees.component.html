@@ -186,7 +186,14 @@
     <div class="col-sm-6">
       <div class="form-group">
         <label for="role">Mã nhóm quyền</label>
-        <input type="text" p-inputtext name="maNhomQuyen" class="border-bottom1" [(ngModel)]="data.employee.maNhomQuyen" tabindex="10">
+        <app-quick-search
+              [filterObjectList]="data.nhomQuyens" [fieldShow]="'maNhomQuyen'"[outputField]="'maNhomQuyen'"
+              placeHolder="Nhập tên để tìm" [(value)]="data.employee.maNhomQuyen"
+              (CallBackEvent)="quickSearchNhomQuyen($event)" name="maNhomQuyen"
+              (selectedEvent)="data.employee.maNhomQuyen = $event.maNhomQuyen;" [inputClass]="'border-bottom1'"
+              [hearder]="['Mã nhóm quyền ','Tên nhóm quyền']" [fields]="['maNhomQuyen','tenNhomQuyen']">
+        >
+        </app-quick-search>
       </div>
     </div>
   </div>
