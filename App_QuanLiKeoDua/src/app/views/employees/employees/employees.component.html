@@ -149,8 +149,9 @@
     <div class="col-sm-6">
       <div class="form-group">
         <label for="gender">Giới tính</label>
-        <app-dropdown [options]="gioiTinh" name="gioiTinh" [(ngModel)]="data.employee.gioiTinh" tabindex="5"></app-dropdown>
-      </div>
+        <p-select [options]="gioiTinh" name="gioiTinh" [(ngModel)]="data.employee.gioiTinh"name="gioiTinh" >
+        </p-select>
+        </div>
     </div>
 
     <div class="col-sm-6" style="padding-bottom: 10px;">
@@ -216,10 +217,10 @@
   <!-- Footer Template -->
   <ng-template pTemplate="footer">
     <div class="border-style-top">
-      <button type="submit" (click)="saveEmployee(true);" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
+      <button type="submit" (click)="saveEmployee(true)" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
         Lưu
       </button>
-      <button type="submit" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
+      <button type="submit"(click)="saveEmployee(false)" class="p-button" style="background-color: #4caf50; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;">
         Lưu & thêm mới
       </button>
       <button type="button" class="p-button btn-cancel" style="background-color: red !important; color: white; font-weight: bold; font-size: 12px; padding: 10px; border-radius: 5px; margin-right: 5px;" (click)="closeDialog()">

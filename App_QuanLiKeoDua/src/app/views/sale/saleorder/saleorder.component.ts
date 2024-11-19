@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePickerComponent } from "../../../components/datepicker/datepicker.component";
-import { DropdownComponent } from "../../../components/dropdown/dropdown.component";
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { PaginatorComponent } from "../../../components/paginator/paginator.component";
@@ -17,7 +16,7 @@ interface filters extends TransactionFilter
 @Component({
   selector: 'app-saleorder',
   standalone: true,
-  imports: [ DropdownComponent, TableModule, CommonModule, PaginatorComponent, DatePickerComponent],
+  imports: [TableModule, CommonModule, PaginatorComponent, DatePickerComponent],
   templateUrl: './saleorder.component.html',
   styleUrl: './saleorder.component.scss'
 })

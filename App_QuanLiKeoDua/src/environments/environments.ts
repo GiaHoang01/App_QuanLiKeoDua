@@ -11,5 +11,8 @@ export const API_ENDPOINT = {
     NHOMQUYEN_ENDPOINT: {
         NhomQuyen: API_BASE + "NhomQuyen/",
     },
+    PURCHASE_ENDPOINT:{
+        PURCHASE_ORDER:API_BASE + "PhieuNhapHang/",
+    }
   
 }

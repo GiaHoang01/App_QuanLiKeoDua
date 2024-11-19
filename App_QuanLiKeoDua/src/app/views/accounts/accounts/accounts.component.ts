@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { CommonModule } from '@angular/common';
-import { DropdownComponent } from "../../../components/dropdown/dropdown.component";
 import { ActivatedRoute } from '@angular/router';
 import { PickListComponent } from "../../../components/pick-list/pick-list.component";
 import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-accounts',
   standalone: true,
-  imports: [CommonModule, TabsModule, DropdownComponent, PickListComponent,TableModule],
+  imports: [CommonModule, TabsModule, PickListComponent,TableModule],
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })

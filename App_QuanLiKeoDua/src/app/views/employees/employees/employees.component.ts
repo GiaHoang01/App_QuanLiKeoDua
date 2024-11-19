@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DropdownComponent } from "../../../components/dropdown/dropdown.component";
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { PaginatorComponent } from "../../../components/paginator/paginator.component";
@@ -14,7 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
-
+import { SelectModule } from 'primeng/select';
 
 interface DataResult {
   employee: any,
@@ -24,7 +23,7 @@ interface DataResult {
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [AppQuickSearchComponent, DatePickerComponent, ButtonModule, DropdownComponent, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
+  imports: [SelectModule,AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
@@ -98,6 +97,7 @@ export class EmployeesComponent implements OnInit {
       }
     });
   }
+  
   maNhomQuyen: string = "";
   quickSearchNhomQuyen(searchString: string = '') {
     const body = {

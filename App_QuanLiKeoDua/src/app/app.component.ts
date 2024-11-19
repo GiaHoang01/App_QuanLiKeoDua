@@ -1,7 +1,7 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { delay, filter, map, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { ColorModeService } from '@coreui/angular';
 
 @Component({
@@ -13,28 +13,52 @@ import { ColorModeService } from '@coreui/angular';
 export class AppComponent implements OnInit {
   title = 'App Quản lí kẹo dừa';
 
-  readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #router = inject(Router);
   readonly #titleService = inject(Title);
   readonly #colorModeService = inject(ColorModeService);
 
   constructor() {
-    // Removed title setting from constructor
+    // Set color mode related settings
     this.#colorModeService.localStorageItemName.set('App Quản lí kẹo dừa');
     this.#colorModeService.eventName.set('ColorSchemeChange');
   }
 
   ngOnInit(): void {
-    // Set the title in ngOnInit
-    this.#titleService.setTitle(this.title);
+    // Subscribe to router events to update title dynamically
+    this.#router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.updateTitle();
+    });
 
-    // Subscribe to query params for theme changes
-    this.#activatedRoute.queryParams.pipe(
-      delay(1),
-      map(params => <string>params['theme']?.match(/^[A-Za-z0-9\s]+/)?.[0]),
-      filter(theme => ['dark', 'light', 'auto'].includes(theme)),
-      tap(theme => {
-        this.#colorModeService.colorMode.set(theme);
+     // Subscribe to query params for theme changes
+     this.#activatedRoute.queryParams.pipe(
+      filter(params => params['theme']), // Filter if theme query param exists
+      tap(params => {
+        const theme = params['theme']; // Get theme directly from params
+        if (['dark', 'light', 'auto'].includes(theme)) {
+          this.#colorModeService.colorMode.set(theme);
+        }
       })
     ).subscribe();
   }
+
+  // Method to update the title based on the current route
+  private updateTitle() {
+    let route = this.#router.routerState.snapshot.root;
+    let title = 'Default Title';  // Tiêu đề mặc định
+  
+    // Kiểm tra các route con và lấy title từ data
+    while (route.firstChild) {
+      route = route.firstChild;  // Di chuyển đến route con
+      if (route.data && route.data['title']) {
+        title = route.data['title'];  // Cập nhật title từ route con
+      }
+    }
+  
+    // Cập nhật title cho trang
+    this.#titleService.setTitle(title);
+  }
+  
 }

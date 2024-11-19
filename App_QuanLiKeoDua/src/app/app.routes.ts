@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout';
-
 export const routes: Routes = [
   {
     path: '',
@@ -30,7 +29,7 @@ export const routes: Routes = [
         data: {
           title: 'Đơn đặt hàng'
         },
-        loadChildren: () => import('./views/saleorder/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
         path: 'employee',
@@ -38,6 +37,13 @@ export const routes: Routes = [
           title: 'Nhân viên'
         },
         loadChildren: () => import('./views/employees/routes').then((m) => m.routes)
+      },
+      {
+        path: '',
+        data: {
+          title: 'Phiếu nhập hàng'
+        },
+        loadChildren: () => import('./views/purchase/routes').then((m) => m.routes)
       }
     ]
   },
