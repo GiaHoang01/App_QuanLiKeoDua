@@ -13,6 +13,12 @@ export const API_ENDPOINT = {
     },
     PURCHASE_ENDPOINT:{
         PURCHASE_ORDER:API_BASE + "PhieuNhapHang/",
+    },
+    PRODUCT_ENDPOINT:{
+        PRODUCT:API_BASE + "HangHoa/",
+    },
+    ORDER_ENDPOINT:{
+        SALEINVOICE_ORDER:API_BASE + "HoaDonBanHang/",
     }
   
 }

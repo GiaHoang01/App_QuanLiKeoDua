@@ -10,6 +10,11 @@ export const navItems: INavData[] = [
         name: 'Nhân viên',
         url: '/employee',
         icon: '',
+      },
+      {
+        name: 'Hàng hóa',
+        url: '/product',
+        icon: '',
       }
     ]
   },
