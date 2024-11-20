@@ -1,11 +1,12 @@
-<!-- Container chính cho trang -->
 <div class="container">
-  <!-- Phần master -->
-  <!--Phần button-->
   <div class="row mb-3">
-    <div class="col-6">
 
+    <!--Phần bên trái các nút-->
+    <div class="col-6">
     </div>
+    <!--Kết thúc phần bên trái các nút-->
+
+    <!--Phần bên phải chứa các nút-->
     <div class="col-6">
       <div class="row">
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
@@ -18,28 +19,71 @@
         </div>
       </div>
     </div>
+    <!--Kết thúc phần bên phải chứa các nút-->
+
   </div>
-
-
+  <!--Phần Master-->
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="d-flex justify-content-start align-items-center">
-
+      <div class="row">
+        <label class="col-2">Ghi chú :</label>
+        <textarea class="col-9" placeholder="Nhập ghi chú ở đây ..." rows="5"></textarea>
       </div>
     </div>
 
     <div class="col-md-6">
       <div class="row">
+        <span class="col-3">Mã phiếu nhập :</span>
+        <input class="col-8 border-bottom1" name="maPhieuNhap" />
+      </div>
 
+      <div class="row">
+        <span class="col-3">Mã NCC :</span>
+        <input class="col-8 border-bottom1" name="maPhieuNhap" />
+      </div>
+
+      <div class="row">
+        <span class="col-3">Ngày đặt :</span>
+        <input class="col-8 border-bottom1" name="ngayDat" />
+        <!-- <app-date-picker [(dateValue)]="data.purchase"  [inputClass]="'border-bottom1'"
+            [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true">
+        </app-date-picker> -->
+
+      </div>
+      <div class="row">
+        <span class="col-3">Ngày nhập :</span>
+        <!-- <app-date-picker [(dateValue)]="data.purchase"  [inputClass]="'border-bottom1'"
+            [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true">
+        </app-date-picker> -->
+        <input class="col-8 border-bottom1" name="ngayNhap" />
       </div>
     </div>
   </div>
-
+  <!--Kết thúc phần Master-->
 
   <!-- Phần nội dung ở dưới đây-->
   <div class="row">
     <div class="col-12">
-
+      <p-table [value]="products" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-product>
+          <tr>
+            <td>{{ product.code }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
+  <!-- Kết thúc phần nội dung ở dưới đây-->
+
 </div>

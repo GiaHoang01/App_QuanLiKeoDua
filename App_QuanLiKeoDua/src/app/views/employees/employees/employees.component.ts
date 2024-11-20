@@ -20,6 +20,7 @@ interface DataResult {
   employees: any[],
   nhomQuyens: any[]
 }
+
 @Component({
   selector: 'app-employees',
   standalone: true,
@@ -55,7 +56,7 @@ export class EmployeesComponent implements OnInit {
   }
   searchString: string = "";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
-    private apiService: APIService, protected globalService: GlobalService,) {
+    private apiService: APIService, protected globalService: GlobalService) {
   }
 
   ngOnInit(): void {
