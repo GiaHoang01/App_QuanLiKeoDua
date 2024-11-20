@@ -2,6 +2,7 @@
 .theme-blue {
     background-color: #e3f2fd; /* Màu nền cho lịch */
     border: 1px solid #90caf9; /* Viền lịch */
+    padding: 5px;
     border-radius: 8px; /* Bo góc lịch */
     font-family: 'Arial', sans-serif; /* Font chữ */
     z-index: 1050; /* Đảm bảo hiển thị phía trên */
@@ -16,7 +17,6 @@
   padding: 10px; /* Khoảng cách bên trong */
   cursor: pointer; /* Thay đổi con trỏ khi hover */
   text-align: center; /* Canh giữa nội dung */
-  border-radius: 5px 5px 0 0; /* Bo góc phía trên */
 }
 
 /* Nút bên trong Datepicker */
@@ -40,7 +40,7 @@
 
 /* Hiệu ứng focus cho nút */
 .theme-blue button:focus {
-  outline: 2px solid #81c784; /* Đường viền khi focus */
+  outline: 5px solid #81c784; /* Đường viền khi focus */
 }
 
 /* Tiêu đề ngày trong bảng Datepicker */
@@ -54,11 +54,8 @@
   /* Tổng quan Datepicker */
 .bs-datepicker-body {
   font-family: 'Arial', sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   overflow: hidden;
   background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Tiêu đề tuần */
@@ -79,20 +76,18 @@
   padding: 10px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.3s;
 }
 
 /* Ngày hiện tại */
 .bs-datepicker-body .is-highlighted {
-  background-color: #4caf50;
-  color: #fff;
-  font-weight: bold;
+ 
 }
 
 /* Ngày được chọn */
 .bs-datepicker-body .selected {
-  background-color: #2196f3;
+  background-color: #45a049;
   color: #fff;
+  padding: 5px;
 }
 
 /* Ngày khác tháng */
@@ -108,17 +103,7 @@
   border-radius: 50%;
 }
 
-/* Đường viền tuần */
-.bs-datepicker-body tbody .week {
-  color: #999;
-  font-size: 12px;
-  font-weight: bold;
-}
 
-/* Tuần hiện tại */
-.bs-datepicker-body .week span {
-  color: #4caf50;
-}
 
 bs-datepicker-container {
   z-index: 15000 !important; /* Đảm bảo z-index của BsDatepicker cao hơn z-index của OverlayPanel */

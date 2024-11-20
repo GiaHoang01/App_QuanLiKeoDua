@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     // Subscribe to router events to update title dynamically
     this.#router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
+    ).subscribe(() => { 
       this.updateTitle();
     });
 

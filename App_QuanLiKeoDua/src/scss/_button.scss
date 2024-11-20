@@ -36,24 +36,7 @@
     color: white; /* Màu chữ */
 }
 
-/* Màu nền nút đăng ký */
-.btn-register {
-    background-color: #28a745; /* Màu nền cho nút Register */
-    color: white; /* Màu chữ */
-}
-
-
-.p-button{
-    background-color: #4caf50 !important;
-    color: white !important;
-    padding: 10px !important;
-    border-radius: 5px !important;
-    margin-right: 5px;
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.p-button .btn-cancel{
+.btn-cancel{
     background-color: red !important; /* Màu nền cho nút Register */
     color: white; /* Màu chữ */
     padding: 10px !important;
@@ -61,4 +44,32 @@
     margin-right: 5px;
     font-weight: bold;
     font-size: 12px;
+}
+
+/* Style cho btn-green (màu xanh lá cây) */
+.btn-green {
+    background-color: #4caf50; /* Màu xanh lá cây */
+    color: white;
+    padding: 5px 10px;
+    min-width: 50px;
+    margin-right: 5px;
+    border-radius: 20px !important;
+}
+/* Style cho btn-blue (màu xanh dương) */
+.btn-blue {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    min-width: 50px;
+    border-radius: 20px !important;
+}
+
+/* Style cho btn-orange (màu cam) */
+.btn-orange {
+    background-color: orange; /* Màu cam */
+    color: white;
+    padding: 5px 10px;
+    min-width: 50px;
+    border-radius: 20px !important;
 }

@@ -30,12 +30,13 @@
     </div>
     <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
       <div class="btn-group mr-2">
-        <button class="btn btn-success" style="color: white;" (click)="this.onSearch()">Tìm</button>
-        <button type="button" class="btn btn-success" style="color: white;" (click)="toggleExpansion()">
+        <button class="btn-green"(click)="onSearch()">Tìm</button>
+        <button (click)="toggleExpansion()" class="btn-green">
           <i class="bi bi-funnel-fill"></i>
         </button>
+        <button class="btn-green">Thêm mới</button>
       </div>
-      <button class="btn btn-success" style="color: white;margin-left: 5px;" data-key="f1">Thêm mới</button>
+      
     </div>
   </div>
 

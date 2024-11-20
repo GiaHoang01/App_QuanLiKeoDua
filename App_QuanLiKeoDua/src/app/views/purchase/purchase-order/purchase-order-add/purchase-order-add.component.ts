@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-purchase-order-add',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,ButtonModule],
   templateUrl: './purchase-order-add.component.html',
   styleUrls: ['./purchase-order-add.component.scss']
 })

@@ -65,7 +65,6 @@ export class LoginComponent {
         if (response.status == 1) {
           this.isCheckAccount = true;
           this.authService.setTenDangNhap(response.data.tenDangNhap);
-          console.log(this.authService.getTenDangNhap());
           this.router.navigate(['/pages']);
         } else {
           this.isCheckAccount = false;
