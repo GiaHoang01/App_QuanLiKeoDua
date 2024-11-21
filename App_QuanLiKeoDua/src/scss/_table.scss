@@ -154,3 +154,111 @@
 .p-sortable-column-icon {
   display: none !important;
 }
+
+//bảng 2
+
+/* Styles for the custom table */
+/* General Table Styles */
+/* General Table Styles */
+/* General Table Styles */
+.custom-table .p-datatable-thead > tr > th {
+  background-color: #f8f9fa; /* Light background color */
+  color: #212529; /* Dark text for readability */
+  text-align: center; /* Center align the header text */
+  font-weight: bold; /* Make header text bold */
+  padding: 10px; /* Add padding for better spacing */
+}
+
+.custom-table .p-datatable-row {
+  background-color: #ffffff; /* White row background */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.custom-table .p-datatable-row:hover {
+  background-color: #f0f8ff; /* Light blue hover */
+}
+
+/* Body cells style */
+.custom-table .p-datatable-tbody > tr > td {
+  padding: 10px; /* Add padding for better cell spacing */
+  text-align: center; /* Center align text in cells */
+}
+
+.custom-table .p-datatable-tbody .p-datatable-cell {
+  vertical-align: middle; /* Align text vertically in the center */
+}
+
+/* Table Footer Styles - Dynamic column count handling */
+.custom-table .p-datatable-footer {
+  background-color: #f8f9fa; /* Light background */
+  padding: 15px 0; /* Padding around footer */
+  text-align: center; /* Center the footer content */
+  border-top: 1px solid #ddd; /* Light border at the top */
+}
+
+/* Adjust the footer based on the number of columns */
+.custom-table .p-datatable-footer td {
+  padding: 10px; /* Equal padding around footer cells */
+  width: 100%; /* Take up full width */
+  display: table-cell;
+}
+
+.custom-table .p-datatable-footer td .btn-link {
+  color: #007bff; /* Blue color for buttons */
+  font-size: 16px; /* Slightly larger font size */
+  padding: 0.5rem 1rem; /* Add padding to buttons */
+  text-decoration: none; /* Remove underline */
+  border-radius: 5px; /* Rounded corners for buttons */
+  transition: background-color 0.3s ease-in-out; /* Smooth background change on hover */
+}
+
+.custom-table .p-datatable-footer .btn-link:hover {
+  background-color: #e6f2ff; /* Light blue background on hover */
+  color: #0056b3; /* Darker text color on hover */
+}
+
+/* Ensure footer buttons stretch across the entire width */
+.custom-table .p-datatable-footer td {
+  display: flex;
+  justify-content: center; /* Center the buttons in the footer */
+  gap: 20px; /* Space between the buttons */
+  width: 100%; /* Ensure footer spans the entire table width */
+}
+
+.custom-table .p-datatable-footer .btn-link + span {
+  color: #888; /* Soft separator color */
+}
+
+
+
+.custom-table .text-sm{
+  width: 100px;
+  text-align: center;
+}
+
+.custom-table .text-position{
+  width: 150px;
+  text-align: center;
+}
+
+.custom-table.active-sm{
+  width: 34px;
+  min-width: 34px;
+  text-wrap: nowrap;
+  text-align: center;
+}
+
+.custom-table .text-sex{
+  min-width: 100px !important;
+  text-align: center;
+}
+
+.custom-table.text-address{
+  min-width: 300px !important;
+  text-align: center;
+}
+
+.custom-table .text-phone{
+  min-width: 150px !important;
+  text-align: center;
+}

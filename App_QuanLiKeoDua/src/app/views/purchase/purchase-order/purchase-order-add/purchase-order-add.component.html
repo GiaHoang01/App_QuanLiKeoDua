@@ -62,28 +62,48 @@
   <!--Kết thúc phần Master-->
 
   <!-- Phần nội dung ở dưới đây-->
-  <div class="row">
+  <div class="row mb-3">
     <div class="col-12">
-      <p-table [value]="products" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template #header>
+      <table class="table table-bordered table-hover table-edit">
+        <thead>
           <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Quantity</th>
+            <th class="order-number">#</th>
+            <th class="code-lg">Mã hàng</th>
+            <th class="text-min-xm">Tên hàng</th>
+            <th class="text-xs">Đơn vị tính</th>
+            <th class="text-center number-sm">Số lượng</th>
+            <th class="text-min-sm">Ghi chú</th>
+            <th class="active-sm"></th>
           </tr>
-        </ng-template>
-        <ng-template #body let-product>
-          <tr>
-            <td>{{ product.code }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data.purchase; let i = index">
+            <td class="order-number">{{i + 1}}</td>
+            <td class="order-number">{{i + 1}}</td>
+            <td class="order-number">{{i + 1}}</td>
+            <td class="order-number">{{i + 1}}</td>
+            <td class="order-number">{{i + 1}}</td>
+            <td class="order-number">{{i + 1}}</td>
+            <td alignFrozen="right" pFrozenColumn class="active-sm">
+              <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-link px-1" type="button"title="Xóa"><i class="bi bi-trash3-fill"></i></button>         
+            </td>
           </tr>
-        </ng-template>
-      </p-table>
+          <tr class="row-empty" *ngIf="data.purchase.length<=0">
+            <td colspan="999">Không có dữ liệu</td>
+          </tr>
+          <tr class="row-control ">
+            <td colspan="999">
+              <button class="btn-green">Thêm (F12)</button>
+              <span >| </span>
+              <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      
     </div>
   </div>
   <!-- Kết thúc phần nội dung ở dưới đây-->
-
 </div>

@@ -69,6 +69,7 @@ export class PurchaseOrderComponent  implements OnInit{
       console.error('Navigation error:', err);
     });
   }
+  
   getData() {
     const body = {
       SearchString: this.searchString,
