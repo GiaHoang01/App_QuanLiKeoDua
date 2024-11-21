@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DatePickerComponent } from "../../../components/datepicker/datepicker.component";
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -8,15 +8,24 @@ import { GlobalService } from '../../../../scss/services/global.service';
 import { UtilsService } from '../../../../scss/services/untils.service';
 import { TransactionFilter } from '../../../interfaces/listfilter';
 import { APIService } from '../../../../scss/services/api.service';
+import { API_ENDPOINT } from '../../../../environments/environments';
+import { FormsModule } from '@angular/forms';
+import { FormatDateDirective } from '../../../directive/date-format.directive';
 
 interface filters extends TransactionFilter
 {
-
+  customerId:any,
+  cartId:any,
+  employeeId:any,
+  paymentMethodId:any,
+}
+interface DataResult {
+  saleInvoiceOrders: any[],
 }
 @Component({
   selector: 'app-saleorder',
   standalone: true,
-  imports: [TableModule, CommonModule, PaginatorComponent, DatePickerComponent],
+  imports: [RouterModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
   templateUrl: './saleorder.component.html',
   styleUrl: './saleorder.component.scss'
 })
@@ -38,21 +47,24 @@ export class SaleorderComponent implements OnInit{
     { label: 15, value: 15 },
   ];
   filters!: filters;
-
-  constructor(private route: ActivatedRoute,protected utilsService: UtilsService,
-    private apiService: APIService, protected globalService: GlobalService,) {
+  data: DataResult = {
+    saleInvoiceOrders: []
+  }
+  constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
+    private apiService: APIService, protected globalService: GlobalService) {
   }
 
   ngOnInit(): void {
     this.filters = {
       fromDate: this.utilsService.DateAdd(new Date(), -1),
       toDate: this.utilsService.getToDate(),
-      searchString: ""
+      searchString: "",
+      customerId:"",
+      paymentMethodId:"",
+      cartId:"",
+      employeeId:"",
     };
-    this.products = [
-      { id: '1000', code: 'MH01', name: 'Bamboo Watch 1', description: 'Product Description', image: 'bamboo-watch.jpg', price: 65, category: 'Accessories', quantity: 24, inventoryStatus: 'INSTOCK', rating: 5 },
-      { id: '1001', code: 'MH02', name: 'Bamboo Watch 2', description: 'Product Description', image: 'bamboo-watch.jpg', price: 65, category: 'Accessories', quantity: 23, inventoryStatus: 'INSTOCK', rating: 5 },
-    ];
+    this.getData()
   }
 
   // Toggle để phóng to/thu nhỏ phần bộ lọc
@@ -61,8 +73,7 @@ export class SaleorderComponent implements OnInit{
   }
 
   onPageChange(event: any) {
-    // this.getData();
-    this.globalService.paging.TotalRows=30;
+    this.getData();
   }
 
   onRowsChange(event: any) {
@@ -70,8 +81,35 @@ export class SaleorderComponent implements OnInit{
   }
 
   onSearch(): void {
-    this.globalService.paging.PageIndex = 1;
-    // this.getData();
-    this.globalService.paging.TotalRows=30;
+    this.getData();
+  }
+  getData() {
+    const body = {
+      SearchString: this.filters.searchString,
+      PageSize: this.globalService.paging.PageSize,
+      PageIndex: this.globalService.paging.PageIndex,
+      FromDate:this.filters.fromDate,
+      ToDate:this.filters.toDate,
+      MaKhachHang:this.filters.customerId,
+      MaNV:this.filters.employeeId,
+      MaGioHang:this.filters.cartId,
+      MaHinhThuc:this.filters.paymentMethodId
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "getAllSaleInvoice", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.globalService.paging.TotalRows = response.data.totalRows;
+          this.data.saleInvoiceOrders = response.data.saleInvoiceList;
+          console.log(this.data.saleInvoiceOrders)
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+      }
+    });
   }
 }
