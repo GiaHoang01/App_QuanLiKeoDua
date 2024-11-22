@@ -33,10 +33,10 @@
                         <th pFrozenColumn pSortableColumn="maHangHoa" class="header-min">
                             Mã hàng Hóa <p-sortIcon field="maHangHoa" />
                         </th>
-                        <th pSortableColumn="tenHangHoa" class="header-gt">
+                        <th pSortableColumn="tenHangHoa" class="header-max">
                             Tên hàng hóa <p-sortIcon field="tenHangHoa" />
                         </th>
-                        <th pSortableColumn="giaBan" class="header-max">
+                        <th pSortableColumn="giaBan" class="header-gt">
                             Giá bán <p-sortIcon field="giaBan" />
                         </th>
                         <th pSortableColumn="moTa" class="header-max">
@@ -65,7 +65,7 @@
                             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
                                 (click)="showUpdate(o)"><i class="bi bi-pencil-square"></i></button>
                             <button class="btn btn-link px-1" type="button" title="Xóa"><i
-                                    class="bi bi-trash3-fill"></i></button>
+                                (click)="DeleteProduct(o.maHangHoa)" class="bi bi-trash3-fill"></i></button>
                         </td>
                     </tr>
                 </ng-template>
@@ -97,7 +97,7 @@
     <ng-template pTemplate="content">
         <div class="row" style="padding-bottom: 10px;">
             <div class="col-sm-6">
-                <div class="form-group" *ngIf="!IsUpdate">
+                <div class="form-group" *ngIf="IsUpdate">
                     <label for="productID">Mã hàng hóa</label>
                     <input type="text" name="maHangHoa" p-inputtext class="border-bottom1" disabled="true"
                         [(ngModel)]="data.product.maHangHoa" tabindex="1">
@@ -108,12 +108,16 @@
                         [(ngModel)]="data.product.tenHangHoa" tabindex="1">
                 </div>
             </div>
-
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="price">Giá bán</label>
                     <input type="number" p-inputtext name="giaBan" class="border-bottom1"
                         [(ngModel)]="data.product.giaBan" tabindex="6">
+                </div>
+                <div class="form-group">
+                    <label for="describe">Mô tả</label>
+                    <input type="text" p-inputtext name="moTa" class="border-bottom1" [(ngModel)]="data.product.moTa"
+                        tabindex="6">
                 </div>
             </div>
         </div>
@@ -126,12 +130,11 @@
                         [(ngModel)]="data.product.hinhAnh" tabindex="3">
                 </div>
             </div>
-
-            <div class="col-sm-6" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="describe">Mô tả</label>
-                    <input type="text" p-inputtext name="moTa" class="border-bottom1" [(ngModel)]="data.product.moTa"
-                        tabindex="4">
+                    <label for="updatedPriceDate">Ngày cập nhật giá</label>
+                    <app-date-picker [(dateValue)]="data.product.ngayCapNhatGia" [inputClass]="'border-bottom1'"
+                        [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true"></app-date-picker>
                 </div>
             </div>
         </div>
@@ -147,16 +150,6 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label for="updatedPriceDate">Ngày cập nhật giá</label>
-                    <app-date-picker [(dateValue)]="data.product.ngayCapNhatGia" [inputClass]="'border-bottom1'"
-                        [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true"></app-date-picker>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-bottom: 10px;">
-            <div class="col-sm-6">
-                <div class="form-group">
                     <label for="note">Ghi chú</label>
                     <input type="text" p-inputtext name="ghiChu" class="border-bottom1"
                         [(ngModel)]="data.product.ghiChu" tabindex="9">
@@ -165,19 +158,19 @@
         </div>
     </ng-template>
     <!-- Footer Template -->
-    <!-- <ng-template pTemplate="footer">
+    <ng-template pTemplate="footer">
         <div class="border-style-top">
-            <button type="submit" (click)="saveEmployee(true)" class="btn-green">
+            <button type="submit" (click)="saveProduct(true)" class="btn-green" [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
                 Lưu
             </button>
-            <button type="submit" (click)="saveEmployee(false)" class="btn-green">
+            <button type="submit" (click)="saveProduct(false)" class="btn-green" [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
                 Lưu & thêm mới
             </button>
             <button type="button" class="btn-red" (click)="closeDialog()">
-                Hủy
+                Đóng
             </button>
         </div>
-    </ng-template> -->
+    </ng-template>
 
 
 </p-dialog>

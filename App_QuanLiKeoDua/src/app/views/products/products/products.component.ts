@@ -14,11 +14,13 @@ import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
+import { deepCopy } from '@angular-devkit/core/src/utils/object';
 
 interface DataResult {
   product: any,
   productList: any[],
   price:any,
+  note:any,
 }
 @Component({
   selector: 'app-products',
@@ -52,7 +54,8 @@ export class ProductsComponent {
   data: DataResult = {
     product: {},
     productList: [],
-    price:{},
+    price:0,
+    note:'',
   }
   searchString: string = "";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
@@ -63,7 +66,7 @@ export class ProductsComponent {
     this.getData
   }
   showUpdate(row:any) {
-    this.data.product=row;
+    this.data.product=deepCopy(row);
     this.IsUpdate = true;
     this.IsShowPopupEdit = true;
   }
@@ -85,6 +88,7 @@ export class ProductsComponent {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
           this.data.productList = response.data.productList;
+          this.data.price=this.data.product.giaBan
         } else {
 
         }
@@ -99,7 +103,7 @@ export class ProductsComponent {
   }
   DeleteProduct(maHangHoa: string) {
     const body = {
-      maHangHoa: maHangHoa,
+      MaHangHoa: maHangHoa,
     };
     this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "DeleteProduct", body).subscribe({
       next: (response: any) => {
@@ -117,12 +121,14 @@ export class ProductsComponent {
       }
     });
   }
-
-  AddAccountEmployee(isClose: boolean) {
+  
+  AddProduct(isClose: boolean) {
     const body = {
-      NhanVienTaiKhoan: this.data.employee
+      HangHoa: this.data.product,
+      GiaBan:this.data.price,
+      GhiChu:this.data.note,
     };
-    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "AddAccountEmployee", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "AddProduct", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           if (isClose) {
@@ -147,12 +153,13 @@ export class ProductsComponent {
     });
   }
 
-  UpdateAccountEmployee(isClose: boolean) {
+  UpdateProduct(isClose: boolean) {
     const body = {
-      NhanVienTaiKhoan: this.data.employee,
-      MaNV: this.maNV
+      HangHoa: this.data.product,
+      GiaBan: this.data.product.giaBan,
+      GhiChu:this.data.product.ghiChu,
     };
-    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "UpdateEmployee", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "UpdateProduct", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           if (isClose) {
@@ -177,21 +184,21 @@ export class ProductsComponent {
     });
   }
 
-  saveEmployee(isClose: boolean) {
+  saveProduct(isClose: boolean) {
     if (isClose) {
       if (this.IsUpdate) {
-        this.UpdateAccountEmployee(isClose);
+        this.UpdateProduct(isClose);
       }
       else {
-        this.AddAccountEmployee(isClose);
+        this.AddProduct(isClose);
       }
     }
     else {
       if (this.IsUpdate) {
-        this.UpdateAccountEmployee(isClose);
+        this.UpdateProduct(isClose);
       }
       else {
-        this.AddAccountEmployee(isClose);
+        this.AddProduct(isClose);
       }
     }
   }
