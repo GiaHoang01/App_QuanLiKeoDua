@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green">Lưu</button>
+            <button class="btn-green" (click)="save()">Lưu</button>
             <button class="btn-green">Xuất Excel</button>
             <button class="btn-blue"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/purchaseorder']" >Trở về</button>
@@ -86,7 +86,7 @@
           <app-date-picker 
             [(dateValue)]="data.purchase.ngayDat" 
             [inputClass]="' border-bottom1'" 
-            [isShowTime]="false" 
+            [isShowTime]="true" 
             [format]="'DD/MM/YYYY HH:MM'" 
             [isShowWeek]="false">
           </app-date-picker>
@@ -100,7 +100,7 @@
           <app-date-picker 
             [(dateValue)]="data.purchase.ngayNhap" 
             [inputClass]="' border-bottom1'" 
-            [isShowTime]="false" 
+            [isShowTime]="true" 
             [format]="'DD/MM/YYYY HH:MM'" 
             [isShowWeek]="false">
           </app-date-picker>
@@ -119,7 +119,7 @@
             <th class="order-number">#</th>
             <th class="code-lg">Mã hàng</th>
             <th class="text-min-xm">Tên hàng</th>
-            <th class="text-center number-sm">Số lượng</th>
+            <th class="number-sm">Số lượng</th>
             <th class="text-xs">Đơn giá</th>
             <th class="text-xs">Thành tiền</th>
             <th class="active-sm"></th>
@@ -128,15 +128,29 @@
         <tbody>
           <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
             <td class="order-number">{{i + 1}}</td>
-            <td class="">{{item.maHangHoa}}</td>
-            <td class="">{{item.maHangHoa}}</td>
-            <td class="order-number">{{item.soLuong}}</td>
-            <td class="order-number">{{item.donGia}}</td>
-            <td class="order-number">{{item.thanhTien}}</td>
+            <td >
+              <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
+                [filterObjectList]="this.data.products"
+                (CallBackEvent)="quickSearchHangHoa($event)"
+                (selectedEvent)="onSelectItem($event,i)" [(value)]="item.maHangHoa"
+                [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']" styleField="isExpiryDate"
+                [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
+              </app-quick-search>
+            </td>
+            <td class="">{{item.tenHangHoa}}</td>
+            <td class="">
+              <input [(ngModel)]="item.soLuongDat" [name]="'soLuong'+i">
+            </td>
+            <td class="order-number">
+              <input [(ngModel)]="item.donGia" [name]="'donGia'+i">
+            </td>
+            <td class="order-number">
+              <input [(ngModel)]="item.thanhTien" [name]="'thanhTien'+i">
+            </td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
                   class="bi bi-pencil-square"></i></button>
-              <button class="btn btn-link px-1" type="button" title="Xóa"><i class="bi bi-trash3-fill"></i></button>
+              <button class="btn btn-link px-1" type="button" title="Xóa" (click)="deleteRow(i)"><i class="bi bi-trash3-fill"></i></button>
             </td>
           </tr>
           <tr class="row-empty" *ngIf="data.purchase.length<=0">
@@ -144,7 +158,7 @@
           </tr>
           <tr class="row-control ">
             <td colspan="999">
-              <button class="btn-green">Thêm (F12)</button>
+              <button class="btn-green"(click)="onAddRow()">Thêm (F12)</button>
               <span>| </span>
               <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
             </td>

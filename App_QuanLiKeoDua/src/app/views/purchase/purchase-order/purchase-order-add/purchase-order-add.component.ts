@@ -16,7 +16,8 @@ interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
   employees:[],
-  vendors:[]
+  vendors:[],
+  products:[]
 }
 
 interface Filters{
@@ -34,12 +35,14 @@ interface Filters{
 
 export class PurchaseOrderAddComponent implements OnInit {
   id: string | null = null;
+  status:number=0;
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,private apiService: APIService, protected globalService: GlobalService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
     vendors:[],
-    employees:[]
+    employees:[],
+    products:[]
   }
 
   filter:Filters={
@@ -50,24 +53,57 @@ export class PurchaseOrderAddComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
+      this.status = params['status'];
     });
+    this.quickSearchNhanVien();
+    this.quickSearchNhaCungCap();
+    this.quickSearchHangHoa();
     this.getData();
   }
 
   getData() {
     const body = {
-      MaPhieuNhap:this.id
+      MaPhieuNhap:this.id,
+      Status:this.status
     };
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrder_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
+         if(this.status==2)
+         {
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
           this.GetEmployeeByID(response.data.phieuNhap.maNV);
-          this.quickSearchNhanVien();
-          this.quickSearchNhaCungCap();
+         }
+         else
+         {
+          this.data.purchase = response.data.phieuNhap;
+          this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
+         }
+        } else {
 
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  save() {
+    const body = {
+      PurchaseOrder:this.data.purchase,
+      PurchaseOrderDetail:this.data.purchaseOrderDetail,
+      Status:this.status
+    };
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+        
         } else {
 
         }
@@ -165,5 +201,54 @@ export class PurchaseOrderAddComponent implements OnInit {
     });
   }
 
+  quickSearchHangHoa(searchString:string ="")
+  {
+    const body = {
+      SearchString: searchString,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "quickSearchHangHoa", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.products = response.data.hangHoas;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+
+  onAddRow() {
+    let tempItem = {
+     maHang:"",
+     tenHang:"",
+     soLuong:0,
+     donGia:0,
+     thanhTien:0
+    };
+    this.data.purchaseOrderDetail.push(tempItem);
+  }
+
+  editableRowIndex: number | null = null;
+  deleteRow(index: number): void {
+    this.data.purchaseOrderDetail.splice(index, 1);
+    if (this.editableRowIndex === index) {
+      this.editableRowIndex = null;
+    }
+  }
+
+  onSelectItem(itemSelected: any, item: any) {
+    this.data.purchaseOrderDetail[item].maHangHoa = itemSelected.maHangHoa;
+    this.data.purchaseOrderDetail[item].tenHangHoa = itemSelected.tenHangHoa;
+    this.data.purchaseOrderDetail[item].soLuongDat = 1;
+    this.data.purchaseOrderDetail[item].donGia = 0;
+    this.data.purchaseOrderDetail[item].thanhTien = 0;
+  }
   
 }
