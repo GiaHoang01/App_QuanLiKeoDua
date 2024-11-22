@@ -18,6 +18,7 @@ import { SelectModule } from 'primeng/select';
 interface DataResult {
   product: any,
   productList: any[],
+  price:any,
 }
 @Component({
   selector: 'app-products',
@@ -36,6 +37,13 @@ export class ProductsComponent {
   value: string = "";
   IsShowPopupEdit: boolean = false;
   IsUpdate: boolean = false;
+  loaiHangHoa = [
+    { label: "Vui lòng chọn ", value: "" },
+    { label: "Kẹo dừa truyền thống", value: "CAT001" },
+    { label: "Kẹo dừa dẻo", value: "CAT002" },
+    { label: "Kẹo dừa tổng hợp", value: "CAT003" },
+    { label: "Bánh kẹo tổng hợp", value: "CAT004" },
+  ];
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
@@ -44,6 +52,7 @@ export class ProductsComponent {
   data: DataResult = {
     product: {},
     productList: [],
+    price:{},
   }
   searchString: string = "";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
@@ -53,9 +62,8 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.getData
   }
-  showDetail(maHangHoa: string) {
-    // this.GetEmployeeByID(maNV);
-    //this.maNV=maNV;
+  showUpdate(row:any) {
+    this.data.product=row;
     this.IsUpdate = true;
     this.IsShowPopupEdit = true;
   }
@@ -88,6 +96,108 @@ export class ProductsComponent {
 
       }
     });
+  }
+  DeleteProduct(maHangHoa: string) {
+    const body = {
+      maHangHoa: maHangHoa,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "DeleteProduct", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.getData();
+        } else {
+          
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  AddAccountEmployee(isClose: boolean) {
+    const body = {
+      NhanVienTaiKhoan: this.data.employee
+    };
+    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "AddAccountEmployee", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          if (isClose) {
+            this.IsShowPopupEdit = false;
+            this.IsUpdate = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  UpdateAccountEmployee(isClose: boolean) {
+    const body = {
+      NhanVienTaiKhoan: this.data.employee,
+      MaNV: this.maNV
+    };
+    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "UpdateEmployee", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          if (isClose) {
+            this.IsUpdate = false;
+            this.IsShowPopupEdit = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  saveEmployee(isClose: boolean) {
+    if (isClose) {
+      if (this.IsUpdate) {
+        this.UpdateAccountEmployee(isClose);
+      }
+      else {
+        this.AddAccountEmployee(isClose);
+      }
+    }
+    else {
+      if (this.IsUpdate) {
+        this.UpdateAccountEmployee(isClose);
+      }
+      else {
+        this.AddAccountEmployee(isClose);
+      }
+    }
+  }
+
+  closeDialog() {
+    this.IsShowPopupEdit = false;
   }
   toggleExpansion() {
     this.isExpanded = !this.isExpanded;
