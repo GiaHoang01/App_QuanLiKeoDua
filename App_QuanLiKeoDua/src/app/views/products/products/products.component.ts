@@ -14,10 +14,13 @@ import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
+import { deepCopy } from '@angular-devkit/core/src/utils/object';
 
 interface DataResult {
   product: any,
   productList: any[],
+  price:any,
+  note:any,
 }
 @Component({
   selector: 'app-products',
@@ -36,6 +39,13 @@ export class ProductsComponent {
   value: string = "";
   IsShowPopupEdit: boolean = false;
   IsUpdate: boolean = false;
+  loaiHangHoa = [
+    { label: "Vui lòng chọn ", value: "" },
+    { label: "Kẹo dừa truyền thống", value: "CAT001" },
+    { label: "Kẹo dừa dẻo", value: "CAT002" },
+    { label: "Kẹo dừa tổng hợp", value: "CAT003" },
+    { label: "Bánh kẹo tổng hợp", value: "CAT004" },
+  ];
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
@@ -44,6 +54,8 @@ export class ProductsComponent {
   data: DataResult = {
     product: {},
     productList: [],
+    price:0,
+    note:'',
   }
   searchString: string = "";
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
@@ -53,9 +65,8 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.getData
   }
-  showDetail(maHangHoa: string) {
-    // this.GetEmployeeByID(maNV);
-    //this.maNV=maNV;
+  showUpdate(row:any) {
+    this.data.product=deepCopy(row);
     this.IsUpdate = true;
     this.IsShowPopupEdit = true;
   }
@@ -77,6 +88,7 @@ export class ProductsComponent {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
           this.data.productList = response.data.productList;
+          this.data.price=this.data.product.giaBan
         } else {
 
         }
@@ -88,6 +100,111 @@ export class ProductsComponent {
 
       }
     });
+  }
+  DeleteProduct(maHangHoa: string) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "DeleteProduct", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.getData();
+        } else {
+          
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  
+  AddProduct(isClose: boolean) {
+    const body = {
+      HangHoa: this.data.product,
+      GiaBan:this.data.price,
+      GhiChu:this.data.note,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "AddProduct", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          if (isClose) {
+            this.IsShowPopupEdit = false;
+            this.IsUpdate = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  UpdateProduct(isClose: boolean) {
+    const body = {
+      HangHoa: this.data.product,
+      GiaBan: this.data.product.giaBan,
+      GhiChu:this.data.product.ghiChu,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "UpdateProduct", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          if (isClose) {
+            this.IsUpdate = false;
+            this.IsShowPopupEdit = false;
+            this.getData();
+          }
+          else {
+            this.IsUpdate = false;
+            this.getData();
+          }
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  saveProduct(isClose: boolean) {
+    if (isClose) {
+      if (this.IsUpdate) {
+        this.UpdateProduct(isClose);
+      }
+      else {
+        this.AddProduct(isClose);
+      }
+    }
+    else {
+      if (this.IsUpdate) {
+        this.UpdateProduct(isClose);
+      }
+      else {
+        this.AddProduct(isClose);
+      }
+    }
+  }
+
+  closeDialog() {
+    this.IsShowPopupEdit = false;
   }
   toggleExpansion() {
     this.isExpanded = !this.isExpanded;
