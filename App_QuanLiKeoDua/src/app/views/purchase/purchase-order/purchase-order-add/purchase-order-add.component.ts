@@ -36,7 +36,7 @@ interface Filters{
 export class PurchaseOrderAddComponent implements OnInit {
   id: string | null = null;
   status:number=0;
-  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,private apiService: APIService, protected globalService: GlobalService) { }
+  constructor(private route: ActivatedRoute,private router: Router, protected utilsService: UtilsService,private apiService: APIService, protected globalService: GlobalService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
@@ -75,9 +75,15 @@ export class PurchaseOrderAddComponent implements OnInit {
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
           this.GetEmployeeByID(response.data.phieuNhap.maNV);
+          this.data.purchaseOrderDetail.forEach((item, index) => {
+            this.initEdit(item, index);
+          });
          }
          else
          {
+          this.data.purchaseOrderDetail.forEach((item, index) => {
+            this.initEdit(item, index);
+          });
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
          }
@@ -223,6 +229,27 @@ export class PurchaseOrderAddComponent implements OnInit {
     });
   }
 
+  getTenHangHoa_withByMaHangHoa(maHangHoa: string, callback: (tenHangHoa: string) => void) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+  
+    this.apiService
+      .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getTenHangHoa_withByMaHangHoa", body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status === 1) {
+            callback(response.data.tenHangHoa); // Truyền giá trị tên hàng hóa qua callback
+          } else {
+            console.log("Không lấy được tên hàng hóa");
+          }
+        },
+        error: (error: any) => {
+          console.error("Lỗi khi gọi API: ", error);
+        },
+      });
+  }
+
 
   onAddRow() {
     let tempItem = {
@@ -249,6 +276,34 @@ export class PurchaseOrderAddComponent implements OnInit {
     this.data.purchaseOrderDetail[item].soLuongDat = 1;
     this.data.purchaseOrderDetail[item].donGia = 0;
     this.data.purchaseOrderDetail[item].thanhTien = 0;
+  }
+
+  
+  initEdit(itemSelected: any, index: number) {
+    this.data.purchaseOrderDetail[index].maHangHoa = itemSelected.maHangHoa;
+  
+    this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
+      this.data.purchaseOrderDetail[index].tenHangHoa = tenHangHoa;
+      this.data.purchaseOrderDetail[index].soLuongDat = itemSelected.soLuongDat;
+      this.data.purchaseOrderDetail[index].donGia = itemSelected.donGia;
+      this.data.purchaseOrderDetail[index].thanhTien = itemSelected.thanhTien;
+    });
+  }
+  
+  addNew()
+  {
+    this.router.navigate(['/purchaseorder/purchaseOrderAdd'], {
+      queryParams: { id: '', status: 1 },
+    });
+    this.id = null;
+    this.status = 1; 
+    this.data.purchase = {};
+    this.data.purchaseOrderDetail = [];
+    this.filter = { tenNCC: '', tenNV: '' };
+    this.quickSearchNhanVien();
+    this.quickSearchNhaCungCap();
+    this.quickSearchHangHoa();
+    this.getData();
   }
   
 }

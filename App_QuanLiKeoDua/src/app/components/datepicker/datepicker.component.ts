@@ -53,8 +53,6 @@ export class DatePickerComponent implements OnInit{
           this.dateValue = parsedDate;
           this.lastDate = this.dateValue;
         } else {
-          console.error('Invalid date string:', dateValue);
-          // Xử lý trường hợp ngày không hợp lệ
         }
       }
     }
