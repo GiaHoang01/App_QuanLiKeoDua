@@ -58,17 +58,6 @@ export class PurchaseOrderComponent  implements OnInit{
     };
    
   }
-
-  link()
-  {
-    this.router.navigate(['/purchaseorder/purchaseOrderAdd'], {
-      queryParams: { id: 'null'}
-    }).then(() => {
-      console.log('Navigated to /purchaseorder/purchaseOrderAdd');
-    }).catch(err => {
-      console.error('Navigation error:', err);
-    });
-  }
   
   getData() {
     const body = {

@@ -14,7 +14,7 @@
             <button class="btn-green">Lưu</button>
             <button class="btn-green">Xuất Excel</button>
             <button class="btn-blue"> Thêm mới</button>
-            <button class="btn-blue">Trở về</button>
+            <button class="btn-blue" [routerLink]="['/purchaseorder']" >Trở về</button>
           </div>
         </div>
       </div>
@@ -25,37 +25,86 @@
   <!--Phần Master-->
   <div class="row mb-3">
     <div class="col-md-6">
-      <div class="row">
-        <label class="col-2">Ghi chú :</label>
-        <textarea class="col-9" placeholder="Nhập ghi chú ở đây ..." rows="5"></textarea>
+      <!-- Ghi chú -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Ghi chú:</label>
+        <div class="col-9">
+          <textarea class="border-bottom1" [(ngModel)]="this.data.purchase.ghiChu" placeholder="Nhập ghi chú ở đây ..." rows="6"></textarea>
+        </div>
       </div>
     </div>
-
+  
     <div class="col-md-6">
-      <div class="row">
-        <span class="col-3">Mã phiếu nhập :</span>
-        <input class="col-8 border-bottom1" name="maPhieuNhap" />
+      <!-- Mã phiếu nhập -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Mã phiếu nhập:</label>
+        <div class="col-9">
+          <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.purchase.maPhieuNhap" />
+        </div>
       </div>
-
-      <div class="row">
-        <span class="col-3">Mã NCC :</span>
-        <input class="col-8 border-bottom1" name="maPhieuNhap" />
+  
+      <!-- Tên NCC -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Tên NCC:</label>
+        <div class="col-9">
+          <app-quick-search 
+            [filterObjectList]="data.vendors" 
+            [fieldShow]="'tenNCC'" 
+            [outputField]="'maNCC'"
+            placeHolder="Nhập tên để tìm" 
+            [(value)]="filter.tenNCC"
+            (selectedEvent)="this.data.purchase.maNCC = $event.maNCC;"
+            [inputClass]="'border-bottom1'" 
+            [hearder]="['Mã NCC', 'Tên NCC']" 
+            [fields]="['maNCC', 'tenNCC']">
+          </app-quick-search>
+        </div>
       </div>
-
-      <div class="row">
-        <span class="col-3">Ngày đặt :</span>
-        <input class="col-8 border-bottom1" name="ngayDat" />
-        <!-- <app-date-picker [(dateValue)]="data.purchase"  [inputClass]="'border-bottom1'"
-            [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true">
-        </app-date-picker> -->
-
+  
+      <!-- Tên nhân viên -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Tên nhân viên:</label>
+        <div class="col-9">
+          <app-quick-search 
+            [filterObjectList]="data.employees" 
+            [fieldShow]="'tenNV'" 
+            [outputField]="'maNV'"
+            placeHolder="Nhập tên để tìm" 
+            [(value)]="filter.tenNV"
+            (selectedEvent)="this.data.purchase.maNV = $event.maNV;"
+            [inputClass]="'border-bottom1'" 
+            [hearder]="['Mã nhân viên', 'Tên nhân viên']" 
+            [fields]="['maNV', 'tenNV']">
+          </app-quick-search>
+        </div>
       </div>
-      <div class="row">
-        <span class="col-3">Ngày nhập :</span>
-        <!-- <app-date-picker [(dateValue)]="data.purchase"  [inputClass]="'border-bottom1'"
-            [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true">
-        </app-date-picker> -->
-        <input class="col-8 border-bottom1" name="ngayNhap" />
+  
+      <!-- Ngày đặt -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Ngày đặt:</label>
+        <div class="col-9">
+          <app-date-picker 
+            [(dateValue)]="data.purchase.ngayDat" 
+            [inputClass]="' border-bottom1'" 
+            [isShowTime]="false" 
+            [format]="'DD/MM/YYYY HH:MM'" 
+            [isShowWeek]="false">
+          </app-date-picker>
+        </div>
+      </div>
+  
+      <!-- Ngày nhập -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Ngày nhập:</label>
+        <div class="col-9">
+          <app-date-picker 
+            [(dateValue)]="data.purchase.ngayNhap" 
+            [inputClass]="' border-bottom1'" 
+            [isShowTime]="false" 
+            [format]="'DD/MM/YYYY HH:MM'" 
+            [isShowWeek]="false">
+          </app-date-picker>
+        </div>
       </div>
     </div>
   </div>
@@ -70,23 +119,24 @@
             <th class="order-number">#</th>
             <th class="code-lg">Mã hàng</th>
             <th class="text-min-xm">Tên hàng</th>
-            <th class="text-xs">Đơn vị tính</th>
             <th class="text-center number-sm">Số lượng</th>
-            <th class="text-min-sm">Ghi chú</th>
+            <th class="text-xs">Đơn giá</th>
+            <th class="text-xs">Thành tiền</th>
             <th class="active-sm"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of data.purchase; let i = index">
+          <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
             <td class="order-number">{{i + 1}}</td>
-            <td class="order-number">{{i + 1}}</td>
-            <td class="order-number">{{i + 1}}</td>
-            <td class="order-number">{{i + 1}}</td>
-            <td class="order-number">{{i + 1}}</td>
-            <td class="order-number">{{i + 1}}</td>
+            <td class="">{{item.maHangHoa}}</td>
+            <td class="">{{item.maHangHoa}}</td>
+            <td class="order-number">{{item.soLuong}}</td>
+            <td class="order-number">{{item.donGia}}</td>
+            <td class="order-number">{{item.thanhTien}}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
-              <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"><i class="bi bi-pencil-square"></i></button>
-              <button class="btn btn-link px-1" type="button"title="Xóa"><i class="bi bi-trash3-fill"></i></button>         
+              <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
+                  class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-link px-1" type="button" title="Xóa"><i class="bi bi-trash3-fill"></i></button>
             </td>
           </tr>
           <tr class="row-empty" *ngIf="data.purchase.length<=0">
@@ -95,14 +145,14 @@
           <tr class="row-control ">
             <td colspan="999">
               <button class="btn-green">Thêm (F12)</button>
-              <span >| </span>
+              <span>| </span>
               <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
             </td>
           </tr>
         </tbody>
       </table>
-      
-      
+
+
     </div>
   </div>
   <!-- Kết thúc phần nội dung ở dưới đây-->

@@ -99,7 +99,6 @@ export class EmployeesComponent implements OnInit {
     });
   }
   
-  maNhomQuyen: string = "";
   quickSearchNhomQuyen(searchString: string = '') {
     const body = {
       SearchString: searchString,
@@ -108,8 +107,6 @@ export class EmployeesComponent implements OnInit {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.nhomQuyens = response.data.nhomQuyens;
-          console.log(this.maNhomQuyen);
-          console.log(this.data.nhomQuyens);
         } else {
 
         }

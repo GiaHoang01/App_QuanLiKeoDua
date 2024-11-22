@@ -19,6 +19,9 @@ export const API_ENDPOINT = {
     },
     ORDER_ENDPOINT:{
         SALEINVOICE_ORDER:API_BASE + "HoaDonBanHang/",
+    },
+    VENDOR_ENDPOINT:{
+        VENDOR:API_BASE+"NhaCungCap/",
     }
   
 }

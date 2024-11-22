@@ -88,7 +88,7 @@
             <td>{{ purchase.ghiChu }}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
                 <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"
-                (click)="link()"
+                [routerLink]="['/purchaseorder/purchaseOrderAdd']" [queryParams]="{id:purchase.maPhieuNhap}"
                   ><i class="bi bi-pencil-square"></i></button>
                 <button class="btn btn-link px-1" type="button"title="Xóa"><i class="bi bi-trash3-fill"></i></button>         
             </td>
