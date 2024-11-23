@@ -14,6 +14,9 @@ import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
+import { MessageService } from 'primeng/api';
 
 interface DataResult {
   employee: any,
@@ -24,8 +27,11 @@ interface DataResult {
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [SelectModule,AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
+  imports: [
+    SelectModule,AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule,
+    ToastModule,Ripple, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
   templateUrl: './employees.component.html',
+  providers: [MessageService],
   styleUrl: './employees.component.scss'
 })
 export class EmployeesComponent implements OnInit {
@@ -55,7 +61,7 @@ export class EmployeesComponent implements OnInit {
     nhomQuyens: []
   }
   searchString: string = "";
-  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
+  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 
@@ -81,6 +87,7 @@ export class EmployeesComponent implements OnInit {
       PageSize: this.globalService.paging.PageSize,
       PageIndex: this.globalService.paging.PageIndex,
     };
+    this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "getAllEmployees", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
@@ -94,7 +101,7 @@ export class EmployeesComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
-
+        this.globalService.OffLoadpage();
       }
     });
   }
@@ -149,8 +156,9 @@ export class EmployeesComponent implements OnInit {
       next: (response: any) => {
         if (response.status == 1) {
           this.getData();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công',life:1000 })
         } else {
-
+        
         }
       },
       error: (error: any) => {
@@ -173,6 +181,7 @@ export class EmployeesComponent implements OnInit {
             this.IsShowPopupEdit = false;
             this.IsUpdate = false;
             this.getData();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Thêm thành công',life:1000 })
           }
           else {
             this.IsUpdate = false;
@@ -203,10 +212,12 @@ export class EmployeesComponent implements OnInit {
             this.IsUpdate = false;
             this.IsShowPopupEdit = false;
             this.getData();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sửa thành công',life:1000 })
           }
           else {
             this.IsUpdate = false;
             this.getData();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Sửa thành công',life:1000 })
           }
         } else {
 

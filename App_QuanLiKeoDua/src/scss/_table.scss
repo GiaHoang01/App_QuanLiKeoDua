@@ -162,12 +162,7 @@
 /* General Table Styles */
 /* General Table Styles */
 /* Header Styling */
-.custom-table .p-datatable-thead > tr > th,
-.custom-table .p-datatable-tbody > tr > td {
-  padding: 10px; /* Add padding for better spacing */
-  text-align: center; /* Center align the text in headers and data cells */
-  vertical-align: middle; /* Align text vertically in the center */
-}
+
 
 /* Custom Header Styling */
 .custom-table .p-datatable-thead > tr > th {
@@ -190,39 +185,32 @@
 
 /* Small text column (for both th and td) */
 .custom-table .text-sm {
-  width: 100px;
+  width: 300px !important;
   text-align: center;
 }
 
-/* Position column (for both th and td) */
-.custom-table .text-position {
-  width: 150px;
+.custom-table .code-lg {
+  width: 300px !important;
+  text-align: center;
+}
+
+.custom-table .STT {
+  min-width: 20px !important;
   text-align: center;
 }
 
 /* Active small column (for both th and td) */
 .custom-table.active-sm {
-  width: 34px;
+  width: 20px !important;
   min-width: 34px;
   white-space: nowrap;
   text-align: center;
 }
 
-/* Sex column (for both th and td) */
-.custom-table .text-sex {
-  min-width: 100px !important;
-  text-align: center;
-}
-
-/* Address column (for both th and td) */
-.custom-table.text-address {
-  min-width: 300px !important;
-  text-align: center;
-}
 
 /* Phone column (for both th and td) */
-.custom-table .text-phone {
-  min-width: 150px !important;
+.custom-table .active-sm {
+  width: 30px !important;
   text-align: center;
 }
 

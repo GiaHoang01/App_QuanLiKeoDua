@@ -12,7 +12,6 @@ import { UtilsService } from '../../../../../scss/services/untils.service';
 import { TableModule } from 'primeng/table';
 import { API_ENDPOINT } from '../../../../../environments/environments';
 import { AppQuickSearchComponent } from '../../../../components/app-quick-search/app-quick-search.component';
-import { ProgressSpinnerModule } from 'primeng/progressspinner'; 
 import { SidebarModule } from 'primeng/sidebar'; 
 import { NgScrollbarModule } from 'ngx-scrollbar'; 
 import { MessageService } from 'primeng/api';
@@ -34,8 +33,7 @@ interface Filters{
 @Component({
   selector: 'app-purchase-order-add',
   standalone: true,
-  imports: [  ProgressSpinnerModule,
-    SidebarModule,ToastModule,Ripple,
+  imports: [ SidebarModule,ToastModule,Ripple,
     NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
   templateUrl: './purchase-order-add.component.html',
   providers: [MessageService],

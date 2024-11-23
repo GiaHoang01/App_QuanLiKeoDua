@@ -117,12 +117,12 @@
       <table class="custom-table table table-bordered table-hover table-edit">
         <thead>
           <tr>
-            <th class="order-number">#</th>
+            <th class="STT">#</th>
             <th class="code-lg" >Mã hàng</th>
             <th class="text-sm">Tên hàng</th>
-            <th class="number" >Số lượng</th>
-            <th class="text-xs">Đơn giá</th>
-            <th class="text-xs">Thành tiền</th>
+            <th class="number text-center">Số lượng đặt</th>
+            <th class="number text-center">Đơn giá</th>
+            <th class="number text-center">Thành tiền</th>
             <th class="active-sm"></th>
           </tr>
         </thead>
@@ -134,25 +134,25 @@
       
           <!-- Hiển thị dữ liệu nếu có -->
           <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
-            <td class="order-number">{{i + 1}}</td>
+            <td class="STT">{{i + 1}}</td>
             <td>
               <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
                 [filterObjectList]="this.data.products"
-                (CallBackEvent)="quickSearchHangHoa($event)" [inputClass]="'form-control'"
+                (CallBackEvent)="quickSearchHangHoa($event)" [inputClass]="'form-control code-lg'"
                 (selectedEvent)="onSelectItem($event,i)" [(value)]="item.maHangHoa" 
                 [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']" styleField="isExpiryDate"
                 [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
               </app-quick-search>
             </td>
-            <td class="text-sm">{{item.tenHangHoa}}</td>
+            <td class="text-sm text-left">{{item.tenHangHoa}}</td>
             <td class="number">
-              <input [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
+              <input type="number" [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
-            <td class="order-number">
-              <input [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
+            <td class="number">
+              <input type="number"  [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
-            <td class="order-number">
-              <input [(ngModel)]="item.thanhTien" class="form-control" [name]="'thanhTien'+i" [readonly]="true">
+            <td class="number">
+              <input type="number" [(ngModel)]="item.thanhTien" class="form-control" [name]="'thanhTien'+i" [readonly]="true">
             </td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Xóa" (click)="deleteRow(i)"><i class="bi bi-trash3-fill"></i></button>
