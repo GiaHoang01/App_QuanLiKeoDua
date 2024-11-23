@@ -1,4 +1,5 @@
-<div class="container">
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+<div class="container" >
   <div class="row mb-3">
 
     <!--Phần bên trái các nút-->
@@ -118,7 +119,7 @@
           <tr>
             <th class="order-number">#</th>
             <th class="code-lg">Mã hàng</th>
-            <th class="text-min-xm">Tên hàng</th>
+            <th class="text-sm">Tên hàng</th>
             <th class="number-sm">Số lượng</th>
             <th class="text-xs">Đơn giá</th>
             <th class="text-xs">Thành tiền</th>
@@ -137,19 +138,17 @@
                 [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
               </app-quick-search>
             </td>
-            <td class="">{{item.tenHangHoa}}</td>
-            <td class="">
-              <input [(ngModel)]="item.soLuongDat" [name]="'soLuong'+i">
+            <td class="text-sm">{{item.tenHangHoa}}</td>
+            <td>
+              <input [(ngModel)]="item.soLuongDat" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
             <td class="order-number">
-              <input [(ngModel)]="item.donGia" [name]="'donGia'+i">
+              <input [(ngModel)]="item.donGia" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
             <td class="order-number">
-              <input [(ngModel)]="item.thanhTien" [name]="'thanhTien'+i">
+              <input [(ngModel)]="item.thanhTien" [name]="'thanhTien'+i" [readonly]="true">
             </td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
-              <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
-                  class="bi bi-pencil-square"></i></button>
               <button class="btn btn-link px-1" type="button" title="Xóa" (click)="deleteRow(i)"><i class="bi bi-trash3-fill"></i></button>
             </td>
           </tr>

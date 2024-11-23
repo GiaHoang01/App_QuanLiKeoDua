@@ -34,7 +34,6 @@ export class PurchaseOrderComponent  implements OnInit{
   totalRows: number = 0;
   pageSize: number = 1;
   pageIndex: number = 1;
-  isLoading: boolean = false;
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
@@ -56,7 +55,6 @@ export class PurchaseOrderComponent  implements OnInit{
       toDate: this.utilsService.getToDate(),
       searchString: ""
     };
-   
   }
   
   getData() {
@@ -67,7 +65,8 @@ export class PurchaseOrderComponent  implements OnInit{
       FromDate:this.filters.fromDate,
       ToDate:this.filters.toDate
     };
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getAllPurchaseOrder", body).subscribe({
+    this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getAllPurchaseOrder_UNFINISHED", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
@@ -80,6 +79,7 @@ export class PurchaseOrderComponent  implements OnInit{
         console.log(error);
       },
       complete: () => {
+        this.globalService.OffLoadpage();
       }
     });
   }

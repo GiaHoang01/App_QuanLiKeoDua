@@ -12,6 +12,12 @@ import { UtilsService } from '../../../../../scss/services/untils.service';
 import { TableModule } from 'primeng/table';
 import { API_ENDPOINT } from '../../../../../environments/environments';
 import { AppQuickSearchComponent } from '../../../../components/app-quick-search/app-quick-search.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner'; 
+import { SidebarModule } from 'primeng/sidebar'; 
+import { NgScrollbarModule } from 'ngx-scrollbar'; 
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
 interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
@@ -28,15 +34,20 @@ interface Filters{
 @Component({
   selector: 'app-purchase-order-add',
   standalone: true,
-  imports: [RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
+  imports: [  ProgressSpinnerModule,
+    SidebarModule,ToastModule,Ripple,
+    NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
   templateUrl: './purchase-order-add.component.html',
+  providers: [MessageService],
   styleUrls: ['./purchase-order-add.component.scss']
 })
 
 export class PurchaseOrderAddComponent implements OnInit {
   id: string | null = null;
   status:number=0;
-  constructor(private route: ActivatedRoute,private router: Router, protected utilsService: UtilsService,private apiService: APIService, protected globalService: GlobalService) { }
+  constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
+  protected utilsService: UtilsService,private apiService: APIService,
+   protected globalService: GlobalService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
@@ -49,7 +60,6 @@ export class PurchaseOrderAddComponent implements OnInit {
     tenNCC:"",
     tenNV:"",
   }
-  
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
@@ -66,6 +76,7 @@ export class PurchaseOrderAddComponent implements OnInit {
       MaPhieuNhap:this.id,
       Status:this.status
     };
+  this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrder_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
@@ -95,7 +106,7 @@ export class PurchaseOrderAddComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
-
+        this.globalService.OffLoadpage();
       }
     });
   }
@@ -109,7 +120,7 @@ export class PurchaseOrderAddComponent implements OnInit {
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-        
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
 
         }
@@ -304,6 +315,10 @@ export class PurchaseOrderAddComponent implements OnInit {
     this.quickSearchNhaCungCap();
     this.quickSearchHangHoa();
     this.getData();
+  }
+
+  calculateThanhTien(item: any): void {
+    item.thanhTien = item.soLuongDat * item.donGia;
   }
   
 }

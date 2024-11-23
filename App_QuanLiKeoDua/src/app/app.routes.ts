@@ -41,7 +41,7 @@ export const routes: Routes = [
       {
         path: '',
         data: {
-          title: 'Phiếu nhập hàng'
+          title: 'Yêu cầu nhập hàng'
         },
         loadChildren: () => import('./views/purchase/routes').then((m) => m.routes)
       },

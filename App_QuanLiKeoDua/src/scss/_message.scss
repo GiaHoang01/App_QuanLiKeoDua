@@ -1,0 +1,80 @@
+/* Customize Toast root (container) */
+:root {
+    --p-toast-width: 300px; /* Set width of toast */
+    --p-toast-border-radius: 8px; /* Border radius */
+    --p-toast-border-width: 2px; /* Border width */
+    --p-toast-transition-duration: 0.5s; /* Transition duration */
+  }
+  
+  /* Customize icon size */
+  :root {
+    --p-toast-icon-size: 25px; /* Icon size */
+  }
+  
+  /* Customize content padding and gap */
+  :root {
+    --p-toast-content-padding: 15px; /* Padding inside toast */
+    --p-toast-content-gap: 10px; /* Gap between content and icon */
+    --p-toast-text-gap: 5px; /* Gap between text */
+  }
+  
+  /* Customize summary text */
+  :root {
+    --p-toast-summary-font-weight: bold; /* Font weight of summary */
+    --p-toast-summary-font-size: 14px; /* Font size of summary */
+  }
+  
+  /* Customize detail text */
+  :root {
+    --p-toast-detail-font-weight: normal; /* Font weight of detail */
+    --p-toast-detail-font-size: 12px; /* Font size of detail */
+  }
+  
+  /* Customize close button */
+  :root {
+    --p-toast-close-button-width: 20px; /* Width of close button */
+    --p-toast-close-button-height: 20px; /* Height of close button */
+    --p-toast-close-button-border-radius: 50%; /* Border radius of close button */
+  }
+  
+  /* Customize Toast background colors based on severity */
+  :root {
+    --p-toast-info-background: #2196F3; /* Info background color */
+    --p-toast-info-color: #fff; /* Info text color */
+    
+    --p-toast-success-background: #4CAF50; /* Success background color */
+    --p-toast-success-color: #fff; /* Success text color */
+  
+    --p-toast-warn-background: #FF9800; /* Warning background color */
+    --p-toast-warn-color: #fff; /* Warning text color */
+  
+    --p-toast-error-background: #F44336; /* Error background color */
+    --p-toast-error-color: #fff; /* Error text color */
+    
+    --p-toast-secondary-background: #9E9E9E; /* Secondary background color */
+    --p-toast-secondary-color: #fff; /* Secondary text color */
+    
+    --p-toast-contrast-background: #000; /* Contrast background color */
+    --p-toast-contrast-color: #fff; /* Contrast text color */
+  }
+  
+  /* Customize close button hover background */
+  :root {
+    --p-toast-info-close-button-hover-background: #1976D2;
+    --p-toast-success-close-button-hover-background: #388E3C;
+    --p-toast-warn-close-button-hover-background: #F57C00;
+    --p-toast-error-close-button-hover-background: #D32F2F;
+    --p-toast-secondary-close-button-hover-background: #757575;
+    --p-toast-contrast-close-button-hover-background: #212121;
+  }
+  
+  /* Customize focus ring of close button */
+  :root {
+    --p-toast-info-close-button-focus-ring-color: #1976D2;
+    --p-toast-success-close-button-focus-ring-color: #388E3C;
+    --p-toast-warn-close-button-focus-ring-color: #F57C00;
+    --p-toast-error-close-button-focus-ring-color: #D32F2F;
+    --p-toast-secondary-close-button-focus-ring-color: #757575;
+    --p-toast-contrast-close-button-focus-ring-color: #212121;
+  }
+  

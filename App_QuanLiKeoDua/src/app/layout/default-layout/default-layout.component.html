@@ -29,8 +29,12 @@
   />
   <!--app-body-->
   <div class="body flex-grow-1">
+    <div id="PageLoading" class="loading-overlay fade-out">
+      <div class="custom-spinner"></div>
+    </div>
     <c-container breakpoint="lg" class="h-auto px-4">
       <router-outlet />
     </c-container>
   </div>
+  
 </div>
