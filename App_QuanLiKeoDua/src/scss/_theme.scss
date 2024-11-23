@@ -4,6 +4,9 @@ body {
   color:gray !important;
   font-weight: bold !important;
 }
+.p-popover {
+  z-index: 10000; /* Đảm bảo rằng Popover có z-index cao hơn các phần tử khác */
+}
 
 .wrapper {
   width: 100%;

@@ -114,58 +114,61 @@
   <!-- Phần nội dung ở dưới đây-->
   <div class="row mb-3">
     <div class="col-12">
-      <table class="table table-bordered table-hover table-edit">
+      <table class="custom-table table table-bordered table-hover table-edit">
         <thead>
           <tr>
             <th class="order-number">#</th>
-            <th class="code-lg">Mã hàng</th>
+            <th class="code-lg" >Mã hàng</th>
             <th class="text-sm">Tên hàng</th>
-            <th class="number-sm">Số lượng</th>
+            <th class="number" >Số lượng</th>
             <th class="text-xs">Đơn giá</th>
             <th class="text-xs">Thành tiền</th>
             <th class="active-sm"></th>
           </tr>
         </thead>
         <tbody>
+          <!-- Kiểm tra nếu không có dữ liệu, hiển thị thông báo -->
+          <tr *ngIf="data.purchaseOrderDetail.length === 0">
+            <td colspan="7" class="text-center">Không có dữ liệu</td>
+          </tr>
+      
+          <!-- Hiển thị dữ liệu nếu có -->
           <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
             <td class="order-number">{{i + 1}}</td>
-            <td >
+            <td>
               <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
                 [filterObjectList]="this.data.products"
-                (CallBackEvent)="quickSearchHangHoa($event)"
-                (selectedEvent)="onSelectItem($event,i)" [(value)]="item.maHangHoa"
+                (CallBackEvent)="quickSearchHangHoa($event)" [inputClass]="'form-control'"
+                (selectedEvent)="onSelectItem($event,i)" [(value)]="item.maHangHoa" 
                 [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']" styleField="isExpiryDate"
                 [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
               </app-quick-search>
             </td>
             <td class="text-sm">{{item.tenHangHoa}}</td>
-            <td>
-              <input [(ngModel)]="item.soLuongDat" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
+            <td class="number">
+              <input [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
             <td class="order-number">
-              <input [(ngModel)]="item.donGia" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
+              <input [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
             </td>
             <td class="order-number">
-              <input [(ngModel)]="item.thanhTien" [name]="'thanhTien'+i" [readonly]="true">
+              <input [(ngModel)]="item.thanhTien" class="form-control" [name]="'thanhTien'+i" [readonly]="true">
             </td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Xóa" (click)="deleteRow(i)"><i class="bi bi-trash3-fill"></i></button>
             </td>
           </tr>
-          <tr class="row-empty" *ngIf="data.purchase.length<=0">
-            <td colspan="999">Không có dữ liệu</td>
-          </tr>
-          <tr class="row-control ">
+      
+          <!-- Thêm dòng điều khiển -->
+          <tr class="row-control">
             <td colspan="999">
-              <button class="btn-green"(click)="onAddRow()">Thêm (F12)</button>
+              <button class="btn-green" (click)="onAddRow()">Thêm (F12)</button>
               <span>| </span>
               <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
             </td>
           </tr>
         </tbody>
       </table>
-
-
     </div>
   </div>
   <!-- Kết thúc phần nội dung ở dưới đây-->
