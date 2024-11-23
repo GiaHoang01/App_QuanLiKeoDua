@@ -19,6 +19,7 @@ import { deepCopy } from '@angular-devkit/core/src/utils/object';
 interface DataResult {
   product: any,
   productList: any[],
+  priceList:any[],
   price:any,
   note:any,
 }
@@ -38,7 +39,13 @@ export class ProductsComponent {
   pageIndex: number = 1;
   value: string = "";
   IsShowPopupEdit: boolean = false;
+  IsShowPopupPrice: boolean = false;
   IsUpdate: boolean = false;
+  options = [
+    { label: 5, value: 5 },
+    { label: 10, value: 10 },
+    { label: 15, value: 15 },
+  ];
   loaiHangHoa = [
     { label: "Vui lòng chọn ", value: "" },
     { label: "Kẹo dừa truyền thống", value: "CAT001" },
@@ -46,14 +53,10 @@ export class ProductsComponent {
     { label: "Kẹo dừa tổng hợp", value: "CAT003" },
     { label: "Bánh kẹo tổng hợp", value: "CAT004" },
   ];
-  options = [
-    { label: 5, value: 5 },
-    { label: 10, value: 10 },
-    { label: 15, value: 15 },
-  ];
   data: DataResult = {
     product: {},
     productList: [],
+    priceList:[],
     price:0,
     note:'',
   }
@@ -77,6 +80,11 @@ export class ProductsComponent {
     this.IsShowPopupEdit = true;
   }
 
+  showPrice(maHangHoa:string)
+  {
+    this.getPrice(maHangHoa);
+    this.IsShowPopupPrice=true
+  }
   getData() {
     const body = {
       SearchString: this.searchString,
@@ -202,9 +210,31 @@ export class ProductsComponent {
       }
     }
   }
+  getPrice(maHangHoa:string)
+  {
+    const body = {
+      MaHangHoa:maHangHoa
+    };
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getPriceHistoryProduct", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.priceList = response.data.priceList;
+        } else {
 
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
   closeDialog() {
     this.IsShowPopupEdit = false;
+  }closeDialogPrice() {
+    this.IsShowPopupPrice = false;
   }
   toggleExpansion() {
     this.isExpanded = !this.isExpanded;

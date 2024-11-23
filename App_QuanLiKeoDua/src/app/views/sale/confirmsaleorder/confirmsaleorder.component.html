@@ -1,0 +1,111 @@
+<!-- Container chính cho trang -->
+<div class="container">
+
+    <!-- Phần master -->
+    <div class="row mb-3"> <!-- Adds margin at the bottom -->
+        <div class="col-sm-8">
+            <div class="row mb-2">
+                <div class="form-group col-sm-4">
+                    <label class="font-weight-bold">Từ ngày</label>
+                    <app-date-picker [(dateValue)]="filters.fromDate" [inputClass]="'form-control'" [isShowTime]="false"
+                        [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="font-weight-bold">Đến ngày</label>
+                    <app-date-picker [(dateValue)]="filters.toDate" [inputClass]="'form-control'" [isShowTime]="false"
+                        [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="font-weight-bold">Tìm kiếm</label>
+                    <input name="SearchString" class="form-control clearable" type="search"
+                        placeholder="Mã/Họ và tên/Số điện thoại">
+                </div>
+            </div>
+            <div class="row mb-2" *ngIf="isExpanded">
+                <div class="form-group col-sm-4">
+                    <label class="font-weight-bold">Tìm kiếm</label>
+                    <input name="SearchString" class="form-control clearable" type="search"
+                        placeholder="Mã/Họ và tên/Số điện thoại">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
+            <div class="btn-group mr-2">
+                <button class="btn btn-success" style="color: white;">Tìm</button>
+                <button type="button" class="btn btn-success" style="color: white;" (click)="toggleExpansion()">
+                    <i class="bi bi-funnel-fill"></i>
+                </button>
+            </div>
+            <button class="btn btn-success" style="color: white;margin-left: 5px;" data-key="f1">Thêm mới</button>
+        </div>
+    </div>
+
+
+
+    <!-- Phần nội dung ở dưới đây-->
+    <div class="row">
+        <div class="col-12">
+            <p-table [value]="data.saleInvoiceOrders" [(selection)]="selectedProduct" selectionMode="single"
+                showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn pSortableColumn="maHoaDon" style="min-width:100px !important">
+                            Mã hóa đơn <p-sortIcon field="maHoaDon" />
+                        </th>
+                        <th pSortableColumn="ngayBan" style="min-width:200px !important">
+                            Ngày bán <p-sortIcon field="ngayBan" />
+                        </th>
+                        <th pSortableColumn="tongTriGia" style="min-width:200px !important">
+                            Tổng trị giá <p-sortIcon field="tongTriGia" />
+                        </th>
+                        <th pSortableColumn="maNV" style="min-width:200px !important">
+                            Mã nhân viên <p-sortIcon field="maNV" />
+                        </th>
+                        <th pSortableColumn="maKhachHang" style="min-width:200px !important">
+                            Mã khách hàng <p-sortIcon field="maKhachHang" />
+                        </th>
+                        <th pSortableColumn="maHinhThuc" style="min-width:200px !important">
+                            Mã hình thức<p-sortIcon field="maHinhThuc" />
+                        </th>
+                        <th pSortableColumn="ghiChu" style="min-width:200px !important">
+                            Ghi chú <p-sortIcon field="ghiChu" />
+                        </th>
+                        <th pSortableColumn="trangThai" style="min-width:200px !important">
+                            Trạng thái<p-sortIcon field="trangThai" />
+                        </th>
+                        <th alignFrozen="right" class="active-sm" pFrozenColumn>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-order>
+                    <tr [pSelectableRow]="order">
+                        <td pFrozenColumn>{{ order.maHoaDon }}</td>
+                        <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
+                        <td class="text-right">{{ order.tongTriGia}}</td>
+                        <td>{{ order.maNV }}</td>
+                        <td>{{ order.maKhachHang }}</td>
+                        <td>{{ order.maHinhThuc }}</td>
+                        <td>{{ order.ghiChu }}</td>
+                        <td>{{ order.trangThai }}</td>
+                        <td alignFrozen="right" pFrozenColumn class="active-sm">
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
+                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-link px-1" type="button" title="Xóa"><i
+                                    class="bi bi-trash3-fill"></i></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="12" class="empty-message">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="flex justify-center">
+                <app-paginator [totalRows]="this.globalService.paging.TotalRows"
+                    (selectPageEvent)="onPageChange($event)" (selectRowsEvent)="onRowsChange($event)">
+                </app-paginator>
+            </div>
+        </div>
+    </div>
+</div>
