@@ -5,10 +5,10 @@
     <div class="row mb-3"> <!-- Adds margin at the bottom -->
         <div class="col-sm-8">
             <div class="row mb-2">
-               
                 <div class="form-group col-sm-4">
                     <label class="font-weight-bold">Tìm kiếm</label>
-                    <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search" placeholder="Mã/Họ và tên/Số điện thoại">
+                    <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
+                        placeholder="Mã/Họ và tên/Số điện thoại">
                 </div>
             </div>
         </div>
@@ -16,40 +16,40 @@
             <div class="btn-group mr-2">
                 <button class="btn btn-success" style="color: white;" (click)="onSearch()">Tìm</button>
             </div>
-            <button class="btn btn-success"(click)="showAdd()" style="color: white;margin-left: 5px;">Thêm mới</button>
+            <button class="btn btn-success" (click)="showAdd()" style="color: white;margin-left: 5px;">Thêm mới</button>
         </div>
     </div>
     <!-- Phần nội dung ở dưới đây-->
     <div class="row">
         <div class="col-12">
-            <p-table [value]="data.productList"  [(selection)]="selectedProduct" selectionMode="single"
-            showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="330px"  rowHover="true">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pFrozenColumn>
-                      # 
-                    </th>
-                    <th pFrozenColumn pSortableColumn="maHangHoa" class="header-min">
-                        Mã hàng Hóa <p-sortIcon field="maHangHoa" />
-                    </th>
-                    <th pSortableColumn="tenHangHoa" class="header-gt">
-                        Tên hàng hóa <p-sortIcon field="tenHangHoa" />
-                    </th>
-                    <th pSortableColumn="giaBan" class="header-max">
-                        Giá bán <p-sortIcon field="giaBan" />
-                    </th>
-                    <th pSortableColumn="moTa" class="header-max">
-                        Mô tả <p-sortIcon field="moTa" />
-                    </th>
-                    <th pSortableColumn="hinhAnh" class="header-tb">
-                        Hình ảnh <p-sortIcon field="hinhAnh" />
-                    </th>
-                    <th pSortableColumn="maLoai" >
-                        Mã loại <p-sortIcon field="maLoai" class="header-tb"/>
-                    </th>
-                    <th alignFrozen="right"class="active-sm" pFrozenColumn>
-                    </th>
-                </tr>
+            <p-table [value]="data.productList" [(selection)]="selectedProduct" selectionMode="single" showGridlines
+                [sortOrder]="-1" [scrollable]="true" scrollHeight="330px" rowHover="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn>
+                            #
+                        </th>
+                        <th pFrozenColumn pSortableColumn="maHangHoa" class="header-min">
+                            Mã hàng Hóa <p-sortIcon field="maHangHoa" />
+                        </th>
+                        <th pSortableColumn="tenHangHoa" class="header-max">
+                            Tên hàng hóa <p-sortIcon field="tenHangHoa" />
+                        </th>
+                        <th pSortableColumn="giaBan" class="header-gt">
+                            Giá bán <p-sortIcon field="giaBan" />
+                        </th>
+                        <th pSortableColumn="moTa" class="header-max">
+                            Mô tả <p-sortIcon field="moTa" />
+                        </th>
+                        <th pSortableColumn="hinhAnh" class="header-tb">
+                            Hình ảnh <p-sortIcon field="hinhAnh" />
+                        </th>
+                        <th pSortableColumn="maLoai">
+                            Mã loại <p-sortIcon field="maLoai" class="header-tb" />
+                        </th>
+                        <th alignFrozen="right" class="active-sm" pFrozenColumn>
+                        </th>
+                    </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-o let-index="rowIndex">
                     <tr [pSelectableRow]="o">
@@ -58,22 +58,184 @@
                         <td>{{ o.tenHangHoa }}</td>
                         <td>{{ o.giaBan }}</td>
                         <td>{{ o.moTa }}</td>
-                        <td >{{ o.hinhAnh }}</td>
-                        <td >{{ o.maLoai }}</td>
-                        <td alignFrozen="right" pFrozenColumn  class="active-sm">
-                          <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"(click)="showDetail(o.maNV)"><i class="bi bi-pencil-square"></i></button>
-                          <button class="btn btn-link px-1" type="button"title="Xóa" ><i class="bi bi-trash3-fill"></i></button>
+                        <td>{{ o.hinhAnh }}</td>
+                        <td>{{ o.maLoai }}</td>
+                        <td alignFrozen="right" pFrozenColumn class="active-sm">
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa" (click)="showUpdate(o)"><i
+                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-link px-1" type="button" title="Xóa"><i
+                                    (click)="DeleteProduct(o.maHangHoa)" class="bi bi-trash3-fill"></i></button>
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
             <div class="flex justify-center">
-                <app-paginator
-                    [totalRows]="this.globalService.paging.TotalRows"
-                    (selectPageEvent)="onPageChange($event)" 
-                    (selectRowsEvent)="onRowsChange($event)" >
+                <app-paginator [totalRows]="this.globalService.paging.TotalRows"
+                    (selectPageEvent)="onPageChange($event)" (selectRowsEvent)="onRowsChange($event)">
                 </app-paginator>
             </div>
         </div>
     </div>
 </div>
+<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm">
+
+    <!-- Header Template -->
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
+            <span class="font-bold white-space-nowrap text-xl" *ngIf="IsUpdate">
+                Cập nhật hàng hóa
+            </span>
+            <span class="font-bold white-space-nowrap text-xl" *ngIf="!IsUpdate">
+                Thêm hàng hóa
+            </span>
+        </div>
+    </ng-template>
+
+    <!-- Content Template -->
+    <ng-template pTemplate="content">
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6" >
+                <div class="form-group" *ngIf="IsUpdate">
+                    <label for="productID">Mã hàng hóa</label>
+                    <input type="text" name="maHangHoa" p-inputtext class="border-bottom1" disabled="true"
+                        [(ngModel)]="data.product.maHangHoa" tabindex="1">
+                </div>
+                <div class="form-group">
+                    <label for="productName">Tên hàng hóa</label>
+                    <input type="text" name="tenHangHoa" p-inputtext class="border-bottom1"
+                        [(ngModel)]="data.product.tenHangHoa" tabindex="1">
+                </div>
+                
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" *ngIf="IsUpdate">
+                    <button class="btn btn-success border-bottom1" style="color: white; margin-top: 2%;" (click)="showPrice(data.product.maHangHoa)" tabindex="1">Xem danh sách giá </button>
+                </div>
+                <div class="form-group">
+                    <label for="price">Giá bán</label>
+                    <input type="number" p-inputtext name="giaBan" class="border-bottom1"
+                        [(ngModel)]="data.product.giaBan" tabindex="6">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="describe">Mô tả</label>
+                    <input type="text" p-inputtext name="moTa" class="border-bottom1" [(ngModel)]="data.product.moTa"
+                        tabindex="6">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="imageProduct">Hình ảnh</label>
+                    <input type="text" p-inputtext name="hinhAnh" class="border-bottom1"
+                        [(ngModel)]="data.product.hinhAnh" tabindex="3">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="gender">Loại hàng hóa</label>
+                    <p-select [options]="loaiHangHoa" name="maLoai" [(ngModel)]="data.product.maLoai"
+                        optionLabel="label" optionValue="value">
+                    </p-select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="updatedPriceDate">Ngày cập nhật giá</label>
+                    <app-date-picker [(dateValue)]="data.product.ngayCapNhatGia" [inputClass]="'border-bottom1'"
+                        [format]="'DD/MM/YYYY'" [isShowTodayBtn]="true" [isShowWeek]="true"></app-date-picker>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="note">Ghi chú</label>
+                    <input type="text" p-inputtext name="ghiChu" class="border-bottom1"
+                        [(ngModel)]="data.product.ghiChu" tabindex="9">
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <!-- Footer Template -->
+    <ng-template pTemplate="footer">
+        <div class="border-style-top">
+            <button type="submit" (click)="saveProduct(true)" class="btn-green"
+                [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
+                Lưu
+            </button>
+            <button type="submit" (click)="saveProduct(false)" class="btn-green"
+                [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
+                Lưu & thêm mới
+            </button>
+            <button type="button" class="btn-red" (click)="closeDialog()">
+                Đóng
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Header" [(visible)]="IsShowPopupPrice" [modal]="true" class="sm">
+
+    <!-- Header Template -->
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
+            <span class="font-bold white-space-nowrap text-xl">
+                Danh sách giá bán của hàng hóa
+            </span>
+        </div>
+    </ng-template>
+
+    <!-- Content Template -->
+    <ng-template pTemplate="content">
+        <p-table [value]="data.priceList" [(selection)]="selectedProduct" selectionMode="single" showGridlines
+                [sortOrder]="-1" [scrollable]="true" scrollHeight="330px" rowHover="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn>
+                            #
+                        </th>
+                        <th pFrozenColumn pSortableColumn="maLichSu" class="header-min">
+                            Mã lịch sử <p-sortIcon field="maLichSu"/>
+                        </th>
+                        <th pSortableColumn="tenHangHoa" class="header-max">
+                            Tên hàng hóa <p-sortIcon field="tenHangHoa" />
+                        </th>
+                        <th pSortableColumn="giaBan" class="header-gt">
+                            Giá bán <p-sortIcon field="giaBan" />
+                        </th>
+                        <th pSortableColumn="ghiChu" class="header-gt">
+                            Ghi chú<p-sortIcon field="ghiChu" />
+                        </th>
+                        <th pSortableColumn="ngayCapNhatGia" class="header-max">
+                            Ngày cập nhật giá <p-sortIcon field="ngayCapNhatGia" />
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-o let-index="rowIndex">
+                    <tr [pSelectableRow]="o">
+                        <td pFrozenColumn>{{ (index) + 1 }}</td>
+                        <td pFrozenColumn>{{ o.maLichSu }}</td>
+                        <td>{{ data.product.tenHangHoa }}</td>
+                        <td>{{ o.giaBan }}</td>
+                        <td>{{ o.ghiChu }}</td>
+                        <td>{{ o.ngayCapNhatGia }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+    </ng-template>
+    <!-- Footer Template -->
+    <ng-template pTemplate="footer">
+        <div class="border-style-top">
+            <button type="button" class="btn-red" (click)="closeDialogPrice()">
+                Đóng
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>
