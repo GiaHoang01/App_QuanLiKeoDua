@@ -65,7 +65,14 @@ export const routes: Routes = [
           title: 'Duyệt Đơn hàng'
         },
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
-      }
+      },
+      {
+        path: '',
+        data: {
+          title: 'Phiếu giao hàng'
+        },
+        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
+      }, 
     ]
   },
   {

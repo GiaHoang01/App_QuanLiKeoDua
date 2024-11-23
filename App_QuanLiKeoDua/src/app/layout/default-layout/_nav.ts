@@ -49,6 +49,11 @@ export const navItems: INavData[] = [
         name:'Phiếu nhập hàng',
         url:'/purchaseorder',
         icon:''
+      },
+      {
+        name:'Phiếu giao hàng',
+        url:'/shippingnote',
+        icon:''
       }
     ]
   },

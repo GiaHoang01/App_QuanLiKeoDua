@@ -12,5 +12,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./purchase-order/purchase-order-add/purchase-order-add.component').then((m) => m.PurchaseOrderAddComponent),
       data: { title: 'Cập nhật phiếu mua hàng' }
-  }
+  },
 ];
