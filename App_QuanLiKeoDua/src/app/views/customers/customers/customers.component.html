@@ -1,0 +1,162 @@
+<!-- Container chính cho trang -->
+<div class="container">
+
+    <!-- Phần master -->
+    <div class="row mb-3"> <!-- Adds margin at the bottom -->
+        <div class="col-sm-8">
+            <div class="row mb-2">
+
+                <div class="form-group col-sm-4">
+                    <label class="font-weight-bold">Tìm kiếm</label>
+                    <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
+                        placeholder="Họ và tên">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
+            <div class="btn-group mr-2">
+                <button class="btn-green" style="color: white;" (click)="onSearch()">Tìm</button>
+            </div>
+            <button class="btn-green" (click)="showAdd()" style="color: white;margin-left: 5px;">Thêm mới</button>
+        </div>
+    </div>
+
+    <!-- Phần nội dung ở dưới đây-->
+    <div class="row">
+        <div class="col-12">
+            <p-table [value]="data.customers" [(selection)]="selectedProduct" selectionMode="single" showGridlines
+                [sortOrder]="-1" [scrollable]="true" scrollHeight="330px" rowHover="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pFrozenColumn>
+                            #
+                        </th>
+                        <th pFrozenColumn pSortableColumn="TenKH" class="header-min">
+                            Tên khách hàng <p-sortIcon field="TenKH" />
+                        </th>
+                        <th pSortableColumn="gioiTinh" class="header-gt">
+                            Giới tính <p-sortIcon field="gioiTinh" />
+                        </th>
+                        <th pSortableColumn="email">
+                            Email <p-sortIcon field="email" class="header-tb" />
+                        </th>
+                        <th pSortableColumn="tenTaiKhoan" class="header-tb">
+                            Tên tài khoản <p-sortIcon field="tenTaiKhoan" />
+                        </th>
+                        <th pSortableColumn="loaiKH" class="header-min">
+                            Loại khách hàng <p-sortIcon field="loaiKH" />
+                        </th>
+                        <th alignFrozen="right" class="active-sm" pFrozenColumn>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-o let-index="rowIndex">
+                    <tr [pSelectableRow]="o">
+                        <td pFrozenColumn>{{ index + 1 }}</td>
+                        <td pFrozenColumn>{{ o.tenKhachHang }}</td>
+                        <td>{{ o.gioiTinh }}</td>
+                        <td>{{ o.email }}</td>
+                        <td>{{ o.tenTaiKhoan }}</td>
+                        <td>{{ getLoaiKhachHangLabel(o.maLoaiKH) }}</td>
+                        <td alignFrozen="right" pFrozenColumn class="active-sm">
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
+                                (click)="showDetail(o.maKhachHang)"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-link px-1" type="button" title="Xóa"
+                                (click)="DeleteCustomer(o.maKhachHang)"><i class="bi bi-trash3-fill"></i></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="flex justify-center">
+                <app-paginator [totalRows]="this.globalService.paging.TotalRows"
+                    (selectPageEvent)="onPageChange($event)" (selectRowsEvent)="onRowsChange($event)">
+                </app-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm">
+
+    <!-- Header Template -->
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
+            <span class="font-bold white-space-nowrap text-xl" *ngIf="IsUpdate">
+                Cập nhật khách hàng
+            </span>
+            <span class="font-bold white-space-nowrap text-xl" *ngIf="!IsUpdate">
+                Thêm khách hàng
+            </span>
+        </div>
+    </ng-template>
+
+    <!-- Content Template -->
+    <ng-template pTemplate="content">
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="employeeName">Tên khách hàng</label>
+                    <input type="text" name="tenKH" p-inputtext class="border-bottom1"
+                        [(ngModel)]="data.customer.tenKhachHang" tabindex="1">
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="border-bottom1" [(ngModel)]="data.customer.email"
+                        tabindex="7">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="accountName">Tên tài khoản</label>
+                    <input type="text" p-inputtext name="tenTaiKhoan" class="border-bottom1"
+                        [(ngModel)]="data.customer.tenTaiKhoan" tabindex="3">
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="gender">Giới tính</label>
+                    <p-select [options]="gioiTinh" name="gioiTinh" [(ngModel)]="data.customer.gioiTinh" name="gioiTinh"
+                        placeholder="--Vui lòng chọn--">
+                    </p-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="gender">Loại khách hàng</label>
+                    <p-dropdown [options]="loaiKH" [(ngModel)]="data.customer.maLoaiKH" optionLabel="label"
+                        optionValue="value" placeholder="--Vui lòng chọn--">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+
+
+    </ng-template>
+
+    <!-- Footer Template -->
+    <ng-template pTemplate="footer">
+        <div class="border-style-top">
+            <button type="submit" (click)="saveCustomer(true)" class="btn-green">
+                Lưu
+            </button>
+            <button type="submit" (click)="saveCustomer(false)" class="btn-green">
+                Lưu & thêm mới
+            </button>
+            <button type="button" class="btn-red" (click)="closeDialog()">
+                Hủy
+            </button>
+        </div>
+    </ng-template>
+
+
+</p-dialog>
