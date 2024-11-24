@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PurchaseOrderComponent } from './purchase-order.component';
+import { PurchaseOrderComponent } from './purchase-order-request.component';
 
 describe('PurchaseOrderComponent', () => {
   let component: PurchaseOrderComponent;

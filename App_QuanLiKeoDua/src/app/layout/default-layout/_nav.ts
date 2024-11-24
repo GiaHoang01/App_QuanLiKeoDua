@@ -31,7 +31,7 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Mua hàng',
+    name: 'Nhập hàng',
     url: '',
     icon:"bi bi-box-seam-fill",
     children:[
@@ -39,7 +39,12 @@ export const navItems: INavData[] = [
         name:'Yêu cầu nhập hàng',
         url:'/purchaseorder',
         icon:''
-      }
+      },
+      {
+        name:'Phiếu nhập hàng',
+        url:'/purchaseorder',
+        icon:''
+      },
     ]
   },
   {

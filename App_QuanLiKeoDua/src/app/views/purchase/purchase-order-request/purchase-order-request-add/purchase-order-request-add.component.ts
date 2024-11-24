@@ -34,10 +34,10 @@ interface Filters{
   selector: 'app-purchase-order-add',
   standalone: true,
   imports: [ SidebarModule,ToastModule,Ripple,
-    NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
-  templateUrl: './purchase-order-add.component.html',
+  NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
+  templateUrl: './purchase-order-request-add.component.html',
   providers: [MessageService],
-  styleUrls: ['./purchase-order-add.component.scss']
+  styleUrls: ['./purchase-order-request-add.component.scss']
 })
 
 export class PurchaseOrderAddComponent implements OnInit {
@@ -75,7 +75,7 @@ export class PurchaseOrderAddComponent implements OnInit {
       Status:this.status
     };
   this.globalService.OnLoadpage();
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrder_ByID", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrderRequest_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
          if(this.status==2)
@@ -115,7 +115,7 @@ export class PurchaseOrderAddComponent implements OnInit {
       PurchaseOrderDetail:this.data.purchaseOrderDetail,
       Status:this.status
     };
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrderRequest", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
