@@ -37,12 +37,12 @@ export const navItems: INavData[] = [
     children:[
       {
         name:'Yêu cầu nhập hàng',
-        url:'/purchaseorder',
+        url:'/purchaseOrderRequest',
         icon:''
       },
       {
         name:'Phiếu nhập hàng',
-        url:'/purchaseorder',
+        url:'/purchaseOrder',
         icon:''
       },
     ]
