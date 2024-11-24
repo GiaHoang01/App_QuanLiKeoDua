@@ -22,6 +22,8 @@ export const API_ENDPOINT = {
     },
     VENDOR_ENDPOINT:{
         VENDOR:API_BASE+"NhaCungCap/",
+    },
+    CUSTOMER_ENDPOINT:{
+        CUSTOMER: API_BASE + "KhachHang/"
     }
-  
 }

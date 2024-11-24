@@ -15,6 +15,11 @@ export const navItems: INavData[] = [
         name: 'Hàng hóa',
         url: '/product',
         icon: '',
+      },
+      {
+        name: 'Khách hàng',
+        url: '/customer',
+        icon: '',
       }
     ]
   },
@@ -26,6 +31,11 @@ export const navItems: INavData[] = [
       {
         name:'Đơn đặt hàng',
         url:'/saleorder',
+        icon:''
+      },
+      {
+        name:'Duyệt đơn hàng',
+        url:'/confirmsaleorder',
         icon:''
       }
     ]
@@ -55,6 +65,11 @@ export const navItems: INavData[] = [
       {
         name:'Duyệt phiếu nhập',
         url:'/confirmPurchaseOrder',
+        icon:''
+      },
+      {
+        name:'Phiếu giao hàng',
+        url:'/shippingnote',
         icon:''
       }
     ]

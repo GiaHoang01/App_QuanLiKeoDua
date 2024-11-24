@@ -23,6 +23,9 @@ export const routes: Routes = [
       },
       {
         path: 'saleorder',
+        data: {
+          title: 'Đơn đặt hàng'
+        },
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
@@ -36,7 +39,28 @@ export const routes: Routes = [
       {
         path: 'product',
         loadChildren: () => import('./views/products/routes').then((m) => m.routes)
-      }
+      },
+      {
+        path: 'customer',
+        data: {
+          title: 'Khách hàng'
+        },
+        loadChildren: () => import('./views/customers/routes').then((m) => m.routes)
+      },
+      {
+        path: '',
+        data: {
+          title: 'Duyệt Đơn hàng'
+        },
+        loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
+      },
+      {
+        path: '',
+        data: {
+          title: 'Phiếu giao hàng'
+        },
+        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
+      }, 
     ]
   },
   {

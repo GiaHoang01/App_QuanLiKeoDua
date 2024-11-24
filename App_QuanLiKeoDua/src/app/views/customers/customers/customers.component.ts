@@ -14,89 +14,87 @@ import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { DatePickerComponent } from '../../../components/datepicker/datepicker.component';
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
-import { deepCopy } from '@angular-devkit/core/src/utils/object';
+import { DropdownModule } from 'primeng/dropdown';
 
 interface DataResult {
-  product: any,
-  productList: any[],
-  priceList:any[],
-  price:any,
-  note:any,
+  customer: any,
+  customers: any[],
 }
+
 @Component({
-  selector: 'app-products',
+  selector: 'app-customers',
   standalone: true,
-  imports: [SelectModule,AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  imports: [SelectModule, AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective, DropdownModule],
+  templateUrl: './customers.component.html',
+  styleUrl: './customers.component.scss'
 })
-export class ProductsComponent {
+export class CustomersComponent implements OnInit {
   isExpanded: boolean = false;
-  maHangHoa: string = "";
+  maKH: string = "";
   title: any;
   selectedProduct!: any;
   pageSize: number = 5;
   pageIndex: number = 1;
   value: string = "";
+  gioiTinh = [
+    { label: "Nam", value: "Nam" },
+    { label: "Nữ", value: "Nữ" },
+  ];
+  loaiKH = [
+    { label: "Khách hàng mới", value: "TIER01" },
+    { label: "Khách hàng thân thiết", value: "TIER02" },
+    { label: "Khách hàng lâu năm", value: "TIER03" },
+  ];
+
+  getLoaiKhachHangLabel(maLoaiKH: string): string {
+    const loai = this.loaiKH.find(item => item.value === maLoaiKH);
+    return loai ? loai.label : "Không xác định";
+  }
+
   IsShowPopupEdit: boolean = false;
-  IsShowPopupPrice: boolean = false;
   IsUpdate: boolean = false;
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
     { label: 15, value: 15 },
   ];
-  loaiHangHoa = [
-    { label: "Vui lòng chọn ", value: "" },
-    { label: "Kẹo dừa truyền thống", value: "CAT001" },
-    { label: "Kẹo dừa dẻo", value: "CAT002" },
-    { label: "Kẹo dừa tổng hợp", value: "CAT003" },
-    { label: "Bánh kẹo tổng hợp", value: "CAT004" },
-  ];
   data: DataResult = {
-    product: {},
-    productList: [],
-    priceList:[],
-    price:0,
-    note:'',
+    customer: {},
+    customers: [],
   }
   searchString: string = "";
+
   constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
-    private apiService: APIService, protected globalService: GlobalService,) {
+    private apiService: APIService, protected globalService: GlobalService) {
   }
 
   ngOnInit(): void {
-    this.getData
   }
-  showUpdate(row:any) {
-    this.data.product=deepCopy(row);
+
+  showDetail(maKH: string) {
+    this.GetCustomerByID(maKH);
+    this.maKH = maKH;
     this.IsUpdate = true;
     this.IsShowPopupEdit = true;
   }
 
   showAdd() {
-    this.data.product = {};
-    this.IsUpdate=false;
+    this.data.customer = {};
+    this.IsUpdate = false;
     this.IsShowPopupEdit = true;
   }
 
-  showPrice(maHangHoa:string)
-  {
-    this.getPrice(maHangHoa);
-    this.IsShowPopupPrice=true
-  }
   getData() {
     const body = {
       SearchString: this.searchString,
       PageSize: this.globalService.paging.PageSize,
       PageIndex: this.globalService.paging.PageIndex,
     };
-    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getAllProduct", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "getAllCustomers", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
-          this.data.productList = response.data.productList;
-          this.data.price=this.data.product.giaBan
+          this.data.customers = response.data.customers;
         } else {
 
         }
@@ -109,16 +107,38 @@ export class ProductsComponent {
       }
     });
   }
-  DeleteProduct(maHangHoa: string) {
+
+  GetCustomerByID(maKH: string) {
     const body = {
-      MaHangHoa: maHangHoa,
+      MaKH: maKH,
     };
-    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "DeleteProduct", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "GetCustomerByID", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.customer = response.data.khachHang;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  DeleteCustomer(maKH: string) {
+    const body = {
+      MaKhachHang: maKH,
+    };
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "DeleteCustomer", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.getData();
         } else {
-          
+
         }
       },
       error: (error: any) => {
@@ -129,14 +149,12 @@ export class ProductsComponent {
       }
     });
   }
-  
-  AddProduct(isClose: boolean) {
+
+  AddCustomer(isClose: boolean) {
     const body = {
-      HangHoa: this.data.product,
-      GiaBan:this.data.price,
-      GhiChu:this.data.note,
+      KhachHang: this.data.customer
     };
-    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "AddProduct", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "AddCustomer", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           if (isClose) {
@@ -161,13 +179,11 @@ export class ProductsComponent {
     });
   }
 
-  UpdateProduct(isClose: boolean) {
+  UpdateCustomer(isClose: boolean) {
     const body = {
-      HangHoa: this.data.product,
-      GiaBan: this.data.product.giaBan,
-      GhiChu:this.data.product.ghiChu,
+      KhachHang: this.data.customer,
     };
-    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "UpdateProduct", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "UpdateCustomer", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           if (isClose) {
@@ -192,52 +208,27 @@ export class ProductsComponent {
     });
   }
 
-  saveProduct(isClose: boolean) {
+  saveCustomer(isClose: boolean) {
     if (isClose) {
       if (this.IsUpdate) {
-        this.UpdateProduct(isClose);
+        this.UpdateCustomer(isClose);
       }
       else {
-        this.AddProduct(isClose);
+        this.AddCustomer(isClose);
       }
     }
     else {
       if (this.IsUpdate) {
-        this.UpdateProduct(isClose);
+        this.UpdateCustomer(isClose);
       }
       else {
-        this.AddProduct(isClose);
+        this.AddCustomer(isClose);
       }
     }
   }
-  getPrice(maHangHoa:string)
-  {
-    const body = {
-      MaHangHoa:maHangHoa
-    };
-    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getPriceHistoryProduct", body).subscribe({
-      next: (response: any) => {
-        if (response.status == 1) {
-          this.data.priceList = response.data.priceList;
-        } else {
 
-        }
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => {
-
-      }
-    });
-  }
   closeDialog() {
     this.IsShowPopupEdit = false;
-  }closeDialogPrice() {
-    this.IsShowPopupPrice = false;
-  }
-  toggleExpansion() {
-    this.isExpanded = !this.isExpanded;
   }
 
   onPageChange(event: any) {
