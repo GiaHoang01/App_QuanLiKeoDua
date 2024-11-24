@@ -162,8 +162,24 @@
 /* General Table Styles */
 /* General Table Styles */
 /* Header Styling */
+.custom-table-wrapper {
+  max-height: 150px; /* Chiều cao tối đa của bảng */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc */
+}
 
+/* Table */
+.custom-table {
+  width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+  border-collapse: collapse; /* Gộp viền bảng */
+}
 
+/* Header */
+.custom-table thead {
+  position: sticky; /* Cố định header */
+  top: 0;
+  z-index: 10;
+  background-color: #f8f9fa; /* Màu nền header */
+}
 /* Custom Header Styling */
 .custom-table .p-datatable-thead > tr > th {
   background-color: #f8f9fa; /* Light background color */

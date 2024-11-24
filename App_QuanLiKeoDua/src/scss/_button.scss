@@ -63,6 +63,12 @@
     margin-right: 5px;
     border-radius: 20px !important;
 }
+.btn-green:disabled {
+    background-color: #4caf50; /* Màu xanh lá cây */
+    color: white;
+    cursor: not-allowed; /* Biểu tượng chuột bị chặn */
+    opacity: 0.7; /* Làm nút mờ hơn */
+  }
 /* Style cho btn-blue (màu xanh dương) */
 .btn-blue {
     background-color: #007bff; /* Màu xanh dương */

@@ -301,7 +301,7 @@ export class PurchaseOrderAddComponent implements OnInit {
   
   addNew()
   {
-    this.router.navigate(['/purchaseorder/purchaseOrderAdd'], {
+    this.router.navigate(['/purchaseOrderRequest/purchaseOrderRequestAdd'], {
       queryParams: { id: '', status: 1 },
     });
     this.id = null;
@@ -317,6 +317,13 @@ export class PurchaseOrderAddComponent implements OnInit {
 
   calculateThanhTien(item: any): void {
     item.thanhTien = item.soLuongDat * item.donGia;
+    this.calculateTotal();
+  }
+  calculateTotal() {
+    if (!this.data.purchaseOrderDetail || this.data.purchaseOrderDetail.length === 0) {
+      this.data.purchase.tongTriGia=0;
+    }
+    this.data.purchase.tongTriGia= this.data.purchaseOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
   
 }

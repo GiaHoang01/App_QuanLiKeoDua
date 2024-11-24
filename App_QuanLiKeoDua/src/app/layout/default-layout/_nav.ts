@@ -48,6 +48,18 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Quản lí kho',
+    url: '',
+    icon:"bi bi-database-fill",
+    children:[
+      {
+        name:'Duyệt phiếu nhập',
+        url:'/confirmPurchaseOrder',
+        icon:''
+      }
+    ]
+  },
+  {
     name: 'Tài khoản',
     url: '/accounts',
     icon:"bi bi-person-fill",

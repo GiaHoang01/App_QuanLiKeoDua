@@ -6,6 +6,7 @@ export const routes: Routes = [
     path: 'purchaseOrderRequest',
     loadComponent: () =>
       import('./purchase-order-request/purchase-order-request.component').then((m) => m.PurchaseOrderComponent),
+      data: { title: 'Yêu cầu nhập hàng' }
   },
   {
     path: 'purchaseOrderRequest/purchaseOrderRequestAdd',

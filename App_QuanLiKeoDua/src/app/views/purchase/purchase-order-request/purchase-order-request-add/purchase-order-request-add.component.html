@@ -1,9 +1,19 @@
 <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
-<div class="container" >
+<div class="container">
   <div class="row mb-3">
 
     <!--Phần bên trái các nút-->
     <div class="col-6">
+      <div class="row">
+        <span class="col-3">Trạng thái:</span>
+        <span class="col-9 font-weight-bold" [ngClass]="{
+            'text-success': data.purchase.trangThai === 'Mới tạo',
+            'text-primary': data.purchase.trangThai === 'Hoàn thành một nữa',
+            'text-dark': data.purchase.trangThai === 'Hoàn tất'
+          }">
+          {{ data.purchase.trangThai }}
+        </span>
+      </div>
     </div>
     <!--Kết thúc phần bên trái các nút-->
 
@@ -12,10 +22,15 @@
       <div class="row">
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" (click)="save()">Lưu</button>
+            <button class="btn-orange" *ngIf="this.data.purchase.trangThai=='Hoàn thành một nữa'">
+              Yêu cầu đặt hàng
+            </button>
+            <button class="btn-green" [disabled]="this.data.purchase.trangThai=='Hoàn tất'"
+              (click)="save()">Lưu
+            </button>
             <button class="btn-green">Xuất Excel</button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
-            <button class="btn-blue" [routerLink]="['/purchaseOrderRequest']" >Trở về</button>
+            <button class="btn-blue" [routerLink]="['/purchaseOrderRequest']">Trở về</button>
           </div>
         </div>
       </div>
@@ -30,80 +45,64 @@
       <div class="row mb-2">
         <label class="col-3 col-form-label">Ghi chú:</label>
         <div class="col-9">
-          <textarea class="border-bottom1" [(ngModel)]="this.data.purchase.ghiChu" placeholder="Nhập ghi chú ở đây ..." rows="6"></textarea>
+          <textarea class="border-bottom1" [disabled]="this.data.purchase.trangThai=='Hoàn tất'"
+            [(ngModel)]="this.data.purchase.ghiChu" placeholder="Nhập ghi chú ở đây ..." rows="6"></textarea>
         </div>
       </div>
     </div>
-  
+
     <div class="col-md-6">
       <!-- Mã phiếu nhập -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Mã phiếu nhập:</label>
         <div class="col-9">
-          <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.purchase.maPhieuNhap" />
+          <input class="border-bottom1" [disabled]="this.data.purchase.trangThai=='Hoàn tất'" name="maPhieuNhap"
+            [(ngModel)]="this.data.purchase.maPhieuNhap" />
         </div>
       </div>
-  
+
       <!-- Tên NCC -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Tên NCC:</label>
         <div class="col-9">
-          <app-quick-search 
-            [filterObjectList]="data.vendors" 
-            [fieldShow]="'tenNCC'" 
-            [outputField]="'maNCC'"
-            placeHolder="Nhập tên để tìm" 
-            [(value)]="filter.tenNCC"
-            (selectedEvent)="this.data.purchase.maNCC = $event.maNCC;"
-            [inputClass]="'border-bottom1'" 
-            [hearder]="['Mã NCC', 'Tên NCC']" 
-            [fields]="['maNCC', 'tenNCC']">
+          <app-quick-search [filterObjectList]="data.vendors" [fieldShow]="'tenNCC'" [outputField]="'maNCC'"
+            placeHolder="Nhập tên để tìm" [(value)]="filter.tenNCC"
+            [isDisabled]="this.data.purchase.trangThai=='Hoàn tất'"
+            (selectedEvent)="this.data.purchase.maNCC = $event.maNCC;" [inputClass]="'border-bottom1'"
+            [hearder]="['Mã NCC', 'Tên NCC']" [fields]="['maNCC', 'tenNCC']">
           </app-quick-search>
         </div>
       </div>
-  
+
       <!-- Tên nhân viên -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Tên nhân viên:</label>
         <div class="col-9">
-          <app-quick-search 
-            [filterObjectList]="data.employees" 
-            [fieldShow]="'tenNV'" 
-            [outputField]="'maNV'"
-            placeHolder="Nhập tên để tìm" 
-            [(value)]="filter.tenNV"
-            (selectedEvent)="this.data.purchase.maNV = $event.maNV;"
-            [inputClass]="'border-bottom1'" 
-            [hearder]="['Mã nhân viên', 'Tên nhân viên']" 
-            [fields]="['maNV', 'tenNV']">
+          <app-quick-search [filterObjectList]="data.employees" [fieldShow]="'tenNV'" [outputField]="'maNV'"
+            placeHolder="Nhập tên để tìm" [(value)]="filter.tenNV"
+            [isDisabled]="this.data.purchase.trangThai=='Hoàn tất'"
+            (selectedEvent)="this.data.purchase.maNV = $event.maNV;" [inputClass]="'border-bottom1'"
+            [hearder]="['Mã nhân viên', 'Tên nhân viên']" [fields]="['maNV', 'tenNV']">
           </app-quick-search>
         </div>
       </div>
-  
+
       <!-- Ngày đặt -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Ngày đặt:</label>
         <div class="col-9">
-          <app-date-picker 
-            [(dateValue)]="data.purchase.ngayDat" 
-            [inputClass]="' border-bottom1'" 
-            [isShowTime]="true" 
-            [format]="'DD/MM/YYYY HH:MM'" 
-            [isShowWeek]="false">
+          <app-date-picker [(dateValue)]="data.purchase.ngayDat" [inputClass]="' border-bottom1'" [isShowTime]="true"
+            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" [isDisabled]="this.data.purchase.trangThai=='Hoàn tất'">
           </app-date-picker>
         </div>
       </div>
-  
+
       <!-- Ngày nhập -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Ngày nhập:</label>
         <div class="col-9">
-          <app-date-picker 
-            [(dateValue)]="data.purchase.ngayNhap" 
-            [inputClass]="' border-bottom1'" 
-            [isShowTime]="true" 
-            [format]="'DD/MM/YYYY HH:MM'" 
-            [isShowWeek]="false">
+          <app-date-picker [(dateValue)]="data.purchase.ngayNhap" [inputClass]="' border-bottom1'" [isShowTime]="true"
+            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" [isDisabled]="this.data.purchase.trangThai=='Hoàn tất'">
           </app-date-picker>
         </div>
       </div>
@@ -114,61 +113,88 @@
   <!-- Phần nội dung ở dưới đây-->
   <div class="row mb-3">
     <div class="col-12">
-      <table class="custom-table table table-bordered table-hover table-edit">
-        <thead>
-          <tr>
-            <th class="STT">#</th>
-            <th class="code-lg" >Mã hàng</th>
-            <th class="text-sm">Tên hàng</th>
-            <th class="number text-center">Số lượng đặt</th>
-            <th class="number text-center">Đơn giá</th>
-            <th class="number text-center">Thành tiền</th>
-            <th class="active-sm"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Kiểm tra nếu không có dữ liệu, hiển thị thông báo -->
-          <tr *ngIf="data.purchaseOrderDetail.length === 0">
-            <td colspan="7" class="text-center">Không có dữ liệu</td>
-          </tr>
-      
-          <!-- Hiển thị dữ liệu nếu có -->
-          <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
-            <td class="STT">{{i + 1}}</td>
-            <td>
-              <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
-                [filterObjectList]="this.data.products"
-                (CallBackEvent)="quickSearchHangHoa($event)" [inputClass]="'form-control code-lg'"
-                (selectedEvent)="onSelectItem($event,i)" [(value)]="item.maHangHoa" 
-                [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']" styleField="isExpiryDate"
-                [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
-              </app-quick-search>
-            </td>
-            <td class="text-sm text-left">{{item.tenHangHoa}}</td>
-            <td class="number">
-              <input type="number" [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i" (ngModelChange)="calculateThanhTien(item)">
-            </td>
-            <td class="number">
-              <input type="number"  [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i" (ngModelChange)="calculateThanhTien(item)">
-            </td>
-            <td class="number">
-              <input type="number" [(ngModel)]="item.thanhTien" class="form-control" [name]="'thanhTien'+i" [readonly]="true">
-            </td>
-            <td alignFrozen="right" pFrozenColumn class="active-sm">
-              <button class="btn btn-link px-1" type="button" title="Xóa" (click)="deleteRow(i)"><i class="bi bi-trash3-fill"></i></button>
-            </td>
-          </tr>
-      
-          <!-- Thêm dòng điều khiển -->
-          <tr class="row-control">
-            <td colspan="999">
-              <button class="btn-green" (click)="onAddRow()">Thêm (F12)</button>
-              <span>| </span>
-              <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="custom-table-wrapper">
+        <table class="custom-table table table-bordered table-hover table-edit">
+          <thead>
+            <tr>
+              <th class="STT">#</th>
+              <th class="code-lg">Mã hàng</th>
+              <th class="text-sm">Tên hàng</th>
+              <th class="number text-center">Số lượng đặt</th>
+              <th class="number text-center">Đơn giá</th>
+              <th class="number text-center">Thành tiền</th>
+              <th class="active-sm"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Kiểm tra nếu không có dữ liệu, hiển thị thông báo -->
+            <tr *ngIf="data.purchaseOrderDetail.length === 0">
+              <td colspan="7" class="text-center">Không có dữ liệu</td>
+            </tr>
+
+            <!-- Hiển thị dữ liệu nếu có -->
+            <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
+              <td class="STT">{{i + 1}}</td>
+              <td *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
+                <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
+                  [filterObjectList]="this.data.products" (CallBackEvent)="quickSearchHangHoa($event)"
+                  [inputClass]="'form-control code-lg'" (selectedEvent)="onSelectItem($event,i)"
+                  [(value)]="item.maHangHoa" [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']"
+                  styleField="isExpiryDate" [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
+                </app-quick-search>
+              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'">
+                {{item.maHangHoa}}
+              </td>
+              <td class="text-sm text-left">{{item.tenHangHoa}}</td>
+              <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
+                <input type="number" [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i"
+                  (ngModelChange)="calculateThanhTien(item)">
+              </td>
+              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+                {{item.soLuongDat}}
+              </td>
+              <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
+                <input type="number" [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i"
+                  (ngModelChange)="calculateThanhTien(item)">
+              </td>
+              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+                {{item.donGia}}
+              </td>
+              <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
+                <input type="number" [(ngModel)]="item.thanhTien" class="form-control text-right" [name]="'thanhTien'+i"
+                  [readonly]="true">
+              </td>
+              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+                {{item.thanhTien}}
+              </td>
+              <td alignFrozen="right" pFrozenColumn class="active-sm">
+                <button class="btn btn-link px-1" type="button" title="Xóa"
+                  [disabled]="this.data.purchase.trangThai=='Hoàn tất'" (click)="deleteRow(i)"><i
+                    class="bi bi-trash3-fill"></i></button>
+              </td>
+            </tr>
+
+            <!-- Thêm dòng điều khiển -->
+            <tr class="row-control" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
+              <td colspan="999">
+                <button class="btn-green" (click)="onAddRow()">Thêm (F12)</button>
+                <span>| </span>
+                <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-6">
+      <div class="row">
+        <span class="col-3">Tổng trị giá:</span>
+        <span class="col-3">
+          <input type="number"disabled="true" [(ngModel)]="this.data.purchase.tongTriGia" class="border-bottom1" name="tongTriGia">
+        </span>
+      </div>
     </div>
   </div>
   <!-- Kết thúc phần nội dung ở dưới đây-->
