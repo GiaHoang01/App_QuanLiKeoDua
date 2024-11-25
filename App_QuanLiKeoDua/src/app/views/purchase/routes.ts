@@ -3,14 +3,21 @@ import { Routes } from '@angular/router';
 // Routes chính
 export const routes: Routes = [
   {
-    path: 'purchaseorder',
+    path: 'purchaseOrderRequest',
     loadComponent: () =>
-      import('./purchase-order/purchase-order.component').then((m) => m.PurchaseOrderComponent),
+      import('./purchase-order-request/purchase-order-request.component').then((m) => m.PurchaseOrderComponent),
+      data: { title: 'Yêu cầu nhập hàng' }
   },
   {
-    path: 'purchaseorder/purchaseOrderAdd',
+    path: 'purchaseOrderRequest/purchaseOrderRequestAdd',
     loadComponent: () =>
-      import('./purchase-order/purchase-order-add/purchase-order-add.component').then((m) => m.PurchaseOrderAddComponent),
-      data: { title: 'Cập nhật phiếu mua hàng' }
+      import('./purchase-order-request/purchase-order-request-add/purchase-order-request-add.component').then((m) => m.PurchaseOrderAddComponent),
+      data: { title: 'Cập nhật phiếu yêu cầu nhập hàng' }
   },
+  {
+    path: 'purchaseOrder',  
+    loadComponent: () =>
+      import('./purchase-order/purchase-order.component').then((m) => m.PurchaseOrderComponent),
+      data: { title: 'Phiếu nhập hàng' }
+  }
 ];

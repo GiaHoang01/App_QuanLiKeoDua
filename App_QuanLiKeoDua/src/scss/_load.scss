@@ -1,0 +1,43 @@
+/* Custom loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);  /* Semi-transparent background */
+  display: none;  /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears above other content */
+}
+
+/* Circle Pulsing with Color Fade */
+.custom-spinner {
+  width: 80px;
+  height: 80px;
+  border: 8px solid transparent;
+  border-radius: 50%;
+  border-top: 8px solid #3498db;
+  animation: pulseColor 2s ease-in-out infinite, spin 0.4s linear infinite;
+}
+
+/* Pulse and color fade animation */
+@keyframes pulseColor {
+  0% {
+    border-top-color: #3498db;
+  }
+  100% {
+    border-top-color: #3498db;
+  }
+}
+
+/* Spin animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

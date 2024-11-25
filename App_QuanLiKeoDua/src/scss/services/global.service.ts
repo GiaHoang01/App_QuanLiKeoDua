@@ -10,5 +10,21 @@ export class GlobalService {
   constructor() {
     this.paging = new Paging();
   }
+  OnLoadpage() {
+    const el = document.getElementById('PageLoading');
+    if (el) el.style.display = 'flex';
+  }
+
+  OffLoadpage() {
+    const el = document.getElementById('PageLoading');
+    if (el) {
+      setTimeout(() => {
+        el.style.display = 'none';
+      }, 1000);
+    }
+  }
+  
+  
+  
 }
 

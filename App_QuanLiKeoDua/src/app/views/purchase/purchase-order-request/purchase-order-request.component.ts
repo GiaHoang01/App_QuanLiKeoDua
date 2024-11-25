@@ -24,8 +24,8 @@ interface DataResult {
   selector: 'app-purchase-order',
   standalone: true,
   imports: [RouterModule,ButtonModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
-  templateUrl: './purchase-order.component.html',
-  styleUrl: './purchase-order.component.scss'
+  templateUrl: './purchase-order-request.component.html',
+  styleUrl: './purchase-order-request.component.scss'
 })
 export class PurchaseOrderComponent  implements OnInit{
   isExpanded: boolean = false;
@@ -66,7 +66,7 @@ export class PurchaseOrderComponent  implements OnInit{
       ToDate:this.filters.toDate
     };
     this.globalService.OnLoadpage();
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getAllPurchaseOrder", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getAllPurchaseOrderRequest", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;

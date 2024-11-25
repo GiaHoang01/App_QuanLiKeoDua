@@ -161,14 +161,33 @@
 /* General Table Styles */
 /* General Table Styles */
 /* General Table Styles */
+/* Header Styling */
+.custom-table-wrapper {
+  max-height: 150px; /* Chiều cao tối đa của bảng */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc */
+}
+
+/* Table */
+.custom-table {
+  width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+  border-collapse: collapse; /* Gộp viền bảng */
+}
+
+/* Header */
+.custom-table thead {
+  position: sticky; /* Cố định header */
+  top: 0;
+  z-index: 10;
+  background-color: #f8f9fa; /* Màu nền header */
+}
+/* Custom Header Styling */
 .custom-table .p-datatable-thead > tr > th {
   background-color: #f8f9fa; /* Light background color */
   color: #212529; /* Dark text for readability */
-  text-align: center; /* Center align the header text */
   font-weight: bold; /* Make header text bold */
-  padding: 10px; /* Add padding for better spacing */
 }
 
+/* Row Styling */
 .custom-table .p-datatable-row {
   background-color: #ffffff; /* White row background */
   transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
@@ -178,17 +197,40 @@
   background-color: #f0f8ff; /* Light blue hover */
 }
 
-/* Body cells style */
-.custom-table .p-datatable-tbody > tr > td {
-  padding: 10px; /* Add padding for better cell spacing */
-  text-align: center; /* Center align text in cells */
+/* Column-specific width and alignment */
+
+/* Small text column (for both th and td) */
+.custom-table .text-sm {
+  width: 300px !important;
+  text-align: center;
 }
 
-.custom-table .p-datatable-tbody .p-datatable-cell {
-  vertical-align: middle; /* Align text vertically in the center */
+.custom-table .code-lg {
+  width: 300px !important;
+  text-align: center;
 }
 
-/* Table Footer Styles - Dynamic column count handling */
+.custom-table .STT {
+  min-width: 20px !important;
+  text-align: center;
+}
+
+/* Active small column (for both th and td) */
+.custom-table.active-sm {
+  width: 20px !important;
+  min-width: 34px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+
+/* Phone column (for both th and td) */
+.custom-table .active-sm {
+  width: 30px !important;
+  text-align: center;
+}
+
+/* Table Footer Styling */
 .custom-table .p-datatable-footer {
   background-color: #f8f9fa; /* Light background */
   padding: 15px 0; /* Padding around footer */
@@ -196,11 +238,12 @@
   border-top: 1px solid #ddd; /* Light border at the top */
 }
 
-/* Adjust the footer based on the number of columns */
+/* Footer button and content styling */
 .custom-table .p-datatable-footer td {
-  padding: 10px; /* Equal padding around footer cells */
-  width: 100%; /* Take up full width */
-  display: table-cell;
+  display: flex;
+  justify-content: center; /* Center the buttons in the footer */
+  gap: 20px; /* Space between the buttons */
+  width: 100%; /* Ensure footer spans the entire table width */
 }
 
 .custom-table .p-datatable-footer td .btn-link {
@@ -217,7 +260,7 @@
   color: #0056b3; /* Darker text color on hover */
 }
 
-/* Ensure footer buttons stretch across the entire width */
+/* Footer layout */
 .custom-table .p-datatable-footer td {
   display: flex;
   justify-content: center; /* Center the buttons in the footer */
@@ -225,40 +268,7 @@
   width: 100%; /* Ensure footer spans the entire table width */
 }
 
+/* Separator between footer buttons */
 .custom-table .p-datatable-footer .btn-link + span {
   color: #888; /* Soft separator color */
-}
-
-
-
-.custom-table .text-sm{
-  width: 100px;
-  text-align: center;
-}
-
-.custom-table .text-position{
-  width: 150px;
-  text-align: center;
-}
-
-.custom-table.active-sm{
-  width: 34px;
-  min-width: 34px;
-  text-wrap: nowrap;
-  text-align: center;
-}
-
-.custom-table .text-sex{
-  min-width: 100px !important;
-  text-align: center;
-}
-
-.custom-table.text-address{
-  min-width: 300px !important;
-  text-align: center;
-}
-
-.custom-table .text-phone{
-  min-width: 150px !important;
-  text-align: center;
 }

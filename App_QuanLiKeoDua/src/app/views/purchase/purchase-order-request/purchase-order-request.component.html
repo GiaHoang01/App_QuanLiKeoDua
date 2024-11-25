@@ -17,42 +17,36 @@
         </div>
         <div class="form-group col-sm-4">
           <label class="font-weight-bold">Tìm kiếm</label>
-          <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
+          <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search" placeholder="Mã/Họ và tên/Số điện thoại">
+        </div>
+      </div>
+      <div class="row mb-2" *ngIf="isExpanded">
+        <div class="form-group col-sm-4">
+          <label class="font-weight-bold">Tìm kiếm</label>
+          <input name="SearchString" class="form-control clearable" type="search"
             placeholder="Mã/Họ và tên/Số điện thoại">
         </div>
       </div>
-      <!-- <div class="row mb-2" *ngIf="isExpanded">
-          <div class="form-group col-sm-4">
-            <label class="font-weight-bold">Tìm kiếm</label>
-            <input name="SearchString" class="form-control clearable" type="search"
-              placeholder="Mã/Họ và tên/Số điện thoại">
-          </div>
-        </div> -->
     </div>
     <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
       <div class="btn-group mr-2">
-        <button class="btn-green" (click)="onSearch()">Tìm</button>
+        <button class="btn-green"(click)="onSearch()">Tìm</button>
         <button (click)="toggleExpansion()" class="btn-green">
           <i class="bi bi-funnel-fill"></i>
         </button>
-        <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']"
-          [queryParams]="{id:'',status:1}">Thêm mới</button>
+        <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']" [queryParams]="{id:'',status:1}">Thêm mới</button>
       </div>
-
+      
     </div>
   </div>
-  <div class="ColorByStatus">
-    <ul>
-      <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
-      <li class="DotRowBlue"><span data-text="Hoàn thành một nữa"></span></li>
-      <li class="DotRowBlack"><span data-text="Hoàn tất"></span></li>
-    </ul>
-  </div>
+
+
+
   <!-- Phần nội dung ở dưới đây-->
   <div class="row">
     <div class="col-12">
-      <p-table [value]="this.data.purchaseOrders" [(selection)]="selectedProduct" selectionMode="single" showGridlines
-        [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
+      <p-table [value]="this.data.purchaseOrders" [(selection)]="selectedProduct" selectionMode="single" showGridlines [sortOrder]="-1"
+        [scrollable]="true" scrollHeight="500px" rowHover="true">
         <ng-template pTemplate="header">
           <tr>
             <th pFrozenColumn pSortableColumn="maPhieuNhap" class="header-min">
@@ -85,29 +79,20 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-purchase>
-          <tr [pSelectableRow]="purchase" [ngClass]="{
-              'DotRowGreen': purchase.trangThai == 'Mới tạo',
-              'DotRowBlue': purchase.trangThai == 'Hoàn tất một nửa',
-              'DotRowBlack': purchase.trangThai == 'Hoàn tất'
-            }">
+          <tr [pSelectableRow]="purchase">
             <td pFrozenColumn>{{ purchase.maPhieuNhap }}</td>
             <td class="text-center" [appFormatDate]="purchase.ngayNhap" format="dateFilter"></td>
-            <td class="text-right">{{ purchase.tongTriGia }}</td>
+            <td class="text-right">{{ purchase.tongTriGia}}</td>
             <td>{{ purchase.maNV }}</td>
             <td>{{ purchase.maNCC }}</td>
             <td>{{ purchase.ghiChu }}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
-              <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']"
-                [queryParams]="{ id: purchase.maPhieuNhap, status: 2 }">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <button class="btn btn-link px-1" type="button" title="Xóa">
-                <i class="bi bi-trash3-fill"></i>
-              </button>
+                <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"
+                [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']" [queryParams]="{id:purchase.maPhieuNhap,status:2}"
+                  ><i class="bi bi-pencil-square"></i></button>
+                <button class="btn btn-link px-1" type="button"title="Xóa"><i class="bi bi-trash3-fill"></i></button>         
             </td>
           </tr>
-
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>

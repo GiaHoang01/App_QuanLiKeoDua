@@ -12,6 +12,11 @@ import { UtilsService } from '../../../../../scss/services/untils.service';
 import { TableModule } from 'primeng/table';
 import { API_ENDPOINT } from '../../../../../environments/environments';
 import { AppQuickSearchComponent } from '../../../../components/app-quick-search/app-quick-search.component';
+import { SidebarModule } from 'primeng/sidebar'; 
+import { NgScrollbarModule } from 'ngx-scrollbar'; 
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
 interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
@@ -28,15 +33,19 @@ interface Filters{
 @Component({
   selector: 'app-purchase-order-add',
   standalone: true,
-  imports: [RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
-  templateUrl: './purchase-order-add.component.html',
-  styleUrls: ['./purchase-order-add.component.scss']
+  imports: [ SidebarModule,ToastModule,Ripple,
+  NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
+  templateUrl: './purchase-order-request-add.component.html',
+  providers: [MessageService],
+  styleUrls: ['./purchase-order-request-add.component.scss']
 })
 
 export class PurchaseOrderAddComponent implements OnInit {
   id: string | null = null;
   status:number=0;
-  constructor(private route: ActivatedRoute,private router: Router, protected utilsService: UtilsService,private apiService: APIService, protected globalService: GlobalService) { }
+  constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
+  protected utilsService: UtilsService,private apiService: APIService,
+   protected globalService: GlobalService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
@@ -49,7 +58,6 @@ export class PurchaseOrderAddComponent implements OnInit {
     tenNCC:"",
     tenNV:"",
   }
-  
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
@@ -66,7 +74,8 @@ export class PurchaseOrderAddComponent implements OnInit {
       MaPhieuNhap:this.id,
       Status:this.status
     };
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrder_ByID", body).subscribe({
+  this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrderRequest_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
          if(this.status==2)
@@ -95,7 +104,7 @@ export class PurchaseOrderAddComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
-
+        this.globalService.OffLoadpage();
       }
     });
   }
@@ -106,10 +115,10 @@ export class PurchaseOrderAddComponent implements OnInit {
       PurchaseOrderDetail:this.data.purchaseOrderDetail,
       Status:this.status
     };
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrderRequest", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-        
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
 
         }
@@ -292,7 +301,7 @@ export class PurchaseOrderAddComponent implements OnInit {
   
   addNew()
   {
-    this.router.navigate(['/purchaseorder/purchaseOrderAdd'], {
+    this.router.navigate(['/purchaseOrderRequest/purchaseOrderRequestAdd'], {
       queryParams: { id: '', status: 1 },
     });
     this.id = null;
@@ -304,6 +313,17 @@ export class PurchaseOrderAddComponent implements OnInit {
     this.quickSearchNhaCungCap();
     this.quickSearchHangHoa();
     this.getData();
+  }
+
+  calculateThanhTien(item: any): void {
+    item.thanhTien = item.soLuongDat * item.donGia;
+    this.calculateTotal();
+  }
+  calculateTotal() {
+    if (!this.data.purchaseOrderDetail || this.data.purchaseOrderDetail.length === 0) {
+      this.data.purchase.tongTriGia=0;
+    }
+    this.data.purchase.tongTriGia= this.data.purchaseOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
   
 }

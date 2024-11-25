@@ -1,0 +1,67 @@
+/* Tổng thể cho danh sách */
+.ColorByStatus {
+    padding: 10px;
+    margin: 0;
+    list-style: none; /* Xóa gạch đầu dòng */
+  }
+  
+  /* Hiển thị danh sách ngang */
+  .ColorByStatus ul {
+    display: flex; /* Sắp xếp các mục nằm ngang */
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    gap: 20px; /* Khoảng cách giữa các trạng thái */
+  }
+  
+  .ColorByStatus li {
+    display: flex;
+    align-items: center; /* Căn giữa biểu tượng và văn bản theo trục dọc */
+    font-size: 14px; /* Cỡ chữ */
+    color: #333; /* Màu chữ mặc định */
+  }
+  
+  /* Dot Styles (Các điểm màu sắc) */
+  .ColorByStatus li::before {
+    content: '';
+    display: inline-block;
+    width: 12px; /* Đường kính của chấm */
+    height: 12px;
+    border-radius: 50%; /* Tạo hình tròn */
+    margin-right: 8px; /* Khoảng cách giữa chấm và văn bản */
+  }
+  
+  /* Màu sắc theo trạng thái */
+  .DotRowGreen::before {
+    background-color: #28a745; /* Màu xanh lá */
+  }
+  
+  .DotRowBlue::before {
+    background-color: blue; /* Màu tím */
+  }
+  
+  .DotRowBlack::before {
+    background-color: black; /* Màu nâu */
+  }
+  /* Văn bản hiển thị trạng thái */
+  .ColorByStatus li span::after {
+    content: attr(data-text); /* Lấy dữ liệu từ thuộc tính data-text */
+    margin-left: 4px; /* Khoảng cách giữa span và văn bản */
+    color: inherit; /* Giữ nguyên màu chữ của cha */
+    font-weight: 500; /* In đậm nhẹ */
+  }
+  /* Màu xanh lá cây cho trạng thái "Mới tạo" */
+.DotRowGreen {
+    color: #28a745 !important; /* Chữ màu xanh lá đậm */
+  }
+  
+  /* Màu xanh dương cho trạng thái "Hoàn tất một nửa" */
+  .DotRowBlue {
+    color: #007bff !important; /* Chữ màu xanh dương đậm */
+  }
+  
+  /* Màu đen cho trạng thái "Hoàn tất" */
+  .DotRowBlack {
+    color: #212529 !important; /* Chữ màu đen */
+  }
+  

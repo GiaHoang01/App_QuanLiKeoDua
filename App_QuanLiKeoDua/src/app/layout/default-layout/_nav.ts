@@ -41,13 +41,30 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Mua hàng',
+    name: 'Nhập hàng',
     url: '',
     icon:"bi bi-box-seam-fill",
     children:[
       {
+        name:'Yêu cầu nhập hàng',
+        url:'/purchaseOrderRequest',
+        icon:''
+      },
+      {
         name:'Phiếu nhập hàng',
-        url:'/purchaseorder',
+        url:'/purchaseOrder',
+        icon:''
+      },
+    ]
+  },
+  {
+    name: 'Quản lí kho',
+    url: '',
+    icon:"bi bi-database-fill",
+    children:[
+      {
+        name:'Duyệt phiếu nhập',
+        url:'/confirmPurchaseOrder',
         icon:''
       },
       {

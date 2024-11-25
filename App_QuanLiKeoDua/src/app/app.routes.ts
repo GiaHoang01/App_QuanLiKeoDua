@@ -19,13 +19,10 @@ export const routes: Routes = [
       },
       {
         path: 'accounts',
-        data: {
-          title: 'Tài khoản'
-        },
         loadChildren: () => import('./views/accounts/routes').then((m) => m.routes)
       },
       {
-        path: '',
+        path: 'saleorder',
         data: {
           title: 'Đơn đặt hàng'
         },
@@ -33,54 +30,33 @@ export const routes: Routes = [
       },
       {
         path: 'employee',
-        data: {
-          title: 'Nhân viên'
-        },
         loadChildren: () => import('./views/employees/routes').then((m) => m.routes)
       },
       {
         path: '',
-        data: {
-          title: 'Phiếu nhập hàng'
-        },
         loadChildren: () => import('./views/purchase/routes').then((m) => m.routes)
       },
       {
         path: 'product',
-        data: {
-          title: 'Hàng hóa'
-        },
         loadChildren: () => import('./views/products/routes').then((m) => m.routes)
       },
       {
         path: 'customer',
-        data: {
-          title: 'Khách hàng'
-        },
         loadChildren: () => import('./views/customers/routes').then((m) => m.routes)
       },
       {
         path: '',
-        data: {
-          title: 'Duyệt Đơn hàng'
-        },
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
         path: '',
-        data: {
-          title: 'Phiếu giao hàng'
-        },
-        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/stock/routes').then((m) => m.routes)
       }, 
     ]
   },
   {
     path: 'login',
     loadComponent: () => import('./views/pages/login/login.component').then(m => m.LoginComponent),
-    data: {
-      title: 'Login Page'
-    }
   },
-  { path: '**', redirectTo: 'login' } 
+  { path: '**', redirectTo: 'login' }
 ];

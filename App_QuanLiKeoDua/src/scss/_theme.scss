@@ -4,6 +4,9 @@ body {
   color:gray !important;
   font-weight: bold !important;
 }
+.p-popover {
+  z-index: 10000; /* Đảm bảo rằng Popover có z-index cao hơn các phần tử khác */
+}
 
 .wrapper {
   width: 100%;
@@ -27,6 +30,14 @@ body {
   line-height: 1.5;
   appearance: none;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.border-bottom1:disabled {
+  background-color: #f8f8f8; /* Màu nền xám nhạt */
+  color: #999999; /* Màu chữ xám */
+  border: 1px solid #ddd; /* Viền nhạt hơn */
+  cursor: not-allowed; /* Biểu tượng chuột bị chặn */
+  opacity: 0.7; /* Làm mờ textarea */
 }
 
 .border-end1{

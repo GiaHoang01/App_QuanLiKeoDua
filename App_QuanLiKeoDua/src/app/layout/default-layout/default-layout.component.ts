@@ -11,9 +11,9 @@ import {
   SidebarHeaderComponent,
   SidebarNavComponent,
   SidebarToggleDirective,
-  SidebarTogglerDirective
+  SidebarTogglerDirective,
 } from '@coreui/angular';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
 
@@ -30,6 +30,7 @@ function isOverflown(element: HTMLElement) {
   styleUrls: ['./default-layout.component.scss'],
   standalone: true,
   imports: [
+    ProgressSpinnerModule,
     SidebarComponent,
     SidebarHeaderComponent,
     SidebarBrandComponent,
