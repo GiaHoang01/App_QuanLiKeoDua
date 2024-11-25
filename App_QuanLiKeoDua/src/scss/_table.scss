@@ -97,7 +97,9 @@
     --p-datatable-paginator-bottom-border-width: 1px;
   }
 
-
+  .p-datatable-table-container{
+    max-height: 300px !important;
+  }
 
 .p-datatable-table-container .text-sm{
   width: 100px;
@@ -164,13 +166,14 @@
 /* Header Styling */
 .custom-table-wrapper {
   max-height: 150px; /* Chiều cao tối đa của bảng */
-  overflow-y: auto; /* Hiển thị thanh cuộn dọc */
+  overflow: auto; /* Hiển thị thanh cuộn dọc */
 }
 
 /* Table */
 .custom-table {
   width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
-  border-collapse: collapse; /* Gộp viền bảng */
+  border-collapse: collapse;
+  overflow: auto; /* Gộp viền bảng */
 }
 
 /* Header */

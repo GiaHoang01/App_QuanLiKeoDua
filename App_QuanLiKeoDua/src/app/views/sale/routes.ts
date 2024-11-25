@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
-    path: 'saleorder',
+    path: '',
     loadComponent: () => import('./saleorder/saleorder.component').then(m => m.SaleorderComponent),
     data: {title: 'Đơn đặt hàng' }
   },

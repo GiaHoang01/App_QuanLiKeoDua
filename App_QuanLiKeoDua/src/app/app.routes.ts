@@ -50,7 +50,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        loadChildren: () => import('./views/stock/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
       }, 
     ]
   },

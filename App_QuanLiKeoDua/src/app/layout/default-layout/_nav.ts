@@ -55,6 +55,11 @@ export const navItems: INavData[] = [
         url:'/purchaseOrder',
         icon:''
       },
+      {
+        name:'Duyệt phiếu nhập',
+        url:'/confirmPurchaseOrder',
+        icon:''
+      },
     ]
   },
   {
@@ -62,11 +67,6 @@ export const navItems: INavData[] = [
     url: '',
     icon:"bi bi-database-fill",
     children:[
-      {
-        name:'Duyệt phiếu nhập',
-        url:'/confirmPurchaseOrder',
-        icon:''
-      },
       {
         name:'Phiếu giao hàng',
         url:'/shippingnote',
