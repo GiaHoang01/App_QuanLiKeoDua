@@ -9,7 +9,7 @@
                 <div class="form-group col-sm-4">
                     <label class="font-weight-bold">Tìm kiếm</label>
                     <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
-                        placeholder="Họ và tên">
+                        placeholder="Số điện thoại">
                 </div>
             </div>
         </div>
@@ -136,6 +136,13 @@
                     <p-dropdown [options]="loaiKH" [(ngModel)]="data.customer.maLoaiKH" optionLabel="label"
                         optionValue="value" placeholder="--Vui lòng chọn--">
                     </p-dropdown>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="gender">Số điện thoại</label>
+                    <input type="text" p-inputtext name="tenTaiKhoan" class="border-bottom1"
+                        [(ngModel)]="data.customer.sdt" tabindex="3">
                 </div>
             </div>
         </div>
