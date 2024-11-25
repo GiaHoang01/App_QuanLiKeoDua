@@ -90,7 +90,7 @@
                 <button class="btn btn-link px-1"type="button" title="Chỉnh sửa"
                 [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']" [queryParams]="{id:purchase.maPhieuNhap,status:2}"
                   ><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-link px-1" type="button"title="Xóa"><i class="bi bi-trash3-fill"></i></button>         
+                <button class="btn btn-link px-1" type="button"title="Xóa" (click)="showDialog(purchase.maPhieuNhap)"><i class="bi bi-trash3-fill"></i></button>         
             </td>
           </tr>
         </ng-template>
@@ -108,3 +108,40 @@
     </div>
   </div>
 </div>
+
+
+
+
+<p-dialog 
+    header="Header" 
+    [(visible)]="IsShowPopupDelete" 
+    [modal]="true" 
+    class="sm">
+  
+  <!-- Header Template -->
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
+      <span class="font-bold white-space-nowrap text-xl">
+        Thông báo
+      </span>
+    </div>
+  </ng-template>
+
+<!-- Content Template -->
+<ng-template pTemplate="content">
+  <div class="row" style="padding-bottom: 10px;">
+    <span>Bạn có chắc muốn xóa ?</span>
+  </div>
+</ng-template>
+  <!-- Footer Template -->
+  <ng-template pTemplate="footer">
+    <div class="border-style-top">
+      <button type="submit" (click)="deletePurchaseOrder()" class="btn-green">
+        Đồng ý
+      </button>
+      <button type="button" class="btn-red"  (click)="close()">
+        Hủy
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>

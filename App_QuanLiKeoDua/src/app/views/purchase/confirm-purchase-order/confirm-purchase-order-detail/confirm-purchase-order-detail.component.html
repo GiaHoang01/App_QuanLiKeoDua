@@ -9,7 +9,7 @@
         <span class="col-9 font-weight-bold" [ngClass]="{
             'text-success': data.purchase.trangThai === 'Mới tạo',
             'text-primary': data.purchase.trangThai === 'Hoàn tất một nữa',
-            'text-dark': data.purchase.trangThai === 'Hoàn tất',
+            'DotRowPurple': data.purchase.trangThai === 'Đặt lại hàng thiếu',
           }">
           {{ data.purchase.trangThai }}
         </span>
@@ -22,11 +22,11 @@
       <div class="row">
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" [disabled]="this.data.purchase.trangThai=='Hoàn tất'" (click)="save()">Lưu
+            <button class="btn-green" *ngIf="this.data.purchase.trangThai!='Hoàn tất'"
+              (click)="confirm()">Xác nhận
             </button>
-            <button class="btn-green">Xuất Excel</button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
-            <button class="btn-blue" [routerLink]="['/purchaseOrderRequest']">Trở về</button>
+            <button class="btn-blue" [routerLink]="['/confirmPurchaseOrder']">Trở về</button>
           </div>
         </div>
       </div>
@@ -117,6 +117,7 @@
               <th class="code-lg">Mã hàng</th>
               <th class="text-sm">Tên hàng</th>
               <th class="number text-center">Số lượng đặt</th>
+              <th class="number text-center">Số lượng nhận</th>
               <th class="number text-center">Đơn giá</th>
               <th class="number text-center">Thành tiền</th>
               <th class="active-sm"></th>
@@ -131,36 +132,24 @@
             <!-- Hiển thị dữ liệu nếu có -->
             <tr *ngFor="let item of data.purchaseOrderDetail; let i = index">
               <td class="STT">{{i + 1}}</td>
-              <td *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
-                <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
-                  [filterObjectList]="this.data.products" (CallBackEvent)="quickSearchHangHoa($event)"
-                  [inputClass]="'form-control code-lg'" (selectedEvent)="onSelectItem($event,i)"
-                  [(value)]="item.maHangHoa" [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']"
-                  styleField="isExpiryDate" [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
-                </app-quick-search>
-              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'">
+              <td>
                 {{item.maHangHoa}}
               </td>
               <td class="text-sm text-left">{{item.tenHangHoa}}</td>
-              <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
-                <input type="number" [(ngModel)]="item.soLuongDat" class="form-control" [name]="'soLuong'+i"
-                  (ngModelChange)="calculateThanhTien(item)">
-              </td>
-              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+              <td class="text-right">
                 {{item.soLuongDat}}
               </td>
               <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
-                <input type="number" [(ngModel)]="item.donGia" class="form-control" [name]="'donGia'+i"
+                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i"
                   (ngModelChange)="calculateThanhTien(item)">
               </td>
               <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+                {{item.soLuong}}
+              </td>
+              <td class="text-right">
                 {{item.donGia}}
               </td>
-              <td class="number" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
-                <input type="number" [(ngModel)]="item.thanhTien" class="form-control text-right" [name]="'thanhTien'+i"
-                  [readonly]="true">
-              </td>
-              <td *ngIf="this.data.purchase.trangThai=='Hoàn tất'" class="text-right">
+              <td  class="text-right">
                 {{item.thanhTien}}
               </td>
               <td alignFrozen="right" pFrozenColumn class="active-sm">
@@ -188,8 +177,7 @@
       <div class="row">
         <span class="col-3">Tổng trị giá:</span>
         <span class="col-3">
-          <input type="number" disabled="true" [(ngModel)]="this.data.purchase.tongTriGia" class="border-bottom1"
-            name="tongTriGia">
+          <input type="number"disabled="true" [(ngModel)]="this.data.purchase.tongTriGia" class="border-bottom1" name="tongTriGia">
         </span>
       </div>
     </div>

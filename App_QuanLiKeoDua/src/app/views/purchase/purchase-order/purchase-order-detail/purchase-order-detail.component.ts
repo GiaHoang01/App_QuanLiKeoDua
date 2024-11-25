@@ -31,16 +31,16 @@ interface Filters{
 }
 
 @Component({
-  selector: 'app-purchase-order-add',
+  selector: 'app-purchase-order-detail',
   standalone: true,
   imports: [ SidebarModule,ToastModule,Ripple,
   NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
-  templateUrl: './purchase-order-request-add.component.html',
   providers: [MessageService],
-  styleUrls: ['./purchase-order-request-add.component.scss']
+  templateUrl: './purchase-order-detail.component.html',
+  styleUrl: './purchase-order-detail.component.scss'
 })
 
-export class PurchaseOrderAddComponent implements OnInit {
+export class PurchaseOrderDetailComponent implements OnInit {
   id: string | null = null;
   status:number=0;
   constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
@@ -80,7 +80,6 @@ export class PurchaseOrderAddComponent implements OnInit {
         if (response.status == 1) {
          if(this.status==2)
          {
-          console.log(response);
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
@@ -110,6 +109,31 @@ export class PurchaseOrderAddComponent implements OnInit {
     });
   }
 
+  maPhieuMoi:string="";
+  createNew_PurchaseUnderSelling()
+  {
+    const body = {
+      MaPhieuNhap:this.data.purchase.maPhieuNhap
+    };
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "CreateNewPurchaseOrder", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.maPhieuMoi=response.data.maPhieuNhap;
+          this.router.navigate(['/purchaseOrderRequest/purchaseOrderRequestAdd'], {
+            queryParams: { id: this.maPhieuMoi, status: 2 },
+          });
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+      }
+    });
+  }
+  
   save() {
     console.log(this.data.purchase);
     console.log(this.data.purchaseOrderDetail);
@@ -121,7 +145,6 @@ export class PurchaseOrderAddComponent implements OnInit {
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder_Request", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          console.log(response);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
 
