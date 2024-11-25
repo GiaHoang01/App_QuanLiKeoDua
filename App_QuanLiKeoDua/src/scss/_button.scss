@@ -84,6 +84,14 @@
     background-color: orange; /* Màu cam */
     color: white;
     padding: 5px 10px;
+    margin-right: 5px;
     min-width: 50px;
     border-radius: 20px !important;
 }
+.btn-orange:disabled {
+    background-color: orange; /* Màu xanh lá cây */
+    color: white;
+    cursor: not-allowed; /* Biểu tượng chuột bị chặn */
+    opacity: 0.7; /* Làm nút mờ hơn */
+    border: none;
+  }

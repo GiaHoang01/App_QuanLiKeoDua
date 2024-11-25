@@ -12,51 +12,51 @@ import { UtilsService } from '../../../../../scss/services/untils.service';
 import { TableModule } from 'primeng/table';
 import { API_ENDPOINT } from '../../../../../environments/environments';
 import { AppQuickSearchComponent } from '../../../../components/app-quick-search/app-quick-search.component';
-import { SidebarModule } from 'primeng/sidebar'; 
-import { NgScrollbarModule } from 'ngx-scrollbar'; 
+import { SidebarModule } from 'primeng/sidebar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 interface DataResult {
-  purchase:any,
+  purchase: any,
   purchaseOrderDetail: any[],
-  employees:[],
-  vendors:[],
-  products:[]
+  employees: [],
+  vendors: [],
+  products: []
 }
 
-interface Filters{
-  tenNCC:any,
-  tenNV:any
+interface Filters {
+  tenNCC: any,
+  tenNV: any
 }
 
 @Component({
-  selector: 'app-purchase-order-add',
+  selector: 'app-confirm-purchase-order-detail',
   standalone: true,
-  imports: [ SidebarModule,ToastModule,Ripple,
-  NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
-  templateUrl: './purchase-order-request-add.component.html',
+  imports: [SidebarModule, ToastModule, Ripple,
+    NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
-  styleUrls: ['./purchase-order-request-add.component.scss']
+  templateUrl: './confirm-purchase-order-detail.component.html',
+  styleUrl: './confirm-purchase-order-detail.component.scss'
 })
 
-export class PurchaseOrderAddComponent implements OnInit {
+export class ConfirmPurchaseOrderDetailComponent implements OnInit {
   id: string | null = null;
-  status:number=0;
-  constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
-  protected utilsService: UtilsService,private apiService: APIService,
-   protected globalService: GlobalService) { }
+  status: number = 0;
+  constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
+    protected utilsService: UtilsService, private apiService: APIService,
+    protected globalService: GlobalService) { }
   data: DataResult = {
-    purchase:{},
+    purchase: {},
     purchaseOrderDetail: [],
-    vendors:[],
-    employees:[],
-    products:[]
+    vendors: [],
+    employees: [],
+    products: []
   }
 
-  filter:Filters={
-    tenNCC:"",
-    tenNV:"",
+  filter: Filters = {
+    tenNCC: "",
+    tenNV: "",
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -71,32 +71,29 @@ export class PurchaseOrderAddComponent implements OnInit {
 
   getData() {
     const body = {
-      MaPhieuNhap:this.id,
-      Status:this.status
+      MaPhieuNhap: this.id,
+      Status: this.status
     };
-  this.globalService.OnLoadpage();
+    this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getPurchaseOrderRequest_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-         if(this.status==2)
-         {
-          console.log(response);
-          this.data.purchase = response.data.phieuNhap;
-          this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
-          this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
-          this.GetEmployeeByID(response.data.phieuNhap.maNV);
-          this.data.purchaseOrderDetail.forEach((item, index) => {
-            this.initEdit(item, index);
-          });
-         }
-         else
-         {
-          this.data.purchaseOrderDetail.forEach((item, index) => {
-            this.initEdit(item, index);
-          });
-          this.data.purchase = response.data.phieuNhap;
-          this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
-         }
+          if (this.status == 2) {
+            this.data.purchase = response.data.phieuNhap;
+            this.data.purchaseOrderDetail = response.data.chiTietPhieuNhap;
+            this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
+            this.GetEmployeeByID(response.data.phieuNhap.maNV);
+            this.data.purchaseOrderDetail.forEach((item, index) => {
+              this.initEdit(item, index);
+            });
+          }
+          else {
+            this.data.purchaseOrderDetail.forEach((item, index) => {
+              this.initEdit(item, index);
+            });
+            this.data.purchase = response.data.phieuNhap;
+            this.data.purchaseOrderDetail = response.data.chiTietPhieuNhap;
+          }
         } else {
 
         }
@@ -110,21 +107,18 @@ export class PurchaseOrderAddComponent implements OnInit {
     });
   }
 
-  save() {
-    console.log(this.data.purchase);
-    console.log(this.data.purchaseOrderDetail);
+  confirm() {
     const body = {
-      PurchaseOrder:this.data.purchase,
-      PurchaseOrderDetail:this.data.purchaseOrderDetail,
-      Status:this.status
+      PurchaseOrder: this.data.purchase,
+      PurchaseOrderDetail: this.data.purchaseOrderDetail
     };
-    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SavePurchaseOrder_Request", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "ConfirmPurchaseOrder", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          console.log(response);
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công', life: 1000 });
+          this.getData();
         } else {
-
+    
         }
       },
       error: (error: any) => {
@@ -220,8 +214,7 @@ export class PurchaseOrderAddComponent implements OnInit {
     });
   }
 
-  quickSearchHangHoa(searchString:string ="")
-  {
+  quickSearchHangHoa(searchString: string = "") {
     const body = {
       SearchString: searchString,
     };
@@ -246,13 +239,13 @@ export class PurchaseOrderAddComponent implements OnInit {
     const body = {
       MaHangHoa: maHangHoa,
     };
-  
+
     this.apiService
       .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getTenHangHoa_withByMaHangHoa", body)
       .subscribe({
         next: (response: any) => {
           if (response.status === 1) {
-            callback(response.data.tenHangHoa);
+            callback(response.data.tenHangHoa); 
           } else {
             console.log("Không lấy được tên hàng hóa");
           }
@@ -266,11 +259,11 @@ export class PurchaseOrderAddComponent implements OnInit {
 
   onAddRow() {
     let tempItem = {
-     maHang:"",
-     tenHang:"",
-     soLuong:0,
-     donGia:0,
-     thanhTien:0
+      maHang: "",
+      tenHang: "",
+      soLuong: 0,
+      donGia: 0,
+      thanhTien: 0
     };
     this.data.purchaseOrderDetail.push(tempItem);
   }
@@ -286,48 +279,40 @@ export class PurchaseOrderAddComponent implements OnInit {
   onSelectItem(itemSelected: any, item: any) {
     this.data.purchaseOrderDetail[item].maHangHoa = itemSelected.maHangHoa;
     this.data.purchaseOrderDetail[item].tenHangHoa = itemSelected.tenHangHoa;
+    this.data.purchaseOrderDetail[item].soLuong = 1;
     this.data.purchaseOrderDetail[item].soLuongDat = 1;
     this.data.purchaseOrderDetail[item].donGia = 0;
     this.data.purchaseOrderDetail[item].thanhTien = 0;
   }
 
-  
+
   initEdit(itemSelected: any, index: number) {
     this.data.purchaseOrderDetail[index].maHangHoa = itemSelected.maHangHoa;
-  
     this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
       this.data.purchaseOrderDetail[index].tenHangHoa = tenHangHoa;
       this.data.purchaseOrderDetail[index].soLuongDat = itemSelected.soLuongDat;
+      this.data.purchaseOrderDetail[index].soLuong = itemSelected.soLuong;
       this.data.purchaseOrderDetail[index].donGia = itemSelected.donGia;
       this.data.purchaseOrderDetail[index].thanhTien = itemSelected.thanhTien;
     });
   }
-  
-  addNew()
-  {
+
+  addNew() {
     this.router.navigate(['/purchaseOrderRequest/purchaseOrderRequestAdd'], {
       queryParams: { id: '', status: 1 },
     });
-    this.id = null;
-    this.status = 1; 
-    this.data.purchase = {};
-    this.data.purchaseOrderDetail = [];
-    this.filter = { tenNCC: '', tenNV: '' };
-    this.quickSearchNhanVien();
-    this.quickSearchNhaCungCap();
-    this.quickSearchHangHoa();
-    this.getData();
   }
 
   calculateThanhTien(item: any): void {
-    item.thanhTien = item.soLuongDat * item.donGia;
+    item.thanhTien = item.soLuong * item.donGia;
     this.calculateTotal();
   }
+  
   calculateTotal() {
     if (!this.data.purchaseOrderDetail || this.data.purchaseOrderDetail.length === 0) {
-      this.data.purchase.tongTriGia=0;
+      this.data.purchase.tongTriGia = 0;
     }
-    this.data.purchase.tongTriGia= this.data.purchaseOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
+    this.data.purchase.tongTriGia = this.data.purchaseOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
-  
+
 }

@@ -21,13 +21,13 @@
             placeholder="Mã/Họ và tên/Số điện thoại">
         </div>
       </div>
-      <!-- <div class="row mb-2" *ngIf="isExpanded">
-          <div class="form-group col-sm-4">
-            <label class="font-weight-bold">Tìm kiếm</label>
-            <input name="SearchString" class="form-control clearable" type="search"
-              placeholder="Mã/Họ và tên/Số điện thoại">
-          </div>
-        </div> -->
+      <div class="row mb-2" *ngIf="isExpanded">
+        <div class="form-group col-sm-4">
+          <label class="font-weight-bold">Tìm kiếm</label>
+          <input name="SearchString" class="form-control clearable" type="search"
+            placeholder="Mã/Họ và tên/Số điện thoại">
+        </div>
+      </div>
     </div>
     <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
       <div class="btn-group mr-2">
@@ -41,14 +41,15 @@
 
     </div>
   </div>
+
   <div class="ColorByStatus">
     <ul>
       <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
       <li class="DotRowBlue"><span data-text="Hoàn tất một nữa"></span></li>
-      <li class="DotRowBlack"><span data-text="Hoàn tất"></span></li>
       <li class="DotRowPurble"><span data-text="Đặt lại hàng thiếu"></span></li>
     </ul>
   </div>
+
   <!-- Phần nội dung ở dưới đây-->
   <div class="row">
     <div class="col-12">
@@ -87,29 +88,22 @@
         </ng-template>
         <ng-template pTemplate="body" let-purchase>
           <tr [pSelectableRow]="purchase" [ngClass]="{
-              'DotRowGreen': purchase.trangThai == 'Mới tạo',
-              'DotRowBlue': purchase.trangThai == 'Hoàn tất một nữa',
-              'DotRowBlack': purchase.trangThai == 'Hoàn tất',
-              'DotRowPurple': purchase.trangThai == 'Đặt lại hàng thiếu',
-            }">
+                'DotRowGreen': purchase.trangThai == 'Mới tạo',
+                'DotRowBlue': purchase.trangThai == 'Hoàn tất một nữa',
+                'DotRowPurple': purchase.trangThai == 'Đặt lại hàng thiếu',
+              }">
             <td pFrozenColumn>{{ purchase.maPhieuNhap }}</td>
             <td class="text-center" [appFormatDate]="purchase.ngayNhap" format="dateFilter"></td>
-            <td class="text-right">{{ purchase.tongTriGia }}</td>
+            <td class="text-right">{{ purchase.tongTriGia}}</td>
             <td>{{ purchase.maNV }}</td>
             <td>{{ purchase.maNCC }}</td>
             <td>{{ purchase.ghiChu }}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                [routerLink]="['/purchaseOrder/purchaseOrderDetail']"
-                [queryParams]="{ id: purchase.maPhieuNhap, status: 2 }">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <button class="btn btn-link px-1" type="button" title="Xóa">
-                <i class="bi bi-trash3-fill"></i>
-              </button>
+                [routerLink]="['/confirmPurchaseOrder/confirmPurchaseOrderDetail']"
+                [queryParams]="{id:purchase.maPhieuNhap,status:2}"><i class="bi bi-pencil-square"></i></button>
             </td>
           </tr>
-
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>

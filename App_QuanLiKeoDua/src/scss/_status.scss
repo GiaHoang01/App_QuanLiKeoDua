@@ -37,7 +37,11 @@
   }
   
   .DotRowBlue::before {
-    background-color: blue; /* Màu tím */
+    background-color: blue; 
+  }
+
+  .DotRowPurble::before{
+    background-color: purple; /* Màu tím */
   }
   
   .DotRowBlack::before {
@@ -58,6 +62,9 @@
   /* Màu xanh dương cho trạng thái "Hoàn tất một nửa" */
   .DotRowBlue {
     color: #007bff !important; /* Chữ màu xanh dương đậm */
+  }
+  .DotRowPurple{
+    color: purple !important;
   }
   
   /* Màu đen cho trạng thái "Hoàn tất" */
