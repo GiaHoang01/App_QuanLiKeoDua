@@ -92,7 +92,7 @@
                         <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
                         <td class="text-right">{{ order.tongTriGia}}</td>
                         <td>{{ order.maNV }}</td>
-                        <td>{{ order.temNV }}</td>
+                        <td>{{ order.tenNV }}</td>
                         <td>{{ order.maKhachHang }}</td>
                         <td>{{ order.tenKhachHang }}</td>
                         <td>{{ order.maHinhThuc }}</td>
@@ -100,8 +100,8 @@
                         <td>{{ order.ngayThanhToan }}</td>
                         <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
-                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa" (click)="showUpdate(order)"><i
-                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
+                                (click)="showUpdate(order)"><i class="bi bi-pencil-square"></i></button>
                             <button class="btn btn-link px-1" type="button" title="Xóa"><i
                                     class="bi bi-trash3-fill"></i></button>
                         </td>
@@ -121,5 +121,3 @@
         </div>
     </div>
 </div>
-
-
