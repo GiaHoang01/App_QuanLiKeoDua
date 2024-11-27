@@ -29,7 +29,7 @@ export class LoginComponent {
   };
 
   constructor(private router: Router, private apiService: APIService, private authService: AuthService) { }
-
+//#region  hàm
   login() {
     let hasError = false;
 
@@ -109,4 +109,5 @@ export class LoginComponent {
       }
     });
   }
+//#endregion 
 }

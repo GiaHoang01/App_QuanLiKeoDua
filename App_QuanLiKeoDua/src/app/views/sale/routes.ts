@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./saleorder/saleorder.component').then(m => m.SaleorderComponent),
-    data: {title: 'Đơn đặt hàng' ,requiredPermission: 'VIEW_SALE_ORDER'},
+    data: {title: 'Đơn đặt hàng' ,requiredPermission: 'Xem tài khoản'},
     canActivate: [PermissionGuard],
   },
   {

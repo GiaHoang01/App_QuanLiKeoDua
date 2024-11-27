@@ -1,14 +1,17 @@
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { RowComponent, ColComponent, TextColorDirective, CardComponent, CardHeaderComponent, CardBodyComponent } from '@coreui/angular';
 import { isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, PLATFORM_ID, ChangeDetectorRef, inject, effect } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { API_ENDPOINT } from '../../../../environments/environments';
 import { APIService } from '../../../../scss/services/api.service';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'], // Fix typo here
+  styleUrls: ['./home.component.scss'],
   standalone: true,
   imports: [
     ChartModule,
@@ -34,7 +37,7 @@ export class HomeComponent implements OnInit {
   years = [2023, 2024, 2025];
   thuData!: any[];
   chiData!: any[];
-  constructor(private cd: ChangeDetectorRef, private apiService: APIService) { }
+  constructor( private apiService: APIService, private titleService: Title,  private route: ActivatedRoute) { }
 
   formatCurrency(value: number): string {
     return new Intl.NumberFormat('vi-VN', {
@@ -43,6 +46,9 @@ export class HomeComponent implements OnInit {
     }).format(value);
   }
   ngOnInit() {
+    const title = this.route.snapshot.data['title'];
+    this.titleService.setTitle(title);
+    console.log(this.titleService.getTitle());
     this.thuData = [];
     this.chiData = [];
     this.GetTotalCompletedOrders();
@@ -54,15 +60,13 @@ export class HomeComponent implements OnInit {
 
   getDataAndInitChart() {
     const years = this.years;
-  
+
     Promise.all([
       this.getTotalExpensesByYear(years),
       this.getTotalRevenueByYear(years),
     ]).then(() => {
       if (this.thuData.length === years.length && this.chiData.length === years.length) {
-        // Đảm bảo dữ liệu đầy đủ trước khi khởi tạo
         this.initChart();
-        this.cd.detectChanges(); // Cập nhật giao diện
       } else {
         console.error('Data is incomplete:', { thuData: this.thuData, chiData: this.chiData });
       }
@@ -70,19 +74,17 @@ export class HomeComponent implements OnInit {
       console.error('Error fetching data for chart:', error);
     });
   }
-  
+
 
   initChart() {
     if (isPlatformBrowser(this.platformId)) {
-      console.log('Thu Data:', this.thuData); // Log kiểm tra dữ liệu thu
-      console.log('Chi Data:', this.chiData); // Log kiểm tra dữ liệu chi
-  
+
       const profitData = this.thuData.map((thu, index) => thu - this.chiData[index]);
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--p-text-color');
       const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
       const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-  
+
       this.data = {
         labels: ['Năm 2023', 'Năm 2024', 'Năm 2025'],
         datasets: [
@@ -116,7 +118,7 @@ export class HomeComponent implements OnInit {
           },
         ],
       };
-  
+
       this.options = {
         maintainAspectRatio: false,
         aspectRatio: 1,
@@ -148,26 +150,24 @@ export class HomeComponent implements OnInit {
       };
     }
   }
-  
+
 
   //#region call api 
   getTotalRevenueByYear(years: number[]): Promise<void> {
     return new Promise((resolve, reject) => {
       let pendingRequests = years.length;
-      this.thuData = []; // Reset dữ liệu trước khi gọi API
-      years.forEach((year) => {
+      this.thuData = Array(years.length).fill(0); // Khởi tạo mảng với giá trị mặc định là 0
+      years.forEach((year, index) => {
         const body = { Year: year };
         this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "getTotalRevenueByYear", body).subscribe({
           next: (response: any) => {
             if (response.status === 1) {
-              this.thuData.push(response.data.total);
-            } else {
-              this.thuData.push(0); // Thêm 0 nếu không có dữ liệu
+              this.thuData[index] = response.data.total; // Lưu dữ liệu vào vị trí tương ứng
             }
           },
           error: (error) => {
             console.error(error);
-            this.thuData.push(0);
+            this.thuData[index] = 0; // Nếu lỗi, đặt giá trị mặc định là 0
           },
           complete: () => {
             pendingRequests--;
@@ -177,24 +177,23 @@ export class HomeComponent implements OnInit {
       });
     });
   }
-  
+
+
   getTotalExpensesByYear(years: number[]): Promise<void> {
     return new Promise((resolve, reject) => {
       let pendingRequests = years.length;
-      this.chiData = []; // Reset dữ liệu trước khi gọi API
-      years.forEach((year) => {
+      this.chiData = Array(years.length).fill(0); // Khởi tạo mảng với giá trị mặc định là 0
+      years.forEach((year, index) => {
         const body = { Year: year };
         this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getTotalExpensesByYear", body).subscribe({
           next: (response: any) => {
             if (response.status === 1) {
-              this.chiData.push(response.data.total);
-            } else {
-              this.chiData.push(0); // Thêm 0 nếu không có dữ liệu
+              this.chiData[index] = response.data.total; // Lưu dữ liệu vào vị trí tương ứng
             }
           },
           error: (error) => {
             console.error(error);
-            this.chiData.push(0);
+            this.chiData[index] = 0; // Nếu lỗi, đặt giá trị mặc định là 0
           },
           complete: () => {
             pendingRequests--;
@@ -204,7 +203,6 @@ export class HomeComponent implements OnInit {
       });
     });
   }
-  
 
   GetTotalCompletedOrders() {
     const body = {

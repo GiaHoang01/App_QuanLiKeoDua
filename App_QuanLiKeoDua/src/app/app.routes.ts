@@ -12,21 +12,21 @@ export const routes: Routes = [
     component: DefaultLayoutComponent,
     children: [
       {
-        path: 'home',
+        path: '',
         loadChildren: () => import('./views/home/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' ,title:'Trang chủ'},
+        data: { requiredPermission: 'Xem tài khoản' ,title:'Trang chủ'},
         canActivate: [PermissionGuard],
       },
       {
         path: 'pages',
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
       },
       {
         path: 'accounts',
         loadChildren: () => import('./views/accounts/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
       },
       {
@@ -56,7 +56,7 @@ export const routes: Routes = [
       {
         path: 'customer',
         loadChildren: () => import('./views/customers/routes').then((m) => m.routes),
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
+        data: { requiredPermission: 'Xem phiếu nhập hàng' },
         canActivate: [PermissionGuard],
       },
       {
@@ -81,6 +81,7 @@ export const routes: Routes = [
   },
   {
     path: 'login',
+    title:'Trang chủ',
     loadComponent: () => import('./views/pages/login/login.component').then(m => m.LoginComponent),
   },
   { path: '**', redirectTo: 'login' }

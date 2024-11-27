@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./customers/customers.component').then(m => m.CustomersComponent),
-    data: {title: 'Khách hàng' ,requiredPermission: 'VIEW_SALE_ORDER'},
+    data: {title: 'Khách hàng' ,requiredPermission: 'Xem tài khoản'},
     canActivate: [PermissionGuard],
   }
 ];

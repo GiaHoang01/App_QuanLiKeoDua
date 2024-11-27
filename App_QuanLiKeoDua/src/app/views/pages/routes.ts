@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./login/login.component').then(m => m.LoginComponent),
-    data: {title: 'Danh sách phiếu nhập' ,requiredPermission: 'VIEW_SALE_ORDER'},
+    data: {title: 'Danh sách phiếu nhập' ,requiredPermission: 'Xem tài khoản'},
     canActivate: [PermissionGuard],
   }
 ];
