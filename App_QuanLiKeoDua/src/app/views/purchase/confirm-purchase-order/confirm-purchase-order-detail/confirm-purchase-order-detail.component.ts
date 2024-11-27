@@ -255,7 +255,7 @@ export class ConfirmPurchaseOrderDetailComponent implements OnInit {
         },
       });
   }
-
+  
 
   onAddRow() {
     let tempItem = {
