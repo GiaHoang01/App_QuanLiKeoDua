@@ -16,6 +16,8 @@ import { AppQuickSearchComponent } from '../../../components/app-quick-search/ap
 import { SelectModule } from 'primeng/select';
 import { deepCopy } from '@angular-devkit/core/src/utils/object';
 import { TransactionFilter } from '../../../interfaces/listfilter';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 interface filters extends TransactionFilter
 {
@@ -27,12 +29,19 @@ interface filters extends TransactionFilter
 interface DataResult {
   saleInvoiceOrders: any[],
   saleInvoiceOrder:any,
+  saleInvoiceOrderDetail:any[],
+  employees:any[]
+}
+interface Filters{
+  tenKH:any,
+  tenNV:any
 }
 
 @Component({
   selector: 'app-confirmsaleorder',
   standalone: true,
-  imports: [SelectModule,AppQuickSearchComponent, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
+  providers: [MessageService],
+  imports: [SelectModule,AppQuickSearchComponent,ToastModule, DatePickerComponent, ButtonModule, TableModule, CommonModule, PaginatorComponent, FormsModule, DialogModule, FormatDateDirective],
   templateUrl: './confirmsaleorder.component.html',
   styleUrl: './confirmsaleorder.component.scss'
 })
@@ -51,12 +60,18 @@ export class ConfirmsaleorderComponent {
     { label: 10, value: 10 },
     { label: 15, value: 15 },
   ];
-  filters!: filters;
+  filter:Filters={
+    tenNV:"",
+    tenKH:"",
+  }
+  filters!:filters
   data: DataResult = {
     saleInvoiceOrders: [],
-    saleInvoiceOrder:{}
+    saleInvoiceOrder:{},
+    saleInvoiceOrderDetail:[],
+    employees:[]
   }
-  constructor(private route: ActivatedRoute,protected utilsService: UtilsService,
+  constructor(private route: ActivatedRoute,protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 
@@ -106,7 +121,6 @@ export class ConfirmsaleorderComponent {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
           this.data.saleInvoiceOrders = response.data.saleInvoiceList;
-          console.log(this.data.saleInvoiceOrders)
         } else {
 
         }
@@ -117,9 +131,114 @@ export class ConfirmsaleorderComponent {
       complete: () => {
       }
     });
+    this.quickSearchNhanVien();
   }
-  showUpdate(row:any) {
-    this.data.saleInvoiceOrder=deepCopy(row);
+  getDetail(maHoaDon:string) {
+    const body = {
+      MaHoaDon:maHoaDon,
+      Status:2
+    };
+  this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "getSaleInvoice_ByID", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
+          this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+          // this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
+          this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
+          this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
+          this.data.saleInvoiceOrderDetail.forEach((item, index) => {
+            this.initEdit(item, index);
+          });
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.globalService.OffLoadpage();
+      }
+    });
+  }
+  initEdit(itemSelected: any, index: number) {
+    this.data.saleInvoiceOrderDetail[index].maHangHoa = itemSelected.maHangHoa;
+    this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
+      this.data.saleInvoiceOrderDetail[index].tenHangHoa = tenHangHoa;
+      this.data.saleInvoiceOrderDetail[index].soLuong = itemSelected.soLuong;
+      this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
+      this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
+    });
+  }
+  // quickSearchHangHoa(searchString: string = "") {
+  //   const body = {
+  //     SearchString: searchString,
+  //   };
+  //   this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "quickSearchHangHoa", body).subscribe({
+  //     next: (response: any) => {
+  //       if (response.status == 1) {
+  //         this.data.products = response.data.hangHoas;
+  //       } else {
+
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       console.log(error);
+  //     },
+  //     complete: () => {
+
+  //     }
+  //   });
+  // }
+
+  getTenHangHoa_withByMaHangHoa(maHangHoa: string, callback: (tenHangHoa: string) => void) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+
+    this.apiService
+      .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getTenHangHoa_withByMaHangHoa", body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status === 1) {
+            callback(response.data.tenHangHoa); 
+          } else {
+            console.log("Không lấy được tên hàng hóa");
+          }
+        },
+        error: (error: any) => {
+          console.error("Lỗi khi gọi API: ", error);
+        },
+      });
+  }
+  quickSearchNhanVien(searchString: string = '') {
+    const body = {
+      SearchString: searchString,
+    };
+    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "quickSearchNhanVien", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.data.employees = response.data.nhanViens;
+          console.log(this.data.employees)
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  closeDialog() {
+    this.IsShowPopupEdit = false;
+  }
+  showUpdate(maHoaDon:string) {
+    //this.data.saleInvoiceOrder=deepCopy(row);
+    this.getDetail(maHoaDon);
     this.IsUpdate = true;
     this.IsShowPopupEdit = true;
   }
@@ -128,5 +247,99 @@ export class ConfirmsaleorderComponent {
     this.data.saleInvoiceOrder = {};
     this.IsUpdate=false;
     this.IsShowPopupEdit = true;
+  }
+  GetEmployeeByID(maNV: string) {
+    const body = {
+      MaNV: maNV,
+    };
+    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "GetEmployeeByID", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.filter.tenNV = response.data.employeeAccount.tenNV;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  GetCustomerByID(maKH: string) {
+    const body = {
+      MaKH: maKH,
+    };
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "GetCustomerByID", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.filter.tenKH = response.data.khachHang.tenKhachHang;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  ConfirmSaleInvoice()
+  {
+    const body = {
+      MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
+      MaNV:this.data.saleInvoiceOrder.maNV
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "ConfirmSaleInvoice", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.closeDialog();
+          this.getData();
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.closeDialog();
+          this.getData();
+        }
+      },
+      
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  CancelSaleInvoice()
+  {
+    const body = {
+      MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
+      MaNV:this.data.saleInvoiceOrder.maNV
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "CancelSaleInvoice", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.closeDialog();
+          this.getData();
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.closeDialog();
+          this.getData();
+        }
+      },
+      
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
   }
 }

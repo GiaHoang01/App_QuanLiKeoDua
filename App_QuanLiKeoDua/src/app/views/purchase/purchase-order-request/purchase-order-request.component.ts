@@ -14,7 +14,7 @@ import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from '@coreui/angular';
+import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 import { ConfirmationService } from 'primeng/api';
 interface filters extends TransactionFilter
@@ -100,10 +100,15 @@ export class PurchaseOrderComponent  implements OnInit{
       next: (response: any) => {
         if (response.status == 1) {
           this.IsShowPopupDelete=false;
-          this.getData();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công',life:1000 });
+          this.getData();
         } else {
-
+          this.messageService.add({
+            severity: 'error', 
+            summary: 'Error',
+            detail: response.data.message, 
+            life: 1000
+        });
         }
       },
       error: (error: any) => {
