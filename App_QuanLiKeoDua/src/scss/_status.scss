@@ -47,6 +47,10 @@
   .DotRowBlack::before {
     background-color: black; /* Màu nâu */
   }
+
+  .DotRowRed::before {
+    background-color: red; /* Màu đỏ */
+  }
   /* Văn bản hiển thị trạng thái */
   .ColorByStatus li span::after {
     content: attr(data-text); /* Lấy dữ liệu từ thuộc tính data-text */
@@ -71,4 +75,10 @@
   .DotRowBlack {
     color: #212529 !important; /* Chữ màu đen */
   }
+
+  /* Màu đỏ cho trạng thái "Chưa hoàn thành" */
+  .DotRowRed {
+    color: red !important; /* Chữ màu đỏ */
+  }
+  
   

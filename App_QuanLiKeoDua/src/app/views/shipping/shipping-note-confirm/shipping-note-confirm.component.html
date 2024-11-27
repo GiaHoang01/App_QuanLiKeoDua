@@ -44,9 +44,6 @@
     <div class="ColorByStatus">
       <ul>
         <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
-        <li class="DotRowBlue"><span data-text="Đang giao"></span></li>
-        <li class="DotRowBlack"><span data-text="Hoàn tất"></span></li>
-        <li class="DotRowRed"><span data-text="Chưa hoàn tất"></span></li>
       </ul>
     </div>
     <!-- Phần nội dung ở dưới đây-->
@@ -99,7 +96,7 @@
                 [queryParams]="{id:s.MaPhieuGiao, status:2}">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-link px-1" type="button" title="Xóa" [disabled]="s.TrangThai != 'Mới tạo'" (click)="deleteShippingNote(s.MaPhieuGiao)">
+                <button class="btn btn-link px-1" type="button" title="Xóa">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
