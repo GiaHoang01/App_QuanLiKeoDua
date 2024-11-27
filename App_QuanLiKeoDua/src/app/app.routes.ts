@@ -10,16 +10,17 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
-    data: {
-        title: 'Home',
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
-        canActivate: [PermissionGuard],
-    },
     children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./views/home/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem phiếu nhập hàng' ,title:'Trang chủ'},
+        canActivate: [PermissionGuard],
+      },
       {
         path: 'pages',
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes),
-         data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem phiếu nhập hàng' },
         canActivate: [PermissionGuard],
       },
       {
@@ -70,6 +71,12 @@ export const routes: Routes = [
         data: { requiredPermission: 'VIEW_SALE_ORDER' },
         canActivate: [PermissionGuard],
       }, 
+      {
+        path: 'home', 
+        loadChildren: () => import('./views/home/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        canActivate: [PermissionGuard],
+      },
     ]
   },
   {

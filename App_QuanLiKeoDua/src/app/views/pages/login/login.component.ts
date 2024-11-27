@@ -92,7 +92,7 @@ export class LoginComponent {
         if (response.status == 1) {
           this.authService.setPermissions(response.data.quyens);
           if (this.authService.getPermissions().length > 0) {
-            this.router.navigate(['/employee']);
+            this.router.navigate(['/home']);
           } else {
             console.log('No permissions available');
             this.isCheckAccount = false;
