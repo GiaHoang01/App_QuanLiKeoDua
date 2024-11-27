@@ -31,12 +31,14 @@
         </div>
         <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
             <div class="btn-group mr-2">
-                <button class="btn btn-success" style="color: white;">Tìm</button>
-                <button type="button" class="btn btn-success" style="color: white;" (click)="toggleExpansion()">
+                <button class="btn-green" style="color: white;">Tìm</button>
+                <button (click)="toggleExpansion()" class="btn-green">
                     <i class="bi bi-funnel-fill"></i>
-                </button>
+                  </button>
+                <button class="btn-green" [routerLink]="['/saleOrder/saleOrderAdd']"
+                    [queryParams]="{id:'',status:1}">Thêm mới</button>
             </div>
-            <button class="btn btn-success" style="color: white;margin-left: 5px;" data-key="f1">Thêm mới</button>
+            
         </div>
     </div>
 
@@ -100,8 +102,11 @@
                         <td>{{ order.ngayThanhToan }}</td>
                         <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
-                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
-                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
+                                [routerLink]="['/saleOrder/saleOrderDetail']"
+                                [queryParams]="{ id: order.maHoaDon, status: 2 }">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
                             <button class="btn btn-link px-1" type="button" title="Xóa"><i
                                     class="bi bi-trash3-fill"></i></button>
                         </td>

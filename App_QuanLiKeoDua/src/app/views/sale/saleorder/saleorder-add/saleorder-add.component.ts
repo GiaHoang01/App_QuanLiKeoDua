@@ -12,50 +12,50 @@ import { UtilsService } from '../../../../../scss/services/untils.service';
 import { TableModule } from 'primeng/table';
 import { API_ENDPOINT } from '../../../../../environments/environments';
 import { AppQuickSearchComponent } from '../../../../components/app-quick-search/app-quick-search.component';
-import { SidebarModule } from 'primeng/sidebar'; 
-import { NgScrollbarModule } from 'ngx-scrollbar'; 
+import { SidebarModule } from 'primeng/sidebar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 
 interface DataResult {
-  saleInvoiceOrder:any,
+  saleInvoiceOrder: any,
   saleInvoiceOrderDetail: any[],
-  employees:[],
-  customers:[],
-  products:[]
+  employees: [],
+  customers: [],
+  products: []
 }
 
-interface Filters{
-  tenKH:any,
-  tenNV:any
+interface Filters {
+  tenKH: any,
+  tenNV: any
 }
 @Component({
-  selector: 'app-saleorder-detail',
+  selector: 'app-saleorder-add',
   standalone: true,
-  imports: [ SidebarModule,ToastModule,Ripple,
-    NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
+  imports: [SidebarModule, ToastModule, Ripple,
+    NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
-  templateUrl: './saleorder-detail.component.html',
-  styleUrl: './saleorder-detail.component.scss'
+  templateUrl: './saleorder-add.component.html',
+  styleUrl: './saleorder-add.component.scss'
 })
-export class SaleorderDetailComponent {
+export class SaleorderAddComponent {
   id: string | null = null;
-  status:number=0;
-  constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
-  protected utilsService: UtilsService,private apiService: APIService,
-   protected globalService: GlobalService) { }
+  status: number = 0;
+  constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
+    protected utilsService: UtilsService, private apiService: APIService,
+    protected globalService: GlobalService) { }
   data: DataResult = {
-    saleInvoiceOrder:{},
+    saleInvoiceOrder: {},
     saleInvoiceOrderDetail: [],
-    customers:[],
-    employees:[],
-    products:[]
+    customers: [],
+    employees: [],
+    products: []
   }
 
-  filter:Filters={
-    tenKH:"",
-    tenNV:"",
+  filter: Filters = {
+    tenKH: "",
+    tenNV: "",
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -69,21 +69,30 @@ export class SaleorderDetailComponent {
   }
   getData() {
     const body = {
-      MaHoaDon:this.id,
-      Status:this.status
+      MaHoaDon: this.id,
+      Status: this.status
     };
-  this.globalService.OnLoadpage();
+    this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "getSaleInvoice_ByID", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-          this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
-          // this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
-          this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
-          this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
-          this.data.saleInvoiceOrderDetail.forEach((item, index) => {
-            this.initEdit(item, index);
-          });
+          if (this.status == 2) {
+
+            this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
+            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+            this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
+            this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
+            this.data.saleInvoiceOrderDetail.forEach((item, index) => {
+              this.initEdit(item, index);
+            });
+          }
+          else {
+            this.data.saleInvoiceOrderDetail.forEach((item, index) => {
+              this.initEdit(item, index);
+            });
+            this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
+            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+          }
         } else {
 
         }
@@ -98,14 +107,14 @@ export class SaleorderDetailComponent {
   }
   save() {
     const body = {
-      HoaDonBanHang:this.data.saleInvoiceOrder,
-      CTHoaDonBanHang:this.data.saleInvoiceOrderDetail,
-      Status:2
+      HoaDonBanHang: this.data.saleInvoiceOrder,
+      CTHoaDonBanHang: this.data.saleInvoiceOrderDetail,
+      Status: 1
     };
     this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "SaveSaleInvoice", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công', life: 1000 });
         } else {
 
         }
@@ -148,6 +157,7 @@ export class SaleorderDetailComponent {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.employees = response.data.nhanViens;
+          console.log(this.data.employees)
         } else {
 
         }
@@ -200,10 +210,9 @@ export class SaleorderDetailComponent {
       }
     });
   }
-  
 
-  quickSearchHangHoa(searchString:string ="")
-  {
+
+  quickSearchHangHoa(searchString: string = "") {
     const body = {
       SearchString: searchString,
     };
@@ -228,7 +237,7 @@ export class SaleorderDetailComponent {
     const body = {
       MaHangHoa: maHangHoa,
     };
-  
+
     this.apiService
       .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getTenHangHoa_withByMaHangHoa", body)
       .subscribe({
@@ -248,11 +257,11 @@ export class SaleorderDetailComponent {
 
   onAddRow() {
     let tempItem = {
-     maHang:"",
-     tenHang:"",
-     soLuong:0,
-     donGia:0,
-     thanhTien:0
+      maHang: "",
+      tenHang: "",
+      soLuong: 0,
+      donGia: 0,
+      thanhTien: 0
     };
     this.data.saleInvoiceOrderDetail.push(tempItem);
   }
@@ -270,13 +279,13 @@ export class SaleorderDetailComponent {
     this.data.saleInvoiceOrderDetail[item].tenHangHoa = itemSelected.tenHangHoa;
     this.data.saleInvoiceOrderDetail[item].soLuong = 1;
     this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan;
-    this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan*this.data.saleInvoiceOrderDetail[item].soLuong;
+    this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong;
   }
 
-  
+
   initEdit(itemSelected: any, index: number) {
     this.data.saleInvoiceOrderDetail[index].maHangHoa = itemSelected.maHangHoa;
-  
+
     this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
       this.data.saleInvoiceOrderDetail[index].tenHangHoa = tenHangHoa;
       this.data.saleInvoiceOrderDetail[index].soLuong = itemSelected.soLuong;
@@ -284,22 +293,19 @@ export class SaleorderDetailComponent {
       this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
     });
   }
-  
-  addNew()
-  {
+
+  addNew() {
     this.router.navigate(['/saleOrder/saleOrderAdd'], {
       queryParams: { id: '', status: 1 },
     });
     this.id = null;
-    this.status = 1; 
+    this.status = 1;
     this.data.saleInvoiceOrder = {};
     this.data.saleInvoiceOrderDetail = [];
     this.filter = { tenKH: '', tenNV: '' };
     this.quickSearchNhanVien();
     this.quickSearchHangHoa();
-    this.quickSearchKhachHang();
     this.getData();
-    
   }
 
   calculateThanhTien(item: any): void {
@@ -308,8 +314,8 @@ export class SaleorderDetailComponent {
   }
   calculateTotal() {
     if (!this.data.saleInvoiceOrderDetail || this.data.saleInvoiceOrderDetail.length === 0) {
-      this.data.saleInvoiceOrder.tongTriGia=0;
+      this.data.saleInvoiceOrder.tongTriGia = 0;
     }
-    this.data.saleInvoiceOrder.tongTriGia= this.data.saleInvoiceOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
+    this.data.saleInvoiceOrder.tongTriGia = this.data.saleInvoiceOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
 }

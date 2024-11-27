@@ -51,7 +51,7 @@
       <div class="row mb-2">
         <label class="col-3 col-form-label">Mã hóa đơn:</label>
         <div class="col-9">
-          <input class="border-bottom1" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" name="maHoaDon"
+          <input class="border-bottom1" [disabled]="this.data.saleInvoiceOrder.trangThai!=''" name="maHoaDon"
             [(ngModel)]="this.data.saleInvoiceOrder.maHoaDon" />
         </div>
       </div>
@@ -64,7 +64,7 @@
             placeHolder="Nhập tên để tìm" [(value)]="filter.tenKH"
             [isDisabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'"
             (selectedEvent)="this.data.saleInvoiceOrder.maKhachHang = $event.maKhachHang;" [inputClass]="'border-bottom1'"
-            [hearder]="['Mã khách hàng', 'Tên khách hàng']" [fields]="['maKhachHang', 'tenKhachHang']">
+            [hearder]="['Mã KH', 'Tên KH']" [fields]="['maKhachHang', 'tenKhachHang']">
           </app-quick-search>
         </div>
       </div>
@@ -87,17 +87,17 @@
         <label class="col-3 col-form-label">Ngày tạo:</label>
         <div class="col-9">
           <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayBan" [inputClass]="' border-bottom1'" [isShowTime]="true"
-            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" [isDisabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'">
+            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" >
           </app-date-picker>
         </div>
       </div>
 
       <!-- Ngày nhập -->
-      <div class="row mb-2" [hidden]="!this.data.saleInvoiceOrder.ngayThanhToan">
+      <div class="row mb-2">
         <label class="col-3 col-form-label">Ngày thanh toán:</label>
         <div class="col-9">
-          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayThanhToan" [inputClass]="' border-bottom1'" [isShowTime]="true" 
-            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" [isDisabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai.includes('Đã hủy')">
+          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayThanhToan" [inputClass]="' border-bottom1'" [isShowTime]="true"
+            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
           </app-date-picker>
         </div>
       </div>

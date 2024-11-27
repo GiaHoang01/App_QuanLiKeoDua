@@ -11,6 +11,7 @@ import { APIService } from '../../../../scss/services/api.service';
 import { API_ENDPOINT } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
+import { ButtonModule } from 'primeng/button';
 
 interface filters extends TransactionFilter
 {
@@ -25,7 +26,7 @@ interface DataResult {
 @Component({
   selector: 'app-saleorder',
   standalone: true,
-  imports: [RouterModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
+  imports: [RouterModule,ButtonModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
   templateUrl: './saleorder.component.html',
   styleUrl: './saleorder.component.scss'
 })

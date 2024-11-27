@@ -22,10 +22,7 @@ export const routes: Routes = [
         loadChildren: () => import('./views/accounts/routes').then((m) => m.routes)
       },
       {
-        path: 'saleorder',
-        data: {
-          title: 'Đơn đặt hàng'
-        },
+        path: '',
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
@@ -43,10 +40,6 @@ export const routes: Routes = [
       {
         path: 'customer',
         loadChildren: () => import('./views/customers/routes').then((m) => m.routes)
-      },
-      {
-        path: '',
-        loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
         path: '',
