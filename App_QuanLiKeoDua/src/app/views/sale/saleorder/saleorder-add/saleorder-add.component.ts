@@ -91,7 +91,7 @@ export class SaleorderAddComponent {
               this.initEdit(item, index);
             });
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail=response.data.ctHoaDonBanHang;
           }
         } else {
 

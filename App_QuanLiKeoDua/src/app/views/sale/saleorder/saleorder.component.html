@@ -36,7 +36,7 @@
                 <button (click)="toggleExpansion()" class="btn-green">
                     <i class="bi bi-funnel-fill"></i>
                   </button>
-                <button class="btn-green" [routerLink]="['/saleOrder/saleOrderAdd']"
+                <button class="btn-green" [routerLink]="['/saleorder/saleOrderAdd']"
                     [queryParams]="{id:'',status:1}">Thêm mới</button>
             </div>
             
@@ -104,7 +104,7 @@
                         <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
                             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                                [routerLink]="['/saleOrder/saleOrderDetail']"
+                                [routerLink]="['/saleorder/saleOrderDetail']"
                                 [queryParams]="{ id: order.maHoaDon, status: 2 }">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
