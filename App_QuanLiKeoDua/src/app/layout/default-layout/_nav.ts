@@ -40,7 +40,7 @@ export const navItems: INavData[] = [
         name: 'Duyệt đơn hàng',
         url: '/confirmsaleorder',
         icon: '',
-        permission: 'Cập nhật hóa đơn', 
+        permission: 'Xem hóa đơn', 
       }
     ]
   },

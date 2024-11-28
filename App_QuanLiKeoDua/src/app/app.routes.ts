@@ -30,7 +30,7 @@ export const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
-        path: 'saleorder',
+        path: '',
         data: { requiredPermission: 'Xem phiếu nhập hàng' },
         canActivate: [PermissionGuard],
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
@@ -62,9 +62,8 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./views/shipping/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem tài khoản' },
+        data: { requiredPermission: 'VIEW_SALE_ORDER' },
         canActivate: [PermissionGuard],
-
       }, 
       {
         path: 'home', 
