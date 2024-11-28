@@ -42,6 +42,12 @@ export const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
+        path: 'vendor',
+        loadChildren: () => import('./views/vendor/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem nhà cung cấp' },
+        canActivate: [PermissionGuard],
+      },
+      {
         path: '',
         loadChildren: () => import('./views/purchase/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem phiếu nhập hàng' },
