@@ -4,18 +4,20 @@ export const routes: Routes = [
   {
     path: 'shippingnote',
     loadComponent: () => import('./shipping-note/shipping-note.component').then(m => m.ShippingNoteComponent),
-    data: {title: 'Phiếu giao hàng' ,requiredPermission: 'VIEW_SALE_ORDER'},
+    data: {title: 'Phiếu giao hàng' ,requiredPermission: 'Xem tài khoản'},
     canActivate: [PermissionGuard],
   },
   {
     path: 'shippingnote/shippingNoteAdd',
     loadComponent: () => import('./shipping-note/shipping-note-add/shipping-note-add.component').then(m => m.ShippingNoteAddComponent),
-    data: {title: 'Thông tin phiếu giao hàng' }
+    data: {title: 'Thông tin phiếu giao hàng' ,requiredPermission: 'Xem tài khoản'},
+    canActivate: [PermissionGuard],
   },
   {
     path: 'shippingnoteconfirm',
     loadComponent: () => import('./shipping-note-confirm/shipping-note-confirm.component').then(m => m.ShippingNoteConfirmComponent),
-    data: {title: 'Nhận phiếu giao hàng' }
+    data: {title: 'Nhận phiếu giao hàng' ,requiredPermission: 'Xem tài khoản'},
+    canActivate: [PermissionGuard],
   },
 ];
 
