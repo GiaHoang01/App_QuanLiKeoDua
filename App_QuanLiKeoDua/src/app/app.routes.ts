@@ -44,15 +44,6 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
-        canActivate: [PermissionGuard],
-      },
-      {
-        path: '',
-        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem tài khoản' },
-        canActivate: [PermissionGuard],
-
       }, 
     ]
   },

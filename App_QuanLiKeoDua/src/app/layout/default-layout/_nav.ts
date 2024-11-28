@@ -77,14 +77,13 @@ export const navItems: INavData[] = [
       {
         name:'Nhận phiếu giao hàng',
         url:'/shippingnoteconfirm',
-        icon:'',
-        permission: 'Xem tài khoản',
+        icon:''
       },
       {
         name:'Phiếu giao hàng',
         url:'/shippingnote',
         icon:'',
-        permission: 'Xem tài khoản', 
+        permission: 'VIEW_SALE_ORDER', 
       },
     ]
   },
