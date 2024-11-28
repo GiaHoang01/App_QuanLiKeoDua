@@ -61,25 +61,10 @@ export const routes: Routes = [
       },
       {
         path: '',
-<<<<<<< HEAD
-        loadChildren: () => import('./views/shipping/routes').then((m) => m.routes)
-=======
-        loadChildren: () => import('./views/sale/routes').then((m) => m.routes),
->>>>>>> parent of f0c139b (Merge branch 'khanh')
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
-        canActivate: [PermissionGuard],
-      },
-      {
-        path: '',
         loadChildren: () => import('./views/shipping/routes').then((m) => m.routes),
-<<<<<<< HEAD
         data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
 
-=======
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
-        canActivate: [PermissionGuard],
->>>>>>> parent of f0c139b (Merge branch 'khanh')
       }, 
       {
         path: 'home', 
