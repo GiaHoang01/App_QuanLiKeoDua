@@ -40,7 +40,7 @@ export const navItems: INavData[] = [
         name: 'Duyệt đơn hàng',
         url: '/confirmsaleorder',
         icon: '',
-        permission: 'Cập nhật hóa đơn', 
+        permission: 'Xem hóa đơn', 
       }
     ]
   },
@@ -78,15 +78,20 @@ export const navItems: INavData[] = [
         name: 'Phiếu giao hàng',
         url: '/shippingnote',
         icon: '',
-        permission: 'VIEW_SALE_ORDER', 
+        permission: 'Xem tài khoản', 
       }
     ]
+  } ,
+  {
+    name: 'Khuyến mãi',
+    url: '/promotion',
+    icon: "bi bi-gift-fill",
+    permission: 'Xem khuyến mãi',
   },
   {
     name: 'Tài khoản',
     url: '/accounts',
     icon: "bi bi-person-fill",
-    permission: 'VIEW_SALE_ORDER',
+    permission: 'Xem tài khoản',
   }
 ];
-// để ẩn menu trên app

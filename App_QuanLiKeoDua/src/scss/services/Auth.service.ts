@@ -31,18 +31,23 @@ export class AuthService {
     localStorage.removeItem('tenDangNhap');
   }
 
-   // Lưu danh sách quyền vào bộ nhớ
-   setPermissions(permissions: string[]) {
+  setPermissions(permissions: string[]) {
     this.userPermissions = permissions;
+    console.log('Permissions set:', this.userPermissions); // Log danh sách quyền
   }
 
   // Kiểm tra quyền
   hasPermission(permission: string): boolean {
-    return this.userPermissions.includes(permission);
+    const hasPermission = this.userPermissions.includes(permission);
+    console.log(
+      `Checking permission: ${permission} - ${hasPermission ? 'Allowed' : 'Denied'}`
+    ); // Log quyền được kiểm tra và kết quả
+    return hasPermission;
   }
 
-  // Lấy danh sách quyền (nếu cần hiển thị)
+  // Lấy danh sách quyền
   getPermissions(): string[] {
+    console.log('Current user permissions:', this.userPermissions); // Log danh sách quyền hiện tại
     return this.userPermissions;
   }
 }

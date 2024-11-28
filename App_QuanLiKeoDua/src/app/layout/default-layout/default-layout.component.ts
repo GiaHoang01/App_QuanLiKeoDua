@@ -18,8 +18,6 @@ import { DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
 import { AuthService } from '../../../scss/services/Auth.service';
 import { INavData } from '@coreui/angular';
-import { PermissionGuard } from '../../../scss/services/guard.service';
-import { Routes } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,42 +43,70 @@ import { Routes } from '@angular/router';
   ]
 })
 export class DefaultLayoutComponent implements OnInit {
-  public navItems: INavData[] = navItems;
+  public navItems: INavData[] = navItems; // Original menu items
   scrollbar: any;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.filterMenuItems();  // Filter menu items based on permissions
+    this.filterMenuItems(); // Filter the navigation menu based on permissions
   }
 
-  // Filter menu items based on permission
+  /**
+   * Filters the top-level menu items based on permissions
+   */
   filterMenuItems() {
     this.navItems = this.navItems
       .map(item => {
+        // Check if the item has children
         if (item.children && Array.isArray(item.children)) {
-          item.children = this.filterChildren(item.children);  // Filter child items based on permission
+          // Recursively filter child items
+          const filteredChildren = this.filterChildren(item.children);
+
+          // Keep the parent item if it has valid children
+          if (filteredChildren.length > 0) {
+            item.children = filteredChildren;
+            return item;
+          }
+          return null; // Remove parent if no valid children exist
         }
-        // Return item if it has valid children or no children
-        return item.children && item.children.length > 0 ? item : null;
+
+        // Check permission for top-level item
+        const hasPermission = !item.permission || this.authService.hasPermission(item.permission);
+        return hasPermission ? item : null; // Keep if permission exists or none required
       })
-      .filter(item => item !== null);  // Remove invalid items
+      .filter(item => item !== null); // Remove null entries
   }
 
-  // Recursively filter child menu items
+  /**
+   * Recursively filters child menu items based on permissions
+   * @param children Child menu items to filter
+   * @returns Filtered child menu items
+   */
   filterChildren(children: INavData[]): INavData[] {
     return children
       .map(child => {
+        // Recursively filter grandchildren, if any
         if (child.children && Array.isArray(child.children)) {
-          child.children = this.filterChildren(child.children);  // Filter deeper child items
+          const filteredGrandchildren = this.filterChildren(child.children);
+          if (filteredGrandchildren.length > 0) {
+            child.children = filteredGrandchildren;
+            return child;
+          }
+          return null; // Remove child if no valid grandchildren
         }
-        // Check permission before keeping child item
-        return child.permission && this.authService.hasPermission(child.permission) ? child : null;
+
+        // Check permission for child item
+        const hasPermission = !child.permission || this.authService.hasPermission(child.permission);
+        return hasPermission ? child : null; // Keep if permission exists or none required
       })
-      .filter(child => child !== null);  // Remove invalid child items
+      .filter(child => child !== null); // Remove null entries
   }
 
+  /**
+   * Placeholder for scrollbar update functionality (if needed)
+   */
   onScrollbarUpdate() {
-    const scrollbarState = this.scrollbar.scrollbar.getState();
+    const scrollbarState = this.scrollbar?.scrollbar.getState();
   }
 }
