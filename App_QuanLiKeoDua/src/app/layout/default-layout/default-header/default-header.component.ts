@@ -88,6 +88,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Lắng nghe NavigationEnd để cập nhật title khi điều hướng
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -95,19 +96,23 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
       });
   }
 
+  /**
+   * Phương thức cập nhật title dựa trên cấu trúc route con
+   */
   private updateTitle(): void {
     let currentRoute = this.route.snapshot;
     let title = '';
 
+    // Duyệt qua toàn bộ route con để lấy data['title']
     while (currentRoute.firstChild) {
       currentRoute = currentRoute.firstChild;
       if (currentRoute.data && currentRoute.data['title']) {
-        title = currentRoute.data['title']; 
+        title = currentRoute.data['title']; // Lấy title từ route con
       }
     }
 
-    this.title = title || 'Trang chủ'; 
-    this.cdRef.detectChanges();
+    this.title = title || 'Home'; // Nếu không có title, mặc định là 'Home'
+    this.cdRef.detectChanges(); // Cập nhật giao diện
   }
 
   /**

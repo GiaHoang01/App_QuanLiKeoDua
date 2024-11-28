@@ -1,4 +1,3 @@
-<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
 <!-- Container chính cho trang -->
 <div class="container" *ngIf="this.data.purchaseOrders">
   <!-- Phần master -->
@@ -110,11 +109,15 @@
   </div>
 </div>
 
+
+
+
 <p-dialog 
     header="Header" 
     [(visible)]="IsShowPopupDelete" 
     [modal]="true" 
-    >
+    class="sm">
+  
   <!-- Header Template -->
   <ng-template pTemplate="header">
     <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">

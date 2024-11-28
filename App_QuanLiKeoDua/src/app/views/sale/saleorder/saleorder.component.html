@@ -1,3 +1,4 @@
+
 <!-- Container chính cho trang -->
 <div class="container">
 
@@ -31,12 +32,14 @@
         </div>
         <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
             <div class="btn-group mr-2">
-                <button class="btn btn-success" style="color: white;">Tìm</button>
-                <button type="button" class="btn btn-success" style="color: white;" (click)="toggleExpansion()">
+                <button class="btn-green" style="color: white;">Tìm</button>
+                <button (click)="toggleExpansion()" class="btn-green">
                     <i class="bi bi-funnel-fill"></i>
-                </button>
+                  </button>
+                <button class="btn-green" [routerLink]="['/saleOrder/saleOrderAdd']"
+                    [queryParams]="{id:'',status:1}">Thêm mới</button>
             </div>
-            <button class="btn btn-success" style="color: white;margin-left: 5px;" data-key="f1">Thêm mới</button>
+            
         </div>
     </div>
 
@@ -100,9 +103,12 @@
                         <td>{{ order.ngayThanhToan }}</td>
                         <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
-                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"><i
-                                    class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-link px-1" type="button" title="Xóa"><i
+                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
+                                [routerLink]="['/saleOrder/saleOrderDetail']"
+                                [queryParams]="{ id: order.maHoaDon, status: 2 }">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(order.maHoaDon)"><i
                                     class="bi bi-trash3-fill"></i></button>
                         </td>
                     </tr>
@@ -121,3 +127,36 @@
         </div>
     </div>
 </div>
+<p-dialog 
+    header="Header" 
+    [(visible)]="IsShowPopupDelete" 
+    [modal]="true" 
+    class="sm">
+  
+  <!-- Header Template -->
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
+      <span class="font-bold white-space-nowrap text-xl">
+        Thông báo
+      </span>
+    </div>
+  </ng-template>
+
+<!-- Content Template -->
+<ng-template pTemplate="content">
+  <div class="row" style="padding-bottom: 10px;">
+    <span>Bạn có chắc muốn xóa ?</span>
+  </div>
+</ng-template>
+  <!-- Footer Template -->
+  <ng-template pTemplate="footer">
+    <div class="border-style-top">
+      <button type="submit" (click)="deleteSaleInvoiceOrder()" class="btn-green">
+        Đồng ý
+      </button>
+      <button type="button" class="btn-red"  (click)="close()">
+        Hủy
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>

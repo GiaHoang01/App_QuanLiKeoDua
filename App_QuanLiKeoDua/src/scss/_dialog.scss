@@ -29,7 +29,13 @@
   color: var(--p-dialog-color);
 }
 
-
+.p-dialog-content {
+  padding: var(--p-dialog-content-padding);
+  background: var(--p-dialog-background);
+  color: var(--p-dialog-color);
+  overflow: visible !important;
+  width: 1000px !important;
+}
 
 .p-dialog-footer {
   padding: var(--p-dialog-footer-padding);
@@ -47,12 +53,3 @@
   min-width: 500px !important;
 }
 
-.custom-dialog {
-  width: 300px !important; /* Thay đổi giá trị này để điều chỉnh kích thước */
-  max-width: 100% !important; /* Đảm bảo dialog không bị vượt quá màn hình */
-}
-
-.custom-dialog-lg {
-  width: 1000px !important; /* Thay đổi giá trị này để điều chỉnh kích thước */
-  max-width: 100% !important; /* Đảm bảo dialog không bị vượt quá màn hình */
-}

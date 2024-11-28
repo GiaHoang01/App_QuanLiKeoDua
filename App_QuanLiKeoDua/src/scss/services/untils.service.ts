@@ -206,10 +206,108 @@ toNonAccentVietnamese(str: string) {
     return uuid;
   }
 
+  ShowActionHistoryName(action:string) {
+    var name = "";
+    switch (action) {
+        case "post":
+            name = "Ghi sổ";
+            break;
+        case "unpost":
+            name = "Bỏ ghi sổ";
+            break;
+        case "insert":
+            name = "Thêm mới";
+            break;
+        case "update":
+            name = "Cập nhật";
+            break;
+        case "delete":
+            name = "Xóa";
+            break;
+        case "sendrequest":
+            name = "Gửi yêu cầu";
+            break;
+        case "cancelrequest":
+            name = "Hủy yêu cầu";
+            break;
+        case "publish":
+            name = "Phát hành";
+            break;
+        case "replace":
+            name = "Bị Thay thế";
+            break;
+        case "publishreplace":
+            name = "Phát hành HĐ TT";
+            break;
+        case "sign":
+            name = "Ký phát hành";
+            break;
+        case "cancel":
+            name = "Hủy hóa đơn";
+            break;
+        case "print":
+            name = "In";
+            break;
+        case "approval":
+            name = "Kho duyệt";
+            break;
+        case "confirmdebit":
+            name = "Xác nhận nợ quá hạn";
+            break;
+        case "canceldebit":
+            name = "Hủy đơn nợ quá hạn";
+            break;
+        case "voucherrecieve":
+            name = "GH nhận phiếu";
+            break;
+        case "voucherreturn":
+            name = "GH trả lại phiếu";
+            break;
+        case "productrecieve":
+            name = "GH nhận hàng";
+            break;
+        case "nothandout":
+            name = "Không giao được";
+            break;
+        case "handout":
+            name = "Giao đến khách";
+            break;
+        case "handoutany":
+            name = "Có trả lại hàng";
+            break;
+        case "voucherapply":
+            name = "GH nộp phiếu";
+            break;
+        case "releasestock":
+            name = "Xuất kho";
+            break;
+        case "recievestock":
+            name = "Kho nhận hàng";
+            break;
+        case "vacantstock":
+            name = "Kho bấm thiếu hàng";
+            break;
+        case "refuse":
+            name = "Từ chối";
+            break;
+        case "notify":
+            name = "Thông báo nợ";
+            break;
+        case "returntostock":
+            name = "GH giao hàng và phiếu đến kho";
+            break;
+        case "receiveafterstockin":
+            name = "GH nhận lại phiếu từ kho";
+            break;
+        default:
+            name = "";
+            break;
+    }
+    return name;
+  };
   changeDateToDateText(printDate:Date):string {
     return "Ngày " + printDate.getDate() + " tháng " + (printDate.getMonth() + 1) + " năm " + printDate.getFullYear();
   }
-  
   formatNumber00(number:any):string {
     var result = number;
     if (number < 10)
