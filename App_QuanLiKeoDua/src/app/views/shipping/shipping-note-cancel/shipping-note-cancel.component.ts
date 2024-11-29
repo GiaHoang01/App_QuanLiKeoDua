@@ -16,64 +16,56 @@ import { ButtonModule } from 'primeng/button';
 interface filters extends TransactionFilter{}
 
 interface DataResult {
-  shippingNotes: any[],
+  shippingNotesCancel: any[],
 }
 
 @Component({
-  selector: 'app-shipping-note-confirm',
+  selector: 'app-shipping-note-cancel',
   standalone: true,
   imports: [RouterModule,ButtonModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
-  templateUrl: './shipping-note-confirm.component.html',
-  styleUrl: './shipping-note-confirm.component.scss'
+  templateUrl: './shipping-note-cancel.component.html',
+  styleUrl: './shipping-note-cancel.component.scss'
 })
-export class ShippingNoteConfirmComponent implements OnInit {
+export class ShippingNoteCancelComponent implements OnInit {
   isExpanded: boolean = false;
   title: any;
   selectedRow!: any;
   totalRows: number = 0;
   pageSize: number = 1;
   pageIndex: number = 1;
+  
   data: DataResult = {
-    shippingNotes: []
+    shippingNotesCancel: []
   }
   filters!: filters;
   searchString:string="";
 
-  currentDate!: string;
   constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
-  
+
   ngOnInit(): void {
     this.filters = {
       fromDate: this.utilsService.DateAdd(new Date(), -1),
       toDate: this.utilsService.getToDate(),
       searchString: ""
     };
-
-    // Lấy ngày hiện tại dưới dạng chuỗi yyyy-MM-dd để so sánh
-    const now = new Date();
-    this.currentDate = now.toISOString().split('T')[0];
   }
   
   getData() {
     const body = {
-      SearchString: this.searchString,
       PageSize: this.globalService.paging.PageSize,
       PageIndex: this.globalService.paging.PageIndex,
       FromDate:this.filters.fromDate,
       ToDate:this.filters.toDate
     };
     this.globalService.OnLoadpage();
-    this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "getAllShippingNote", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "getAllShippingNoteCancel", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
-          //this.data.shippingNotes = response.data.shippingNotes;
-          this.data.shippingNotes = response.data.shippingNotes.filter((note: any) => 
-            note.TrangThai !== "Hoàn tất" && note.TrangThai !== "Chưa hoàn tất"
-          );
-          console.log("Trạng thái", this.data.shippingNotes);
+          this.data.shippingNotesCancel = response.data.shippingNotesCancel;
+          
         } else {
         }
       },
@@ -85,19 +77,10 @@ export class ShippingNoteConfirmComponent implements OnInit {
       }
     });
   }
-  // // Toggle để phóng to/thu nhỏ phần bộ lọc
-  // toggleExpansion() {
-  //   this.isExpanded = !this.isExpanded;
-  // }
-
-  formatDate(date: string | Date): string {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
-    return `${day}/${month}/${year}`; // Trả về định dạng YYYY-MM-DD
+  // Toggle để phóng to/thu nhỏ phần bộ lọc
+  toggleExpansion() {
+    this.isExpanded = !this.isExpanded;
   }
-  
 
   onPageChange(event: any) {
     this.getData();
@@ -111,4 +94,5 @@ export class ShippingNoteConfirmComponent implements OnInit {
     this.globalService.paging.PageIndex = 1;
     this.getData();
   }
+
 }

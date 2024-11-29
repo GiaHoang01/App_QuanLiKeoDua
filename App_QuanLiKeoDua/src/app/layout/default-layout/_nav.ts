@@ -86,6 +86,12 @@ export const navItems: INavData[] = [
         icon:'',
         permission: 'Xem tài khoản', 
       },
+      {
+        name:'Hủy phiếu giao hàng',
+        url:'/shippingnotecancel',
+        icon:'',
+        permission: 'Xem tài khoản', 
+      },
     ]
   },
   {
