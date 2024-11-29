@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PickListComponent } from './pick-list.component';
+import { VendorComponent } from './vendor.component';
 
-describe('PickListComponent', () => {
-  let component: PickListComponent;
-  let fixture: ComponentFixture<PickListComponent>;
+describe('VendorComponent', () => {
+  let component: VendorComponent;
+  let fixture: ComponentFixture<VendorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PickListComponent]
+      imports: [VendorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PickListComponent);
+    fixture = TestBed.createComponent(VendorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

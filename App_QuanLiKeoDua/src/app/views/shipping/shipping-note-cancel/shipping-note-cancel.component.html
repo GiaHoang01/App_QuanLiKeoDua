@@ -1,0 +1,110 @@
+<!-- Container chính cho trang -->
+<div class="container" *ngIf="this.data.shippingNotesCancel">
+    <!-- Phần master -->
+    <div class="row mb-3">
+      <!-- Adds margin at the bottom -->
+      <div class="col-sm-8">
+        <div class="row mb-2">
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">Từ ngày</label>
+            <app-date-picker [(dateValue)]="filters.fromDate" [inputClass]="'form-control'" [isShowTime]="false"
+              [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+          </div>
+          <div class="form-group col-sm-4">
+            <label class="font-weight-bold">Đến ngày</label>
+            <app-date-picker [(dateValue)]="filters.toDate" [inputClass]="'form-control'" [isShowTime]="false"
+              [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+          </div>
+          <!-- <div class="form-group col-sm-4">
+            <label class="font-weight-bold">Tìm kiếm</label>
+            <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
+              placeholder="Mã phiếu/Họ tên khách hàng / nhân viên">
+          </div> -->
+        </div>
+        <!-- <div class="row mb-2" *ngIf="isExpanded">
+              <div class="form-group col-sm-4">
+                <label class="font-weight-bold">Tìm kiếm</label>
+                <input name="SearchString" class="form-control clearable" type="search"
+                  placeholder="Mã/Họ và tên/Số điện thoại">
+              </div>
+            </div> -->
+      </div>
+      <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
+        <div class="btn-group mr-2">
+          <button class="btn-green" (click)="onSearch()">Tìm</button>
+          <button (click)="toggleExpansion()" class="btn-green">
+            <i class="bi bi-funnel-fill"></i>
+          </button>
+          <button class="btn-green" [routerLink]="['/shippingnotecancel/shippingnotecancelAdd']"
+          [queryParams]="{id:'', status: 1}">Thêm mới</button>
+          <!-- <button class="btn-green" [routerLink]="['/shippingnote/shippingNoteAdd']"
+            [queryParams]="{id:'',status:1}">Thêm mới</button> -->
+        </div>
+  
+      </div>
+    </div>
+    <div class="ColorByStatus">
+      
+    </div>
+    <!-- Phần nội dung ở dưới đây-->
+    <div class="row">
+      <div class="col-12">
+        <p-table [value]="this.data.shippingNotesCancel" [(selection)]="selectedRow" selectionMode="single" showGridlines
+          [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pFrozenColumn pSortableColumn="maPhieuGiao" class="header-min">
+                Mã phiếu hủy
+                <p-sortIcon field="maPhieuGiao" />
+              </th>
+              <th pSortableColumn="ngayTao" class="header-min">
+                Ngày Hủy
+                <p-sortIcon field="ngayTao" />
+              </th>
+              <th pSortableColumn="tenKH" class="header-min">
+                Lý do
+                <p-sortIcon field="tenKH" />
+              </th>
+              <th pSortableColumn="maPhieuGiao" class="header-min">
+                Mã phiếu giao
+                <p-sortIcon field="maPhieuGiao" />
+              </th>
+              <th alignFrozen="right" class="active-sm" pFrozenColumn>
+  
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-s>
+            <tr>
+              <td pFrozenColumn>{{ s.maPhieuHuy }}</td>
+              <td class="text-center" [appFormatDate]="s.ngayHuy" format="dateFilter"></td>
+              <!-- <td class="text-center" [appFormatDate]="s.NgayGiao" format="dateFilter"></td> -->
+              <td>{{ s.lyDo }}</td>
+              <td>{{ s.maPhieuGiao }}</td>
+              <td alignFrozen="right" pFrozenColumn class="active-sm">
+                <button class="btn btn-link px-1" type="button" title="Xem"
+                [routerLink]="['/shippingnotecancel/shippingnotecancelAdd']"
+                [queryParams]="{id:s.maPhieuHuy, status: 2}">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                <button class="btn btn-link px-1" type="button" title="Xóa">
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
+            </tr>
+  
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="12" class="empty-message">Không có dữ liệu.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div class="flex justify-center">
+          <app-paginator [totalRows]="this.globalService.paging.TotalRows" (selectPageEvent)="onPageChange($event)"
+            (selectRowsEvent)="onRowsChange($event)">
+          </app-paginator>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -101,27 +101,6 @@ export class ShippingNoteAddComponent implements OnInit {
     });
   }
 
-  // quickSearchKhachHang(searchString: string = '') {
-  //   const body = {
-  //     SearchString: searchString,
-  //   };
-  //   this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "quickSearchDeliveryEmployee", body).subscribe({
-  //     next: (response: any) => {
-  //       if (response.status == 1) {
-  //         this.data.employees = response.data.nhanViens;
-  //       } else {
-
-  //       }
-  //     },
-  //     error: (error: any) => {
-  //       console.log(error);
-  //     },
-  //     complete: () => {
-
-  //     }
-  //   });
-  // }
-
   onInvoiceSelected(invoice: any): void {
     if (invoice) {
       // Gán dữ liệu từ hóa đơn được chọn vào đối tượng shippingNote
@@ -143,49 +122,63 @@ export class ShippingNoteAddComponent implements OnInit {
 
   getData() {
     const body = {
-      MaPhieuGiao: this.id,
-      Status: this.status
+        MaPhieuGiao: this.id,
+        Status: this.status
     };
+
     this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "GetShippingNoteByID", body).subscribe({
-      next: (response: any) => {
-        if (response.status == 1) {
-          if (this.status == 2) {
-            this.data.shippingNote = response.data.phieuGiaoHang;
-            this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
-            console.log("shipping-note:", this.data.shippingNote);
-            this.selectedAddress = this.data.shippingNote.thongTinGiaoHang
-            .find((address: any) => address.macDinh === true);  
-            console.log('-->',this.data.shippingNote.thongTinGiaoHang);
+        next: (response: any) => {
+            if (response.status === 1) {
+                this.data.shippingNote = response.data.phieuGiaoHang;
+                this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
 
-          }
-          else {
-            this.data.shippingNote = response.data.phieuGiaoHang;
-          }
-        } else {
+                console.log("shipping-note:", this.data.shippingNote);
 
+                // Nếu status = 2 và MaThongTinHienTai không null, chọn địa chỉ theo MaThongTinHienTai
+                if (this.status == 2) {
+                  const maThongTinHienTai = this.data.shippingNote.maThongTinHienTai;
+                    this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
+                        address.maThongTin === maThongTinHienTai
+                    );
+                    console.log("đây là selectedAddress nhé: ", this.selectedAddress);
+                 }// else {
+                //     // Nếu MaThongTinHienTai là null hoặc status khác 2, chọn địa chỉ mặc định (macDinh)
+                //     // this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
+                //     //     address.macDinh == true
+                //     );
+                // }
+
+                console.log("selectedAddress:", this.selectedAddress);
+                this.id = this.data.shippingNote.maHoaDon;
+            }
+        },
+        error: (error: any) => {
+            console.log(error);
+        },
+        complete: () => {
+            this.globalService.OffLoadpage();
         }
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => {
-        this.globalService.OffLoadpage();
-      }
     });
-  }
+}
 
   saveShippingNote() {
     const body = {
       Status: this.status,
       PhieuGiaoHang: this.data.shippingNote,
-      MaThongTin: this.selectedAddress ? this.selectedAddress.maThongTin : null  // Lấy MaThongTin từ địa chỉ đã chọn
+      MaThongTin: this.selectedAddress.maThongTin ? this.selectedAddress.maThongTin : null  // Lấy MaThongTin từ địa chỉ đã chọn
     };
-
+    console.log("save MaThongTin: ", this.selectedAddress.maThongTin);
     this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "SaveShippingNote", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
+          this.id = response.data.maThongTin;
+          this.status = response.data.status;
+          //this.status == 2;
+          //this.getData();
+          console.log('id', this.id);
+          console.log('status', this.status);
           console.log("Lưu thành công!");
         } else {
           console.log("Lưu thất bại");
@@ -195,11 +188,13 @@ export class ShippingNoteAddComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
+        this.getData();
         this.globalService.OffLoadpage();
       }
     });
   }
   onAddressSelected(address: any): void {
     this.selectedAddress = address;  // Cập nhật selectedAddress khi người dùng chọn địa chỉ
+    console.log("Địa chỉ đã được chọn lại nè: ", this.selectedAddress);
   }
 }

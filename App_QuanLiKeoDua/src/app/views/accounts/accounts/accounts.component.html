@@ -2,81 +2,93 @@
 <div class="container">
 
   <!-- Phần master -->
-  <div class="row mb-3"> <!-- Thêm khoảng cách phía dưới cho đẹp -->
+  <div class="row mb-3">
+    <!-- Thêm khoảng cách phía dưới cho đẹp -->
     <div class="col-6">
       <div class="row">
-        <label for="dropdown" class="col-3">Người dùng</label>
+        <label for="dropdown" class="col-3">Nhân viên</label>
         <div class="col-9">
+          <p-select [options]="this.dsTenNV" name="tenNhanVien" [(ngModel)]="this.tenNhanVien"
+            placeholder="-- Chọn nhân viên --" (onChange)="onNhanVienChange($event)">
+          </p-select>
+
         </div>
       </div>
-    </div>
-    <div class="col-6">
-      <button class="btn-custom btn-save">Lưu</button>
     </div>
   </div>
 
   <!-- Phần nội dung ở dưới đây-->
   <div class="row">
     <div class="col-12">
-        <p-tabs value="0">
-            <p-tablist>
-                <p-tab value="0">Nhóm quyền</p-tab>
-                <p-tab value="1">Quyền</p-tab>
-            </p-tablist>
-            <p-tabpanels>
-                <p-tabpanel value="0">
-                    <app-pick-list></app-pick-list>
-                </p-tabpanel>
-                <p-tabpanel value="1">
-                  <div class="card">
-                    <p-table [value]="products"  [(selection)]="selectedProduct" selectionMode="single"
-                      showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="200px"  rowHover="true">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pFrozenColumn pSortableColumn="code" style="min-width:100px !important">
-                                    Code <p-sortIcon field="code" />
-                                </th>
-                                <th pSortableColumn="name" style="min-width:200px !important">
-                                    Name <p-sortIcon field="name" />
-                                </th>
-                                <th pSortableColumn="price" style="min-width:200px !important">
-                                    Price <p-sortIcon field="price" />
-                                </th>
-                                <th pSortableColumn="category" style="min-width:200px !important">
-                                    Category <p-sortIcon field="category" />
-                                </th>
-                                <th pSortableColumn="quantity" style="min-width:200px !important">
-                                    Quantity <p-sortIcon field="quantity" />
-                                </th>
-                                <th pSortableColumn="quantity" style="min-width:200px !important">
-                                  Quantity <p-sortIcon field="quantity" />
-                                </th>
-                                <th pSortableColumn="quantity" style="min-width:200px !important">
-                                  Quantity <p-sortIcon field="quantity" />
-                                </th>
-                                <th alignFrozen="right" pFrozenColumn pSortableColumn="ok" style="min-width:100px !important">
-                                  OK <p-sortIcon field="ok" />
-                              </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-product>
-                            <tr [pSelectableRow]="product">
-                                <td pFrozenColumn>{{ product.code }}</td>
-                                <td >{{ product.name }}</td>
-                                <td>{{ product.price | currency : 'USD' }}</td>
-                                <td>{{ product.category }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td >{{ product.description }}</td>
-                                <td >{{ product.quantity }}</td>
-                                <td alignFrozen="right" pFrozenColumn>{{ product.quantity }}</td>
-
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                </p-tabpanel>
-            </p-tabpanels>
-        </p-tabs>
+      <p-tabs value="0">
+        <p-tablist>
+          <p-tab value="0">Quyền</p-tab>
+          <p-tab value="1">Nhóm quyền</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <p-table [value]="this.quyen" selectionMode="single" showGridlines [sortOrder]="-1" [scrollable]="true"
+              scrollHeight="200px" rowHover="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>#</th>
+                  <th pFrozenColumn pSortableColumn="maQuyen">
+                    Mã quyền
+                    <p-sortIcon field="maQuyen" />
+                  </th>
+                  <th pSortableColumn="tenNhomQuyen">
+                    Tên quyền
+                    <p-sortIcon field="tenQuyen" />
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-i="rowIndex">
+                <tr>
+                  <td class="STT">{{ i + 1 }}</td>
+                  <td>
+                    <span>{{ rowData.maQuyen }}</span>
+                  </td>
+                  <td>
+                    <span>{{ rowData.tenQuyen }}</span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <div class="card">
+              <p-table [value]="this.nhomQuyen" selectionMode="single" showGridlines [sortOrder]="-1"
+                [scrollable]="true" scrollHeight="200px" rowHover="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>#</th>
+                    <th pFrozenColumn pSortableColumn="maNhomQuyen">
+                      Mã nhóm quyền
+                      <p-sortIcon field="maNhomQuyen" />
+                    </th>
+                    <th pSortableColumn="tenNhomQuyen">
+                      Tên nhóm quyền
+                      <p-sortIcon field="tenNhomQuyen" />
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-i="rowIndex">
+                  <tr>
+                    <td class="STT">{{ i + 1 }}</td>
+                    <td>
+                      <span>{{ rowData.maNhomQuyen }}</span>
+                    </td>
+                    <td>
+                      <span>{{ rowData.tenNhomQuyen }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+                
+              </p-table>
+            </div>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
     </div>
   </div>
 </div>

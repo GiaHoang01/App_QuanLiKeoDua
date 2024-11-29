@@ -18,7 +18,11 @@
             <div class="row">
                 <div class="col-sm-9 text-right col-md-9 offset-md-3">
                     <div class="form-group button-group">
-                        <button class="btn-green" (click)="saveShippingNote()">Lưu
+                        <button class="btn-green" (click)="confirmShippingNote(0)">Nhận đơn
+                        </button>
+                        <button class="btn-green" (click)="confirmShippingNote(1)">Hoàn tất
+                        </button>
+                        <button class="btn-green" (click)="confirmShippingNote(2)">Không hoàn tất
                         </button>
                         <button class="btn-blue" [routerLink]="['/shippingnote']">Trở về</button>
                     </div>
@@ -41,8 +45,18 @@
             <div class="row mb-2">
                 <label class="col-3 col-form-label">Nhân viên giao:</label>
                 <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.tenNV"
-                        disabled="true" />
+                    <!-- <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.tenNV"
+                        disabled="true" /> -->
+                        <app-quick-search 
+                            [filterObjectList]="data.employees" 
+                            [fieldShow]="'tenNV'" 
+                            [(value)]="data.shippingNote.tenNV" 
+                            placeHolder="Nhập nhân viên" 
+                            (selectedEvent)="onEmployeeSelected($event)" 
+                            [hearder]="['Mã nhân viên', 'Tên nhân viên']" 
+                            [fields]="['maNV', 'tenNV']" 
+                            [inputClass]="'border-bottom1'">
+        </app-quick-search>
                 </div>
             </div>
         </div>
@@ -78,11 +92,13 @@
             <div class="row mb-2">
                 <label class="col-3 col-form-label">Mã hóa đơn:</label>
                 <div class="col-9">
-                    <app-quick-search [filterObjectList]="data.invoice" [fieldShow]="'maHoaDon'"
+                    <!-- <app-quick-search [filterObjectList]="data.invoice" [fieldShow]="'maHoaDon'"
                         [(value)]="filter.maHoaDon" placeHolder="Nhập mã hóa đơn"
                         (selectedEvent)="onInvoiceSelected($event)" [hearder]="['Mã hóa đơn']" [fields]="['maHoaDon']"
                         [inputClass]="'border-bottom1'">
-                    </app-quick-search>
+                    </app-quick-search> -->
+                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.maHoaDon"
+                        disabled="true" />
                 </div>
             </div>
             <div class="row mb-2">
@@ -153,40 +169,37 @@
         </div>
         <div class="col-md-12">
             <label class="col-12 col-form-label" style="color: #25fd16;">Chọn địa chỉ giao hàng</label>
-            <div *ngFor="let address of data.shippingNote.thongTinGiaoHang" class="mb-3">
+            <div class="mb-3">
                 <div class="row">
-                    <!-- Radio button -->
-                    <div class="col-1 d-flex align-items-center">
-                        <input 
-                            class="form-check-input ms-3" 
-                            type="radio"
-                            [value]="address" 
-                            [(ngModel)]="selectedAddress" 
-                            (change)="onAddressSelected(address)"
-                            [checked]="address.maThongTin == selectedAddress"
-                            style="transform: scale(1.5);" 
-                        />
-                    </div>
                     <!-- Địa chỉ và số điện thoại -->
                     <div class="col-11">
                         <div class="row">
+                            <label class="col-2 col-form-label">Mã thông tin:</label>
+                            <div class="col-10 d-flex align-items-center">
+                                <input class="border-bottom1 flex-grow-1" name="maThongTin"
+                                    [(ngModel)]="this.selectedAddress.maThongTin" disabled="true" />
+                            </div>
+                        </div>
+                        <div class="row">
                             <label class="col-2 col-form-label">Địa chỉ:</label>
                             <div class="col-10 d-flex align-items-center">
-                                <input class="border-bottom1 flex-grow-1" name="diaChi" [(ngModel)]="address.diaChi" disabled="true" />
+                                <input class="border-bottom1 flex-grow-1" name="diaChi"
+                                    [(ngModel)]="this.selectedAddress.diaChi" disabled="true" />
                             </div>
                         </div>
                         <div class="row">
                             <label class="col-2 col-form-label">Số điện thoại:</label>
                             <div class="col-5">
-                                <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="address.sdt" disabled="true" />
+                                <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.selectedAddress.sdt"
+                                    disabled="true" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
-        
+
     </div>
 </div>
