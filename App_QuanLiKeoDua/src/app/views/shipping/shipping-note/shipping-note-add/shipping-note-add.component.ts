@@ -52,7 +52,7 @@ export class ShippingNoteAddComponent implements OnInit {
     invoice: [],
   }
   filter: Filters = {
-    maHoaDon: "",
+    maHoaDon: '',
 
   }
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class ShippingNoteAddComponent implements OnInit {
       case 'CK': return 'Chuyển khoản';
       case 'COD': return 'Thanh toán khi nhận hàng';
       case 'TM': return 'Tiền mặt';
-      default: return maHinhThuc; // Trả về mã nếu không khớp
+      default: return ''; // Trả về mã nếu không khớp
     }
   }
 
@@ -131,7 +131,7 @@ export class ShippingNoteAddComponent implements OnInit {
         next: (response: any) => {
             if (response.status === 1) {
                 this.data.shippingNote = response.data.phieuGiaoHang;
-                this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
+                //this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
 
                 console.log("shipping-note:", this.data.shippingNote);
 
