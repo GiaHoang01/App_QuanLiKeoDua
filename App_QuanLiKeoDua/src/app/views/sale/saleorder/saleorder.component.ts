@@ -11,6 +11,10 @@ import { APIService } from '../../../../scss/services/api.service';
 import { API_ENDPOINT } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
+import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
 
 interface filters extends TransactionFilter
 {
@@ -25,14 +29,15 @@ interface DataResult {
 @Component({
   selector: 'app-saleorder',
   standalone: true,
-  imports: [RouterModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
+  providers: [MessageService],
+  imports: [RouterModule,ToastModule,ButtonModule,TableModule, CommonModule, PaginatorComponent,DialogModule, DatePickerComponent,FormsModule,FormatDateDirective],
   templateUrl: './saleorder.component.html',
   styleUrl: './saleorder.component.scss'
 })
 
 
 export class SaleorderComponent implements OnInit{
-
+  maHoaDon:string="";
   isExpanded: boolean = false;
   title: any;
   products!: any[];
@@ -40,7 +45,7 @@ export class SaleorderComponent implements OnInit{
   totalRows: number = 30;
   pageSize: number = 5;
   pageIndex: number = 1;
-
+  IsShowPopupDelete:boolean=false;
   options = [
     { label: 5, value: 5 },
     { label: 10, value: 10 },
@@ -50,7 +55,7 @@ export class SaleorderComponent implements OnInit{
   data: DataResult = {
     saleInvoiceOrders: []
   }
-  constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
+  constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 
@@ -111,5 +116,37 @@ export class SaleorderComponent implements OnInit{
       complete: () => {
       }
     });
+  }
+  deleteSaleInvoiceOrder() {
+    const body = {
+     MaHoaDon:this.maHoaDon
+    };
+    this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "DeleteSaleInvoice", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.IsShowPopupDelete=false;
+          this.getData();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công',life:1000 });
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.globalService.OffLoadpage();
+      }
+    });
+  }
+  showDialog(maHoaDon:any)
+  {
+    this.IsShowPopupDelete=true;
+    this.maHoaDon=maHoaDon;
+  }
+  close()
+  {
+    this.IsShowPopupDelete=false;
   }
 }

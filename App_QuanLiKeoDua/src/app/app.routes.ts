@@ -30,15 +30,21 @@ export const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
-        path: 'saleorder',
+        path: '',
+        loadChildren: () => import('./views/sale/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem phiếu nhập hàng' },
         canActivate: [PermissionGuard],
-        loadChildren: () => import('./views/sale/routes').then((m) => m.routes)
       },
       {
         path: 'employee',
         loadChildren: () => import('./views/employees/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        canActivate: [PermissionGuard],
+      },
+      {
+        path: 'vendor',
+        loadChildren: () => import('./views/vendor/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem nhà cung cấp' },
         canActivate: [PermissionGuard],
       },
       {
@@ -61,14 +67,8 @@ export const routes: Routes = [
       },
       {
         path: '',
-        loadChildren: () => import('./views/sale/routes').then((m) => m.routes),
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
-        canActivate: [PermissionGuard],
-      },
-      {
-        path: '',
         loadChildren: () => import('./views/shipping/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem tài khoản' },
+        data: { requiredPermission: 'VIEW_SALE_ORDER' },
         canActivate: [PermissionGuard],
       }, 
       {
@@ -77,6 +77,12 @@ export const routes: Routes = [
         data: { requiredPermission: 'Xem phiếu nhập hàng' },
         canActivate: [PermissionGuard],
       },
+      {
+        path: '',
+        loadChildren: () => import('./views/promotion/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem khuyến mãi' },
+        canActivate: [PermissionGuard],
+      }
     ]
   },
   {

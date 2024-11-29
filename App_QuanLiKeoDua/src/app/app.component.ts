@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, tap } from 'rxjs/operators';
@@ -18,30 +18,22 @@ export class AppComponent implements OnInit {
   readonly #titleService = inject(Title);
   readonly #colorModeService = inject(ColorModeService);
 
-  constructor(private cd: ChangeDetectorRef,private router: Router, private titleService: Title) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      // Đảm bảo tiêu đề được cập nhật khi điều hướng
-      const title = this.router.routerState.snapshot.root.firstChild?.data['title'] || 'Default Title';
-      this.titleService.setTitle(title);
-    });
+  constructor() {
     // Set color mode related settings
     this.#colorModeService.localStorageItemName.set('App Quản lí kẹo dừa');
     this.#colorModeService.eventName.set('ColorSchemeChange');
   }
 
   ngOnInit(): void {
-    // Chỉ đăng ký một lần
+    // Subscribe to router events to update title dynamically
     this.#router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => { 
       this.updateTitle();
-      this.cd.detectChanges();
     });
-  
-    // Subscribe to query params for theme changes
-    this.#activatedRoute.queryParams.pipe(
+
+     // Subscribe to query params for theme changes
+     this.#activatedRoute.queryParams.pipe(
       filter(params => params['theme']), // Filter if theme query param exists
       tap(params => {
         const theme = params['theme']; // Get theme directly from params
@@ -51,25 +43,21 @@ export class AppComponent implements OnInit {
       })
     ).subscribe();
   }
-  
+
+  // Method to update the title based on the current route
   private updateTitle() {
     let route = this.#router.routerState.snapshot.root;
-    let title = 'Default Title';  // Default title
-    
-    console.log('Current Route:', route);  // Debug log to see route
-    
-    // Loop through child routes to find the title
+    let title = 'Default Title';  // Tiêu đề mặc định
+  
+    // Kiểm tra các route con và lấy title từ data
     while (route.firstChild) {
-      route = route.firstChild;  // Move to the first child route
+      route = route.firstChild;  // Di chuyển đến route con
       if (route.data && route.data['title']) {
-        title = route.data['title'];  // Set the title from route data
+        title = route.data['title'];  // Cập nhật title từ route con
       }
     }
   
-    // Log the final title
-    console.log('Updated Title:', title);
-  
-    // Set the page title
+    // Cập nhật title cho trang
     this.#titleService.setTitle(title);
   }
   

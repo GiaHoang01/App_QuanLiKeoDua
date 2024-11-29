@@ -48,8 +48,12 @@
 }
 
 .custom-dialog {
-  width: 300px !important; /* Thay đổi giá trị này để điều chỉnh kích thước */
+  width: 500px !important; /* Thay đổi giá trị này để điều chỉnh kích thước */
   max-width: 100% !important; /* Đảm bảo dialog không bị vượt quá màn hình */
+}
+.custom-dialog-sm {
+  width: 700px !important; /* Thay đổi giá trị này để điều chỉnh kích thước */
+  max-width: 100% !important;
 }
 
 .custom-dialog-lg {
