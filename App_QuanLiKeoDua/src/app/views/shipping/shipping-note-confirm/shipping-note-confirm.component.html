@@ -18,7 +18,7 @@
         <div class="form-group col-sm-4">
           <label class="font-weight-bold">Tìm kiếm</label>
           <input name="SearchString" [(ngModel)]="searchString" class="form-control clearable" type="search"
-            placeholder="Mã phiếu/Họ tên khách hàng / nhân viên">
+            placeholder="Mã phiếu/Tên KH / Tên NV">
         </div>
       </div>
       <!-- <div class="row mb-2" *ngIf="isExpanded">
@@ -81,9 +81,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-s>
-          <tr [pSelectableRow]="s" [ngClass]="{
-                'DotRowGreen': s.TrangThai == 'Mới tạo',
-              }">
+          <tr  [ngClass]="getStatusByDate(s.NgayGiao, s.TrangThai)">
             <td pFrozenColumn>{{ s.MaPhieuGiao }}</td>
             <td class="text-center" [appFormatDate]="s.NgayTao" format="dateFilter"></td>
             <td class="text-center" [appFormatDate]="s.NgayGiao" format="dateFilter"></td>

@@ -73,6 +73,7 @@ export class ShippingNoteConfirmComponent implements OnInit {
           this.data.shippingNotes = response.data.shippingNotes.filter((note: any) => 
             note.TrangThai !== "Hoàn tất" && note.TrangThai !== "Chưa hoàn tất"
           );
+          this.globalService.paging.TotalRows = this.data.shippingNotes.length;
           console.log("Trạng thái", this.data.shippingNotes);
         } else {
         }
@@ -90,13 +91,27 @@ export class ShippingNoteConfirmComponent implements OnInit {
   //   this.isExpanded = !this.isExpanded;
   // }
 
-  formatDate(date: string | Date): string {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
-    return `${day}/${month}/${year}`; // Trả về định dạng YYYY-MM-DD
+  getStatusByDate(ngayGiao: string, trangThai: string): string {
+    if (trangThai !== 'Mới tạo') {
+      return ''; // Không tô màu nếu trạng thái khác "Mới tạo"
+    }
+  
+    const currentDate = new Date(); // Ngày hiện tại
+    const ngayGiaoDate = new Date(ngayGiao); // Chuyển đổi sang kiểu Date
+  
+    // Chỉ lấy phần ngày để so sánh
+    const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const ngayGiaoDateOnly = new Date(ngayGiaoDate.getFullYear(), ngayGiaoDate.getMonth(), ngayGiaoDate.getDate());
+  
+    if (ngayGiaoDateOnly > currentDateOnly) {
+      return 'DotRowGreen'; // Chưa tới ngày giao
+    } else if (ngayGiaoDateOnly < currentDateOnly) {
+      return 'DotRowRed'; // Quá ngày giao
+    } else {
+      return 'DotRowBlue'; // Tới ngày giao
+    }
   }
+  
   
 
   onPageChange(event: any) {
