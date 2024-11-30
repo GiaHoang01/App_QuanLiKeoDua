@@ -76,9 +76,9 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Quản lí kho',
+    name: 'Giao hàng',
     url: '',
-    icon: "bi bi-database-fill",
+    icon: "bi bi-truck",
     children: [
       {
         name:'Nhận phiếu giao hàng',

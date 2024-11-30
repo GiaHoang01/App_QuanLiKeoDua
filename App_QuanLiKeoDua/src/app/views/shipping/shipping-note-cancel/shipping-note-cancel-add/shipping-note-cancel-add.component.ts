@@ -19,13 +19,13 @@ import { Toast, ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 
 interface DataResult {
-  shippingNote: any;
+  shippingNoteCancel: any;
   employees: [],
   invoice: [],
 }
 
 interface Filters {
-  maPhieuGiao: any,
+  maPhieuHuy: any,
 }
 
 @Component({
@@ -46,12 +46,12 @@ export class ShippingNoteCancelAddComponent implements OnInit{
     protected utilsService: UtilsService, private apiService: APIService,
     protected globalService: GlobalService) { }
     data: DataResult = {
-      shippingNote: {},
+      shippingNoteCancel: {},
       employees: [],
       invoice: [],
     }
     filter: Filters = {
-      maPhieuGiao: "",
+      maPhieuHuy: "",
   
     }
     ngOnInit(): void {
@@ -102,8 +102,8 @@ export class ShippingNoteCancelAddComponent implements OnInit{
     onEmployeeSelected(employee: any): void {
       if (employee) {
         this.maNhanVien = employee.maNV; // Gán giá trị mã nhân viên được chọn
-        this.data.shippingNote = {
-          ...this.data.shippingNote,
+        this.data.shippingNoteCancel = {
+          ...this.data.shippingNoteCancel,
           maNV: employee.maNV,
           tenNV: employee.tenNV,
           sdt: employee.sdt
@@ -123,28 +123,15 @@ export class ShippingNoteCancelAddComponent implements OnInit{
       this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "GetShippingNoteCancelByID", body).subscribe({
           next: (response: any) => {
               if (response.status === 1) {
-                  this.data.shippingNote = response.data.PhieuGiaoHang;
-                  this.filter.maPhieuGiao = response.data.phieuGiaoHang.maHoaDon;
+                  this.data.shippingNoteCancel = response.data.phieuHuyDon;
+                  this.filter.maPhieuHuy = response.data.phieuHuyDon.maPhieuHuy;
   
-                  console.log("shipping-note:", this.data.shippingNote);
-                  const maThongTinHienTai = this.data.shippingNote.maThongTinHienTai;
-                      this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
-                          address.maThongTin === maThongTinHienTai
-                      );
-                      console.log("Zui: ", this.selectedAddress);
-                  // Nếu status = 2 và MaThongTinHienTai không null, chọn địa chỉ theo MaThongTinHienTai
-                  // if (this.status == 2) {
-                    
-                  //     console.log("đây là selectedAddress nhé: ", this.selectedAddress);
-                  //  }// else {
-                  //     // Nếu MaThongTinHienTai là null hoặc status khác 2, chọn địa chỉ mặc định (macDinh)
-                  //     // this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
-                  //     //     address.macDinh == true
+                  console.log("shipping-note:", this.data.shippingNoteCancel);
+                  // const maThongTinHienTai = this.data.shippingNoteCancel.maThongTinHienTai;
+                  //     this.selectedAddress = this.data.shippingNoteCancel.thongTinGiaoHang.find((address: any) =>
+                  //         address.maThongTin === maThongTinHienTai
                   //     );
-                  // }
-  
-                  //console.log("selectedAddress:", this.selectedAddress);
-                  //this.id = this.data.shippingNote.maHoaDon;
+                  //     console.log("Zui: ", this.selectedAddress);
               }
           },
           error: (error: any) => {
@@ -159,7 +146,7 @@ export class ShippingNoteCancelAddComponent implements OnInit{
     saveShippingNote() {
       const body = {
         Status: this.status,
-        PhieuGiaoHang: this.data.shippingNote,
+        PhieuGiaoHang: this.data.shippingNoteCancel,
         MaThongTin: this.selectedAddress.maThongTin ? this.selectedAddress.maThongTin : null  // Lấy MaThongTin từ địa chỉ đã chọn
       };
       console.log("save MaThongTin: ", this.selectedAddress.maThongTin);
