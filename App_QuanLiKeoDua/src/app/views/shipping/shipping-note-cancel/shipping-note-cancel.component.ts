@@ -46,7 +46,7 @@ export class ShippingNoteCancelComponent implements OnInit {
 
   ngOnInit(): void {
     this.filters = {
-      fromDate: this.utilsService.DateAdd(new Date(), -1),
+      fromDate: this.utilsService.DateAdd(new Date(), -7),
       toDate: this.utilsService.getToDate(),
       searchString: ""
     };
@@ -77,6 +77,30 @@ export class ShippingNoteCancelComponent implements OnInit {
       }
     });
   }
+
+  deleteShippingNoteCancel(maPhieuHuy: any) {
+    const body = {
+      MaPhieuHuy: maPhieuHuy,
+    };
+    this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "DeleteShippingNoteCancel", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          console.log("Xoá thành công");
+        } else {
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.globalService.OffLoadpage();
+      }
+    });
+  }
+
+
+
   // Toggle để phóng to/thu nhỏ phần bộ lọc
   toggleExpansion() {
     this.isExpanded = !this.isExpanded;

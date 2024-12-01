@@ -3,28 +3,14 @@
     <div class="row mb-3">
         <!--Phần bên trái các nút-->
         <div class="col-6">
-            <div class="row">
-                <span class="col-3">Trạng thái:</span>
-                <span class="col-9 font-weight-bold" [ngClass]="{
-            'text-success': data.shippingNote.trangThai === 'Mới tạo',
-            'text-primary': data.shippingNote.trangThai === 'Đang giao',
-            'text-dark': data.shippingNote.trangThai === 'Hoàn tất',
-          }">
-                    {{ data.shippingNote.trangThai }}
-                </span>
-            </div>
         </div>
         <div class="col-6">
             <div class="row">
                 <div class="col-sm-9 text-right col-md-9 offset-md-3">
                     <div class="form-group button-group">
-                        <button class="btn-green" (click)="confirmShippingNote(0)">Nhận đơn
+                        <button class="btn-green" [disabled]="this.status == 2" (click)="saveShippingNoteCancel()">Xác nhận
                         </button>
-                        <button class="btn-green" (click)="confirmShippingNote(1)">Hoàn tất
-                        </button>
-                        <button class="btn-green" (click)="confirmShippingNote(2)">Không hoàn tất
-                        </button>
-                        <button class="btn-blue" [routerLink]="['/shippingnote']">Trở về</button>
+                        <button class="btn-blue" [routerLink]="['/shippingnotecancel']">Trở về</button>
                     </div>
                 </div>
             </div>
@@ -32,174 +18,90 @@
     </div>
     <!--Phần Master-->
     <div class="row mb-3">
-        <p class="title">Thông tin phiếu giao hàng</p>
+        <p class="title">Thông tin phiếu hủy</p>
         <div class="col-md-6">
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Mã phiếu giao:</label>
+                <label class="col-3 col-form-label">Mã phiếu hủy:</label>
                 <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.maPhieuGiao"
-                        disabled="true" />
-                </div>
-            </div>
-            <!-- Ghi chú -->
-            <div class="row mb-2">
-                <label class="col-3 col-form-label">Nhân viên giao:</label>
-                <div class="col-9">
-                    <!-- <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.tenNV"
-                        disabled="true" /> -->
-                        <app-quick-search 
-                            [filterObjectList]="data.employees" 
-                            [fieldShow]="'tenNV'" 
-                            [(value)]="data.shippingNote.tenNV" 
-                            placeHolder="Nhập nhân viên" 
-                            (selectedEvent)="onEmployeeSelected($event)" 
-                            [hearder]="['Mã nhân viên', 'Tên nhân viên']" 
-                            [fields]="['maNV', 'tenNV']" 
-                            [inputClass]="'border-bottom1'">
-        </app-quick-search>
+                    <input class="border-bottom1" name="maPhieuHuy"
+                        [(ngModel)]="data.shippingNoteCancel.maPhieuHuy" disabled="true" />
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <!-- Ngày tạo -->
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Ngày tạo:</label>
+                <label class="col-3 col-form-label">Ngày hủy:</label>
                 <div class="col-9">
-                    <app-date-picker [(dateValue)]="data.shippingNote.ngayTao" [inputClass]="' border-bottom1'"
-                        [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false"
-                        [isDisabled]="this.data.shippingNote.trangThai=='Hoàn tất'">
+                    <app-date-picker [(dateValue)]="data.shippingNoteCancel.ngayHuy" [inputClass]="' border-bottom1'"
+                        [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
                     </app-date-picker>
                 </div>
             </div>
-
-            <!-- Ngày giao -->
-            <div class="row mb-2">
-                <label class="col-3 col-form-label">Ngày giao:</label>
-                <div class="col-9">
-                    <app-date-picker [(dateValue)]="data.shippingNote.ngayGiao" [inputClass]="' border-bottom1'"
-                        [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false"
-                        [isDisabled]="this.data.shippingNote.trangThai=='Hoàn tất'">
-                    </app-date-picker>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-md-1 col-form-label">Lý do:</label>
+        <div class="col-md-11">
+            <textarea class="border-bottom1" [(ngModel)]="data.shippingNoteCancel.lyDo" rows="2" style="resize: none; width: 100%;"></textarea>
         </div>
     </div>
 
     <!--Thông tin hóa đơn-->
     <div class="row mb-3">
-        <p class="title">Thông tin hóa đơn</p>
+        <p class="title">Thông tin phiếu giao</p>
         <div class="col-md-6">
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Mã hóa đơn:</label>
+                <label class="col-3 col-form-label">Mã phiếu giao:</label>
                 <div class="col-9">
-                    <!-- <app-quick-search [filterObjectList]="data.invoice" [fieldShow]="'maHoaDon'"
-                        [(value)]="filter.maHoaDon" placeHolder="Nhập mã hóa đơn"
-                        (selectedEvent)="onInvoiceSelected($event)" [hearder]="['Mã hóa đơn']" [fields]="['maHoaDon']"
-                        [inputClass]="'border-bottom1'">
-                    </app-quick-search> -->
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.maHoaDon"
-                        disabled="true" />
+                    <app-quick-search [filterObjectList]="data.invoice" [fieldShow]="'maPhieuGiao'"
+                        [(value)]="filter.maPhieuGiao" placeHolder="Nhập mã phiếu"
+                        (selectedEvent)="onInvoiceSelected($event)" [hearder]="['Mã phiếu giao']"
+                        [fields]="['maPhieuGiao']" [inputClass]="'border-bottom1'">
+                    </app-quick-search>
+                    <!-- <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNoteCancel.maPhieuGiao"
+                    disabled="true" /> -->
                 </div>
             </div>
-            <div class="row mb-2">
-                <label class="col-3 col-form-label">Tổng trị giá:</label>
-                <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.tongTriGia"
-                        disabled="true" />
-                </div>
-            </div>
+
             <!-- Ghi chú -->
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Ghi chú:</label>
+                <label class="col-3 col-form-label">Mã nhân viên:</label>
                 <div class="col-9">
-                    <textarea class="border-bottom1" [(ngModel)]="this.data.shippingNote.ghiChu" disabled="true"
-                        rows="1" style="resize: none;"></textarea>
+                    <input class="border-bottom1" name="maNV" [(ngModel)]="this.data.shippingNoteCancel.maNV"
+                        disabled="true" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label class="col-3 col-form-label">Mã khách hàng:</label>
+                <div class="col-9">
+                    <input class="border-bottom1" name="maKH" [(ngModel)]="this.data.shippingNoteCancel.maKhachHang"
+                        disabled="true" />
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <!-- Ngày tạo -->
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Ngày tạo:</label>
+                <label class="col-3 col-form-label">Ngày giao:</label>
                 <div class="col-9">
-                    <app-date-picker [(dateValue)]="data.shippingNote.ngayBan" [inputClass]="' border-bottom1'"
-                        [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" [isDisabled]="true">
+                    <app-date-picker [(dateValue)]="data.shippingNoteCancel.ngayGiao" [inputClass]="' border-bottom1'"
+                        [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
                     </app-date-picker>
                 </div>
             </div>
-
             <div class="row mb-2">
-                <label class="col-3 col-form-label">Hình thức:</label>
+                <label class="col-3 col-form-label">Tên nhân viên:</label>
                 <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap"
-                        [value]="getHinhThuc(this.data.shippingNote.maHinhThuc)" disabled="true" />
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!--Thông tin khách hàng-->
-    <div class="row mb-3">
-        <p class="title">Thông tin khách hàng</p>
-        <div class="col-md-6">
-            <div class="row mb-2">
-                <label class="col-3 col-form-label">Mã khách hàng:</label>
-                <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.maKhachHang"
-                        [disabled]="this.status == 2" />
-                </div>
-            </div>
-            <div class="row mb-2">
-                <label class="col-3 col-form-label">Số điện thoại:</label>
-                <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.sdt"
+                    <input class="border-bottom1" name="tenNV" [(ngModel)]="this.data.shippingNoteCancel.tenNV"
                         disabled="true" />
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
             <div class="row mb-2">
                 <label class="col-3 col-form-label">Tên khách hàng:</label>
                 <div class="col-9">
-                    <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.tenKhachHang"
+                    <input class="border-bottom1" name="tenKH" [(ngModel)]="this.data.shippingNoteCancel.tenKhachHang"
                         disabled="true" />
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <label class="col-12 col-form-label" style="color: #25fd16;">Chọn địa chỉ giao hàng</label>
-            <div class="mb-3">
-                <div class="row">
-                    <!-- Địa chỉ và số điện thoại -->
-                    <div class="col-11">
-                        <div class="row">
-                            <label class="col-2 col-form-label">Mã thông tin:</label>
-                            <div class="col-10 d-flex align-items-center">
-                                <input class="border-bottom1 flex-grow-1" name="maThongTin"
-                                    [(ngModel)]="this.selectedAddress.maThongTin" disabled="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-2 col-form-label">Địa chỉ:</label>
-                            <div class="col-10 d-flex align-items-center">
-                                <input class="border-bottom1 flex-grow-1" name="diaChi"
-                                    [(ngModel)]="this.selectedAddress.diaChi" disabled="true" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-2 col-form-label">Số điện thoại:</label>
-                            <div class="col-5">
-                                <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.selectedAddress.sdt"
-                                    disabled="true" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
     </div>
-</div>

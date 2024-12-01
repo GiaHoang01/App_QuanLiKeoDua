@@ -18,13 +18,13 @@
             <div class="row">
                 <div class="col-sm-9 text-right col-md-9 offset-md-3">
                     <div class="form-group button-group">
-                        <button class="btn-green" (click)="confirmShippingNote(0)">Nhận đơn
+                        <button class="btn-green" (click)="confirmShippingNote(0)" [disabled]="data.shippingNote.trangThai != 'Mới tạo' || !data.shippingNote.tenNV">Nhận đơn
                         </button>
-                        <button class="btn-green" (click)="confirmShippingNote(1)">Hoàn tất
+                        <button class="btn-green" (click)="confirmShippingNote(1)" [disabled]="data.shippingNote.trangThai != 'Đang giao'">Hoàn tất
                         </button>
-                        <button class="btn-green" (click)="confirmShippingNote(2)">Không hoàn tất
+                        <button class="btn-green" (click)="confirmShippingNote(2)" [disabled]="data.shippingNote.trangThai != 'Đang giao'">Không hoàn tất
                         </button>
-                        <button class="btn-blue" [routerLink]="['/shippingnote']">Trở về</button>
+                        <button class="btn-blue" [routerLink]="['/shippingnoteconfirm']">Trở về</button>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                 <label class="col-3 col-form-label">Mã khách hàng:</label>
                 <div class="col-9">
                     <input class="border-bottom1" name="maPhieuNhap" [(ngModel)]="this.data.shippingNote.maKhachHang"
-                        [disabled]="this.status == 2" />
+                        disabled="true" />
                 </div>
             </div>
             <div class="row mb-2">

@@ -52,7 +52,7 @@ export class ShippingNoteAddComponent implements OnInit {
     invoice: [],
   }
   filter: Filters = {
-    maHoaDon: "",
+    maHoaDon: '',
 
   }
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class ShippingNoteAddComponent implements OnInit {
       case 'CK': return 'Chuyển khoản';
       case 'COD': return 'Thanh toán khi nhận hàng';
       case 'TM': return 'Tiền mặt';
-      default: return maHinhThuc; // Trả về mã nếu không khớp
+      default: return ''; // Trả về mã nếu không khớp
     }
   }
 
@@ -131,12 +131,13 @@ export class ShippingNoteAddComponent implements OnInit {
         next: (response: any) => {
             if (response.status === 1) {
                 this.data.shippingNote = response.data.phieuGiaoHang;
-                this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
+                //this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
 
                 console.log("shipping-note:", this.data.shippingNote);
 
                 // Nếu status = 2 và MaThongTinHienTai không null, chọn địa chỉ theo MaThongTinHienTai
                 if (this.status == 2) {
+                  this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
                   const maThongTinHienTai = this.data.shippingNote.maThongTinHienTai;
                     this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
                         address.maThongTin === maThongTinHienTai
@@ -148,7 +149,7 @@ export class ShippingNoteAddComponent implements OnInit {
                 //     //     address.macDinh == true
                 //     );
                 // }
-
+                 //console.log("test coi lỗi không nè", this.data.shippingNote.maHoaDon);
                 console.log("selectedAddress:", this.selectedAddress);
                 this.id = this.data.shippingNote.maHoaDon;
             }
@@ -173,13 +174,14 @@ export class ShippingNoteAddComponent implements OnInit {
     this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "SaveShippingNote", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.id = response.data.maThongTin;
+          this.id = response.data.maPhieuGiao;
           this.status = response.data.status;
           //this.status == 2;
           //this.getData();
           console.log('id', this.id);
           console.log('status', this.status);
           console.log("Lưu thành công!");
+          this.getData();
         } else {
           console.log("Lưu thất bại");
         }
@@ -188,11 +190,12 @@ export class ShippingNoteAddComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
-        this.getData();
+        
         this.globalService.OffLoadpage();
       }
     });
   }
+
   onAddressSelected(address: any): void {
     this.selectedAddress = address;  // Cập nhật selectedAddress khi người dùng chọn địa chỉ
     console.log("Địa chỉ đã được chọn lại nè: ", this.selectedAddress);
