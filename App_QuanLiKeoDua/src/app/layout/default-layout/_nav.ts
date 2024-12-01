@@ -111,5 +111,11 @@ export const navItems: INavData[] = [
     url: '/accounts',
     icon: "bi bi-person-fill",
     permission: 'Xem tài khoản',
+  },
+  {
+    name: 'Sao lưu & phục hồi',
+    url: '/save',
+    icon: "bi bi-person-fill",
+    permission: 'Xem tài khoản',
   }
 ];

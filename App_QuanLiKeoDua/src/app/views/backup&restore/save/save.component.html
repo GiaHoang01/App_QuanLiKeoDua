@@ -1,0 +1,43 @@
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+<div class="container mt-5">
+    <!-- Tạo Sao Lưu -->
+    <div class="card mb-4">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Tạo Sao Lưu</h5>
+      </div>
+      <div class="card-body">
+        <p>Nhấn nút bên dưới để tạo sao lưu dữ liệu của bạn.</p>
+        <button class="btn btn-primary" (click)="createBackup()">Tạo Sao Lưu</button>
+      </div>
+    </div>
+  
+   <!-- Phục Hồi -->
+<div class="card">
+    <div class="card-header bg-warning text-white">
+      <h5 class="mb-0">Phục Hồi Dữ Liệu</h5>
+    </div>
+    <div class="card-body">
+      <p>Chọn tệp sao lưu từ máy tính của bạn để phục hồi dữ liệu.</p>
+  
+      <!-- Chọn tệp sao lưu -->
+      <div class="mb-3">
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+          accept=".bak, .json"
+        />
+      </div>
+  
+      <!-- Nút phục hồi -->
+      <button 
+        class="btn btn-primary"
+        (click)="restoreBackup()"
+        [disabled]="!selectedFile">
+        Phục Hồi Dữ Liệu
+      </button>
+    </div>
+  </div>
+  
+  </div>
+  

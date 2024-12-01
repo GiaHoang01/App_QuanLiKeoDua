@@ -11,7 +11,6 @@ if (typeof console !== 'undefined') {
     if (args[0] && args[0].includes('OverlayPanel is deprecated')) {
       return; // Bỏ qua cảnh báo này
     }
-    originalWarn.apply(console, args); // Gọi lại console.warn bình thường cho các cảnh báo khác
   };
 }
 

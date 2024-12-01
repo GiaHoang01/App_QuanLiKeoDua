@@ -56,7 +56,7 @@ export const routes: Routes = [
       {
         path: 'product',
         loadChildren: () => import('./views/products/routes').then((m) => m.routes),
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
+        data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
       },
       {
@@ -81,6 +81,12 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('./views/promotion/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem khuyến mãi' },
+        canActivate: [PermissionGuard],
+      },
+      {
+        path: '',
+        loadChildren: () => import('./views/backup&restore/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
       }
     ]
