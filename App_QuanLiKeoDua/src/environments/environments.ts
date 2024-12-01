@@ -1,7 +1,9 @@
 
 const API_BASE = "http://localhost:5047/api/";
 export const API_ENDPOINT = {
-   
+    PAYMENT_ENDPOINT: {
+        PAYMENT: API_BASE + "Payment",
+    },
     ACCOUNT_ENDPOINT: {
         LOGIN: API_BASE + "TaiKhoan/",
     },

@@ -24,6 +24,7 @@
           <div class="form-group button-group">
             <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'" (click)="save()">Lưu
             </button>
+            <button class="btn-blue" (click)="PayVnPay()"> Thanh toán</button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/saleOrder']">Trở về</button>
           </div>
