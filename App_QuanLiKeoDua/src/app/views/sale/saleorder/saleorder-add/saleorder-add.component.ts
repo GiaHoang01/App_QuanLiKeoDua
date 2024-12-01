@@ -17,6 +17,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { SelectModule } from 'primeng/select';
+import { DropdownModule } from 'primeng/dropdown';
 
 interface DataResult {
   saleInvoiceOrder: any,
@@ -33,7 +35,7 @@ interface Filters {
 @Component({
   selector: 'app-saleorder-add',
   standalone: true,
-  imports: [SidebarModule, ToastModule, Ripple,
+  imports: [SidebarModule, ToastModule, Ripple,SelectModule,DropdownModule,
     NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './saleorder-add.component.html',
@@ -57,6 +59,11 @@ export class SaleorderAddComponent {
     tenKH: "",
     tenNV: "",
   }
+  hinhThuc = [
+    { label: "Chuyển khoản", value: "CK" },
+    { label: "Thanh toán khi nhận hàng", value: "COD" },
+    { label: "Tiền mặt", value: "TM" },
+  ];
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];

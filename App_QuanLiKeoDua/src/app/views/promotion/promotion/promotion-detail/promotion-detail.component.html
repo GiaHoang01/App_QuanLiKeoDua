@@ -1,0 +1,136 @@
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+<div class="container">
+  <div class="row mb-3">
+
+    <!--Phần bên trái các nút-->
+   
+    <!--Kết thúc phần bên trái các nút-->
+
+    <!--Phần bên phải chứa các nút-->
+    <div class="col-6">
+      <div class="row">
+        <div class="col-sm-10 text-right col-md-10 offset-md-3">
+          <div class="form-group button-group">
+            <button class="btn-green" (click)="save()" [disabled]="!data.promotion.tenCTKhuyenMai || data.promotionDetail.length==0">Lưu
+            </button>
+            <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
+            <button class="btn-blue" [routerLink]="['/promotion']">Trở về</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Kết thúc phần bên phải chứa các nút-->
+
+  </div>
+  <!--Phần Master-->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <!-- Ghi chú -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Ghi chú:</label>
+        <div class="col-9">
+          <textarea class="border-bottom1"
+            [(ngModel)]="this.data.promotion.ghiChu" placeholder="Nhập ghi chú ở đây ..." rows="6"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <!-- Mã phiếu nhập -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Mã Khuyến mãi:</label>
+        <div class="col-9">
+          <input class="border-bottom1"
+            [(ngModel)]="this.data.promotion.maKhuyenMai" disabled="true"/>
+        </div>
+      </div>
+
+      <!-- Tên NCC -->
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Tên chương trình:*</label>
+        <div class="col-9">
+            <input class="border-bottom1"
+            [(ngModel)]="this.data.promotion.tenCTKhuyenMai" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Kết thúc phần Master-->
+
+  <!-- Phần nội dung ở dưới đây-->
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="custom-table-wrapper">
+        <table class="custom-table table table-bordered table-hover table-edit">
+          <thead>
+            <tr>
+              <th class="STT">#</th>
+              <th class="code-lg">Mã hàng hóa</th>
+              <th class="text-sm">Tên hàng hóa</th>
+              <th class="number text-center">Đơn giá</th>
+              <th class="number text-center">Tỉ lệ khuyến mãi</th>
+              <th class="number text-center">Giá sau khuyến mãi</th>
+              <th class="dateValue">Ngày bắt đầu</th>
+              <th class="dateValue">Ngày kết thúc</th>
+              <th class="active-sm"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Kiểm tra nếu không có dữ liệu, hiển thị thông báo -->
+            <tr *ngIf="data.promotionDetail.length === 0">
+              <td colspan="7" class="text-center">Không có dữ liệu</td>
+            </tr>
+
+            <!-- Hiển thị dữ liệu nếu có -->
+            <tr *ngFor="let item of data.promotionDetail; let i = index">
+              <td class="STT">{{i + 1}}</td>
+              <td>
+                <app-quick-search [name]="'product'+i" [fieldShow]="'maHangHoa'" outputField="maHangHoa"
+                  [filterObjectList]="this.data.products" (CallBackEvent)="quickSearchHangHoa($event)"
+                  [inputClass]="'form-control code-lg'" (selectedEvent)="onSelectItem($event,i)"
+                  [(value)]="item.maHangHoa" [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']"
+                  styleField="isExpiryDate" [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
+                </app-quick-search>
+              </td>
+              <td class="text-sm text-left">{{item.tenHangHoa}}</td>
+              <td>
+                {{item.giaBan}}
+              </td>
+              <td class="number">
+                <input type="number" [(ngModel)]="item.tiLeKhuyenMai" (ngModelChange)="calculateKhuyenMai(item)" class="form-control" [name]="'tiLeKhuyenMai'+i">
+              </td>
+              <td>
+                {{item.giaSauKM}}
+              </td>
+              <td>
+                <app-date-picker [(dateValue)]="item.ngayBD" [inputClass]="'form-control'" [isShowTime]="false"
+                        [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+              </td>
+              <td>
+                <app-date-picker [(dateValue)]="item.ngayKT" [inputClass]="'form-control'" [isShowTime]="false"
+                        [format]="'DD/MM/YYYY'" [isShowWeek]="false"></app-date-picker>
+              </td>
+              <td alignFrozen="right" pFrozenColumn class="active-sm">
+                <button class="btn btn-link px-1" type="button" title="Xóa"
+                  (click)="deleteRow(i)"><i
+                  class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Thêm dòng điều khiển -->
+            <tr class="row-control">
+              <td colspan="999">
+                <button class="btn-green" (click)="onAddRow()">Thêm (F12)</button>
+                <span>| </span>
+                <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Kết thúc phần nội dung ở dưới đây-->
+</div>

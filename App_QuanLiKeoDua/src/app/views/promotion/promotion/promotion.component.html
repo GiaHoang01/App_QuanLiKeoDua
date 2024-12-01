@@ -1,89 +1,80 @@
-
 <!-- Container chính cho trang -->
 <div class="container">
 
-    <!-- Phần master -->
-    <div class="row mb-3"> <!-- Adds margin at the bottom -->
-        <div class="col-sm-8">
-            <div class="row mb-2">
-                <div class="form-group col-sm-4">
-                    <label class="font-weight-bold">Tìm kiếm</label>
-                    <input name="SearchString" class="form-control clearable" type="search"
-                        placeholder="Mã/Họ và tên/Số điện thoại">
-                </div>
-            </div>
+  <!-- Phần master -->
+  <div class="row mb-3"> <!-- Adds margin at the bottom -->
+    <div class="col-sm-8">
+      <div class="row mb-2">
+        <div class="form-group col-sm-4">
+          <label class="font-weight-bold">Tìm kiếm</label>
+          <input [(ngModel)]="filters.searchString" class="form-control clearable" type="search"
+            placeholder="Tên chương trình khuyến mãi">
         </div>
-        <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
-            <div class="btn-group mr-2">
-                <button class="btn-green" style="color: white;">Tìm</button>
-                <button (click)="toggleExpansion()" class="btn-green">
-                    <i class="bi bi-funnel-fill"></i>
-                  </button>
-                <button class="btn-green" [routerLink]="['/saleorder/saleOrderAdd']"
-                    [queryParams]="{id:'',status:1}">Thêm mới</button>
-            </div>
-            
-        </div>
+      </div>
     </div>
+    <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
+      <div class="btn-group mr-2">
+        <button class="btn-green" (click)="onSearch()">Tìm</button>
+        <button class="btn-green" [routerLink]="['/promotion/promotionAdd']" [queryParams]="{id:'',status:1}">Thêm
+          mới</button>
+      </div>
 
-
-
-    <!-- Phần nội dung ở dưới đây-->
-    <div class="row">
-        <div class="col-12">
-            <p-table [value]="data.promotionList" [(selection)]="selectedProduct" selectionMode="single"
-                showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pFrozenColumn pSortableColumn="maKhuyenMai" style="min-width:100px !important">
-                            Mã khuyến mãi <p-sortIcon field="maKhuyenMai" />
-                        </th>
-                        <th pSortableColumn="tenCTKhuyenMai" style="min-width:200px !important">
-                            Tên chương trình khuyến mãi <p-sortIcon field="tenCTKhuyenMai" />
-                        </th>
-                        <th pSortableColumn="ghiChu" style="min-width:200px !important">
-                            Ghi chú <p-sortIcon field="ghiChu" />
-                        </th>
-                        <th alignFrozen="right" class="active-sm" pFrozenColumn>
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-o>
-                    <tr [pSelectableRow]="o">
-                        <td pFrozenColumn>{{ o.maKhuyenMai }}</td>
-                        <td>{{ o.tenCTKhuyenMai }}</td>
-                        <td>{{ o.ghiChu }}</td>
-                        <td alignFrozen="right" pFrozenColumn class="active-sm">
-                            <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                                [routerLink]="['/saleorder/saleOrderDetail']"
-                                [queryParams]="{ id: o.maKhuyenMai, status: 2 }">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(o.maKhuyenMai)"><i
-                                    class="bi bi-trash3-fill"></i></button>
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="12" class="empty-message">Không có dữ liệu.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-            <div class="flex justify-center">
-                <app-paginator [totalRows]="this.globalService.paging.TotalRows"
-                    (selectPageEvent)="onPageChange($event)" (selectRowsEvent)="onRowsChange($event)">
-                </app-paginator>
-            </div>
-        </div>
     </div>
+  </div>
+
+
+
+  <!-- Phần nội dung ở dưới đây-->
+  <div class="row">
+    <div class="col-12">
+      <p-table [value]="data.promotionList" [(selection)]="selectedProduct" selectionMode="single" showGridlines
+        [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pFrozenColumn pSortableColumn="maKhuyenMai" style="min-width:100px !important">
+              Mã khuyến mãi <p-sortIcon field="maKhuyenMai" />
+            </th>
+            <th pSortableColumn="tenCTKhuyenMai" style="min-width:200px !important">
+              Tên chương trình khuyến mãi <p-sortIcon field="tenCTKhuyenMai" />
+            </th>
+            <th pSortableColumn="ghiChu" style="min-width:200px !important">
+              Ghi chú <p-sortIcon field="ghiChu" />
+            </th>
+            <th alignFrozen="right" class="active-sm" pFrozenColumn>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-o>
+          <tr [pSelectableRow]="o">
+            <td pFrozenColumn>{{ o.maKhuyenMai }}</td>
+            <td>{{ o.tenCTKhuyenMai }}</td>
+            <td>{{ o.ghiChu }}</td>
+            <td alignFrozen="right" pFrozenColumn class="active-sm">
+              <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
+                [routerLink]="['/promotion/promotionDetail']" [queryParams]="{ id: o.maKhuyenMai, status: 2 }">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(o.maKhuyenMai)"><i
+                  class="bi bi-trash3-fill"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="12" class="empty-message">Không có dữ liệu.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="flex justify-center">
+        <app-paginator [totalRows]="this.globalService.paging.TotalRows" (selectPageEvent)="onPageChange($event)"
+          (selectRowsEvent)="onRowsChange($event)">
+        </app-paginator>
+      </div>
+    </div>
+  </div>
 </div>
-<p-dialog 
-    header="Header" 
-    [(visible)]="IsShowPopupDelete" 
-    [modal]="true" 
-    class="sm">
-  
+<p-dialog header="Header" [(visible)]="IsShowPopupDelete" [modal]="true" class="sm">
+
   <!-- Header Template -->
   <ng-template pTemplate="header">
     <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
@@ -93,19 +84,19 @@
     </div>
   </ng-template>
 
-<!-- Content Template -->
-<ng-template pTemplate="content">
-  <div class="row" style="padding-bottom: 10px;">
-    <span>Bạn có chắc muốn xóa ?</span>
-  </div>
-</ng-template>
+  <!-- Content Template -->
+  <ng-template pTemplate="content">
+    <div class="row" style="padding-bottom: 10px;">
+      <span>Bạn có chắc muốn xóa ?</span>
+    </div>
+  </ng-template>
   <!-- Footer Template -->
   <ng-template pTemplate="footer">
     <div class="border-style-top">
       <button type="submit" (click)="deleteSaleInvoiceOrder()" class="btn-green">
         Đồng ý
       </button>
-      <button type="button" class="btn-red"  (click)="close()">
+      <button type="button" class="btn-red" (click)="close()">
         Hủy
       </button>
     </div>
