@@ -50,7 +50,7 @@ export class CustomersComponent implements OnInit {
     const loai = this.loaiKH.find(item => item.value === maLoaiKH);
     return loai ? loai.label : "Không xác định";
   }
-
+  showShippingInfo: boolean = false;
   IsShowPopupEdit: boolean = false;
   IsUpdate: boolean = false;
   options = [
@@ -108,26 +108,28 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  selectedAddress: boolean | null = null;
+
   GetCustomerByID(maKH: string) {
     const body = {
-      MaKH: maKH,
+        MaKH: maKH,
     };
     this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "GetCustomerByID", body).subscribe({
-      next: (response: any) => {
-        if (response.status == 1) {
-          this.data.customer = response.data.khachHang;
-        } else {
-
+        next: (response: any) => {
+            if (response.status === 1) {
+                // Cập nhật thông tin khách hàng
+                this.data.customer = response.data;
+                this.selectedAddress = this.data.customer.shippingInfos.find((x: any) => x.macDinh === true)?.macDinh || null;
+            } else {
+                console.error("Không tìm thấy khách hàng.");
+            }
+        },
+        error: (error: any) => {
+            console.log(error);
         }
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => {
-
-      }
     });
-  }
+}
+
 
   DeleteCustomer(maKH: string) {
     const body = {

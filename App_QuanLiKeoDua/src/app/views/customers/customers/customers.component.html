@@ -1,6 +1,5 @@
 <!-- Container chính cho trang -->
 <div class="container">
-
     <!-- Phần master -->
     <div class="row mb-3"> <!-- Adds margin at the bottom -->
         <div class="col-sm-8">
@@ -76,7 +75,7 @@
     </div>
 </div>
 
-<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm">
+<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm" [style]="{width: '800px'}">
 
     <!-- Header Template -->
     <ng-template pTemplate="header">
@@ -147,7 +146,74 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12">
+                <label>Danh sách địa chỉ giao hàng</label>
+                <div *ngFor="let address of data.customer.shippingInfos; let i = index" 
+                     class="row mb-2" 
+                     style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                    <!-- Radio button -->
+                    <div class="col-sm-1 d-flex align-items-center">
+                        <input 
+                            class="form-check-input ms-3" 
+                            type="radio" 
+                            name="macDinh" 
+                            [value]="address.macDinh" 
+                            [(ngModel)]="selectedAddress"
+                            [checked]="address.macDinh" 
+                            style="transform: scale(1);" />
+                    </div>
+                    <!-- Nội dung địa chỉ -->
+                    <div class="col-sm-11">
+                        <p><strong>Địa chỉ:</strong> {{ address.diaChi }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ address.sdt }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Button or link to toggle the shipping information section -->
+        <button (click)="showShippingInfo = !showShippingInfo" class="btn-green">
+            Thêm thông tin giao hàng
+        </button>
 
+        <!-- Shipping information section, only visible when showShippingInfo is true -->
+        <div *ngIf="showShippingInfo">
+            <div class="row" style="padding-bottom: 10px;">
+                <!-- Cột chứa nội dung -->
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="sdt">Số điện thoại giao hàng:</label>
+                        <input type="text" p-inputtext name="sdt" class="border-bottom1"
+                            [(ngModel)]="data.customer.sdt" tabindex="3">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Số nhà, đường:</label>
+                        <input type="text" p-inputtext name="address" class="border-bottom1"
+                            [(ngModel)]="data.customer.address" tabindex="3">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="ward">Phường/ Xã:</label>
+                            <input type="text" p-inputtext name="ward" class="border-bottom1"
+                                [(ngModel)]="data.customer.ward" tabindex="3">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="district">Quận/ Huyện:</label>
+                            <input type="text" p-inputtext name="district" class="border-bottom1"
+                                [(ngModel)]="data.customer.district" tabindex="3">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="city">Thành phố:</label>
+                            <input type="text" p-inputtext name="city" class="border-bottom1"
+                                [(ngModel)]="data.customer.city" tabindex="3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-template>
 
     <!-- Footer Template -->
