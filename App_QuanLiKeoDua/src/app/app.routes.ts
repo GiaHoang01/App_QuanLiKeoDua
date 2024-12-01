@@ -56,7 +56,7 @@ export const routes: Routes = [
       {
         path: 'product',
         loadChildren: () => import('./views/products/routes').then((m) => m.routes),
-        data: { requiredPermission: 'VIEW_SALE_ORDER' },
+        data: { requiredPermission: 'Xem hàng hóa' },
         canActivate: [PermissionGuard],
       },
       {
