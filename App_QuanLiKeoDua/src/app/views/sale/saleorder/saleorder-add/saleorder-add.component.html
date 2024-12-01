@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'" (click)="save()">Lưu
+            <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc" (click)="save()">Lưu
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/saleOrder']">Trở về</button>
@@ -44,10 +44,17 @@
             [(ngModel)]="this.data.saleInvoiceOrder.ghiChu" placeholder="Nhập ghi chú ở đây ..." rows="6"></textarea>
         </div>
       </div>
+      <div class="row mb-2">
+        <label class="col-3 col-form-label">Hình thức TT:</label>
+        <div class="col-9">
+          <p-select [options]="hinhThuc" name="hinhThuc" [(ngModel)]="data.saleInvoiceOrder.maHinhThuc" name="gioiTinh"
+          placeholder="--Vui lòng chọn--">
+        </p-select>
+        </div>
+      </div>
     </div>
 
     <div class="col-md-6">
-      <!-- Mã phiếu nhập -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Mã hóa đơn:</label>
         <div class="col-9">
@@ -55,8 +62,6 @@
             [(ngModel)]="this.data.saleInvoiceOrder.maHoaDon" />
         </div>
       </div>
-
-      <!-- Tên NCC -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Tên Khách hàng:</label>
         <div class="col-9">
@@ -68,8 +73,6 @@
           </app-quick-search>
         </div>
       </div>
-
-      <!-- Tên nhân viên -->
       <div class="row mb-2">
         <label class="col-3 col-form-label">Tên nhân viên:</label>
         <div class="col-9">

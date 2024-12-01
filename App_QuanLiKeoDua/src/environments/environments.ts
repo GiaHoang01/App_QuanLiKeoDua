@@ -17,6 +17,9 @@ export const API_ENDPOINT = {
     PRODUCT_ENDPOINT:{
         PRODUCT:API_BASE + "HangHoa/",
     },
+    PROMOTION_ENDPOINT:{
+        PROMOTION:API_BASE + "ChuongTrinhKhuyenMai/",
+    },
     ORDER_ENDPOINT:{
         SALEINVOICE_ORDER:API_BASE + "HoaDonBanHang/",
     },

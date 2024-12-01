@@ -65,7 +65,7 @@
                             Mã nhân viên <p-sortIcon field="maNV" />
                         </th>
                         <th pSortableColumn="tenNV" style="min-width:200px !important">
-                            Tên nhân viên <p-sortIcon field="temNV" />
+                            Tên nhân viên <p-sortIcon field="tenNV" />
                         </th>
                         <th pSortableColumn="maKhachHang" style="min-width:200px !important">
                             Mã khách hàng <p-sortIcon field="maKhachHang" />
@@ -82,9 +82,6 @@
                         <th pSortableColumn="ngayBan" style="min-width:200px !important">
                             Ngày thanh toán <p-sortIcon field="ngayBan" />
                         </th>
-                        <th pSortableColumn="trangThai" style="min-width:200px !important">
-                            Trạng thái<p-sortIcon field="trangThai" />
-                        </th>
                         <th alignFrozen="right" class="active-sm" pFrozenColumn>
                         </th>
                     </tr>
@@ -92,7 +89,7 @@
                 <ng-template pTemplate="body" let-order>
                     <tr [pSelectableRow]="order" [ngClass]="{
                         'DotRowBlue': order.trangThai == 'Chờ xác nhận',
-                        'DotRowPurple': order.ghiChu != null,
+                        'DotRowPurple': order.trangThai.includes('Đã hủy')
                       }">
                         <td pFrozenColumn>{{ order.maHoaDon }}</td>
                         <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
@@ -104,7 +101,6 @@
                         <td>{{ order.maHinhThuc }}</td>
                         <td>{{ order.ghiChu }}</td>
                         <td>{{ order.ngayThanhToan }}</td>
-                        <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
                             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
                                 (click)="showUpdate(order.maHoaDon)"><i class="bi bi-pencil-square"></i></button>
