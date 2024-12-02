@@ -19,8 +19,7 @@ import { Toast, ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 
 interface DataResult {
-  shippingNote: any;
-  employees: [],
+  shippingNoteCancel: any;
   invoice: [],
 }
 
@@ -40,19 +39,17 @@ interface Filters {
 export class ShippingNoteCancelAddComponent implements OnInit{
   id: string | null = null;
   status: number = 0;
-  selectedAddress: any = null; // Biến lưu địa chỉ được chọn
 
   constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
     protected utilsService: UtilsService, private apiService: APIService,
     protected globalService: GlobalService) { }
+
     data: DataResult = {
-      shippingNote: {},
-      employees: [],
+      shippingNoteCancel: {},
       invoice: [],
     }
     filter: Filters = {
       maPhieuGiao: "",
-  
     }
     ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
@@ -60,13 +57,7 @@ export class ShippingNoteCancelAddComponent implements OnInit{
         this.status = params['status'];
       });
       this.getData();
-      this.quickSearchDeliveryEmployee();
-      //this.quickSearchHoaDonMoiTao();
-      // const defaultAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) => address.macDinh === true);
-  
-      // if (defaultAddress) {
-      //   this.selectedAddress = defaultAddress; // Gán địa chỉ mặc định vào selectedAddress
-      // }
+      this.quickSearchShippingNoteIncpmplete();
     }
   
     getHinhThuc(maHinhThuc: string): string {
@@ -74,18 +65,18 @@ export class ShippingNoteCancelAddComponent implements OnInit{
         case 'CK': return 'Chuyển khoản';
         case 'COD': return 'Thanh toán khi nhận hàng';
         case 'TM': return 'Tiền mặt';
-        default: return maHinhThuc; // Trả về mã nếu không khớp
+        default: return ''; // Trả về mã nếu không khớp
       }
     }
   
-    quickSearchDeliveryEmployee(searchString: string = '') {
+    quickSearchShippingNoteIncpmplete(searchString: string = '') {
       const body = {
         SearchString: searchString,
       };
-      this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "quickSearchDeliveryEmployee", body).subscribe({
+      this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "quickSearchShippingNoteIncpmplete", body).subscribe({
         next: (response: any) => {
           if (response.status == 1) {
-            this.data.employees = response.data.nhanViens;         
+            this.data.invoice = response.data.hoaDonKhachHang;         
           } else {
   
           }
@@ -99,19 +90,22 @@ export class ShippingNoteCancelAddComponent implements OnInit{
       });
     }
   
-    onEmployeeSelected(employee: any): void {
-      if (employee) {
-        this.maNhanVien = employee.maNV; // Gán giá trị mã nhân viên được chọn
-        this.data.shippingNote = {
-          ...this.data.shippingNote,
-          maNV: employee.maNV,
-          tenNV: employee.tenNV,
-          sdt: employee.sdt
+    onInvoiceSelected(invoice: any): void {
+      if (invoice) {
+        // Gán dữ liệu từ hóa đơn được chọn vào đối tượng shippingNote
+        this.data.shippingNoteCancel = {
+          ...this.data.shippingNoteCancel, // Giữ lại các giá trị hiện có
+          maPhieuGiao: invoice.maPhieuGiao,
+          ngayGiao: invoice.ngayGiao,
+          maKhachHang: invoice.maKhachHang,
+          tenKhachHang: invoice.tenKhachHang,
+          sdt: invoice.sdt,
+          maThongTin: invoice.maThongTin,
+          sdtGiaoHang: invoice.sdtGiaoHang,
+          diaChi: invoice.diaChi,
         };
-        console.log('Nhân viên được chọn:', this.maNhanVien);
       }
     }
-    
     
     getData() {
       const body = {
@@ -122,29 +116,17 @@ export class ShippingNoteCancelAddComponent implements OnInit{
       this.globalService.OnLoadpage();
       this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "GetShippingNoteCancelByID", body).subscribe({
           next: (response: any) => {
-              if (response.status === 1) {
-                  this.data.shippingNote = response.data.PhieuGiaoHang;
-                  this.filter.maPhieuGiao = response.data.phieuGiaoHang.maHoaDon;
-  
-                  console.log("shipping-note:", this.data.shippingNote);
-                  const maThongTinHienTai = this.data.shippingNote.maThongTinHienTai;
-                      this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
-                          address.maThongTin === maThongTinHienTai
-                      );
-                      console.log("Zui: ", this.selectedAddress);
-                  // Nếu status = 2 và MaThongTinHienTai không null, chọn địa chỉ theo MaThongTinHienTai
-                  // if (this.status == 2) {
-                    
-                  //     console.log("đây là selectedAddress nhé: ", this.selectedAddress);
-                  //  }// else {
-                  //     // Nếu MaThongTinHienTai là null hoặc status khác 2, chọn địa chỉ mặc định (macDinh)
-                  //     // this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
-                  //     //     address.macDinh == true
-                  //     );
-                  // }
-  
-                  //console.log("selectedAddress:", this.selectedAddress);
-                  //this.id = this.data.shippingNote.maHoaDon;
+              if (response.status == 1) {
+                  this.data.shippingNoteCancel = response.data.phieuHuyDon;
+                  console.log("shipping-note sau khi gán:", this.data.shippingNoteCancel);
+                  //this.filter.maPhieuHuy = response.data.phieuHuyDon.maPhieuHuy;
+                if(this.status == 2)
+                {
+                  this.filter.maPhieuGiao = this.data.shippingNoteCancel.maPhieuGiao;
+                }
+                  
+                  console.log("Mã phiếu hủy nèe: ", response.data.phieuHuyDon.maPhieuHuy);
+                  
               }
           },
           error: (error: any) => {
@@ -156,75 +138,60 @@ export class ShippingNoteCancelAddComponent implements OnInit{
       });
   }
   
-    saveShippingNote() {
-      const body = {
-        Status: this.status,
-        PhieuGiaoHang: this.data.shippingNote,
-        MaThongTin: this.selectedAddress.maThongTin ? this.selectedAddress.maThongTin : null  // Lấy MaThongTin từ địa chỉ đã chọn
-      };
-      console.log("save MaThongTin: ", this.selectedAddress.maThongTin);
-      this.globalService.OnLoadpage();
-      this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "SaveShippingNote", body).subscribe({
-        next: (response: any) => {
-          if (response.status == 1) {
-            this.id = response.data.maThongTin;
-            this.status = response.data.status;
-            //this.status == 2;
-            //this.getData();
-            console.log('id', this.id);
-            console.log('status', this.status);
-            console.log("Lưu thành công!");
-          } else {
-            console.log("Lưu thất bại");
-          }
-        },
-        error: (error: any) => {
-          console.log(error);
-        },
-        complete: () => {
-          this.getData();
-          this.globalService.OffLoadpage();
+  saveShippingNoteCancel()
+  {
+    const body = {
+      PhieuHuyDon: this.data.shippingNoteCancel,
+    };
+    this.globalService.OnLoadpage();
+    this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "SaveShippingNoteCancel", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          //this.id = response.data.maThongTin;
+          //this.status = response.data.status;
+          console.log('id', this.id);
+          console.log('status', this.status);
+          console.log("Lưu thành công!");
+        } else {
+          console.log("Lưu thất bại");
         }
-      });
-    }
-    onAddressSelected(address: any): void {
-      this.selectedAddress = address;  // Cập nhật selectedAddress khi người dùng chọn địa chỉ
-      console.log("Địa chỉ đã được chọn lại nè: ", this.selectedAddress);
-    }
-
-    selectedEmployee: any = null; // Biến để lưu mã nhân viên được chọn
-
-   
-
-    maNhanVien: string | null = null;
-
-    confirmShippingNote(trangThai: number)
-    {
-      const body = {
-        MaPhieuGiao: this.id,
-        MaNhanVien: this.maNhanVien,
-        TrangThai: trangThai,
-      };
-      this.globalService.OnLoadpage();
-      this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "ChangeShippingNoteStatus", body).subscribe({
-        next: (response: any) => {
-          if (response.status == 1) {
-            //this.id = response.data.maThongTin;
-            //this.status = response.data.status;
-            console.log('id', this.id);
-            console.log('status', this.status);
-            console.log("Lưu thành công!");
-          } else {
-            console.log("Lưu thất bại");
-          }
-        },
-        error: (error: any) => {
-          console.log(error);
-        },
-        complete: () => {
-          this.getData();
-          this.globalService.OffLoadpage();
-        }
-      });
-    }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.getData();
+        this.globalService.OffLoadpage();
+      }
+    });
+  }
+    // confirmShippingNote(trangThai: number)
+    // {
+    //   const body = {
+    //     MaPhieuGiao: this.id,
+    //     MaNhanVien: this.maNhanVien,
+    //     TrangThai: trangThai,
+    //   };
+    //   this.globalService.OnLoadpage();
+    //   this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE + "ChangeShippingNoteStatus", body).subscribe({
+    //     next: (response: any) => {
+    //       if (response.status == 1) {
+    //         //this.id = response.data.maThongTin;
+    //         //this.status = response.data.status;
+    //         console.log('id', this.id);
+    //         console.log('status', this.status);
+    //         console.log("Lưu thành công!");
+    //       } else {
+    //         console.log("Lưu thất bại");
+    //       }
+    //     },
+    //     error: (error: any) => {
+    //       console.log(error);
+    //     },
+    //     complete: () => {
+    //       this.getData();
+    //       this.globalService.OffLoadpage();
+    //     }
+    //   });
+    // }
 }

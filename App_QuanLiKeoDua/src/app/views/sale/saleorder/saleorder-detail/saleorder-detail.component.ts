@@ -17,6 +17,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { SelectModule } from 'primeng/select';
+import { DropdownModule } from 'primeng/dropdown';
 
 interface DataResult {
   saleInvoiceOrder:any,
@@ -30,10 +32,11 @@ interface Filters{
   tenKH:any,
   tenNV:any
 }
+
 @Component({
   selector: 'app-saleorder-detail',
   standalone: true,
-  imports: [ SidebarModule,ToastModule,Ripple,
+  imports: [ SidebarModule,ToastModule,Ripple,SelectModule,DropdownModule,
     NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './saleorder-detail.component.html',
@@ -52,7 +55,11 @@ export class SaleorderDetailComponent {
     employees:[],
     products:[]
   }
-
+  hinhThuc = [
+    { label: "Chuyển khoản", value: "CK" },
+    { label: "Thanh toán khi nhận hàng", value: "COD" },
+    { label: "Tiền mặt", value: "TM" },
+  ];
   filter:Filters={
     tenKH:"",
     tenNV:"",
@@ -315,7 +322,7 @@ export class SaleorderDetailComponent {
   
   addNew()
   {
-    this.router.navigate(['/saleOrder/saleOrderAdd'], {
+    this.router.navigate(['/saleorder/saleOrderAdd'], {
       queryParams: { id: '', status: 1 },
     });
     this.id = null;

@@ -81,7 +81,7 @@
                     <app-quick-search [filterObjectList]="data.invoice" [fieldShow]="'maHoaDon'"
                         [(value)]="filter.maHoaDon" placeHolder="Nhập mã hóa đơn"
                         (selectedEvent)="onInvoiceSelected($event)" [hearder]="['Mã hóa đơn']" [fields]="['maHoaDon']"
-                        [inputClass]="'border-bottom1'">
+                        [inputClass]="'border-bottom1'" [isDisabled]="this.data.shippingNote.trangThai != 'Mới tạo'">
                     </app-quick-search>
                 </div>
             </div>
@@ -164,6 +164,7 @@
                             [(ngModel)]="selectedAddress" 
                             (change)="onAddressSelected(address)"
                             [checked]="address.maThongTin == selectedAddress"
+                            [disabled]="data.shippingNote.trangThai != 'Mới tạo'"
                             style="transform: scale(1.5);" 
                         />
                     </div>

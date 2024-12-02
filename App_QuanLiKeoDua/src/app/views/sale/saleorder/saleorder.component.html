@@ -32,10 +32,10 @@
         </div>
         <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
             <div class="btn-group mr-2">
-                <button class="btn-green" style="color: white;">Tìm</button>
+                <button class="btn-green"(click)="onSearch()">Tìm</button>
                 <button (click)="toggleExpansion()" class="btn-green">
                     <i class="bi bi-funnel-fill"></i>
-                  </button>
+                </button>
                 <button class="btn-green" [routerLink]="['/saleorder/saleOrderAdd']"
                     [queryParams]="{id:'',status:1}">Thêm mới</button>
             </div>
@@ -43,7 +43,14 @@
         </div>
     </div>
 
-
+    <div class="ColorByStatus">
+        <ul>
+            <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
+            <li class="DotRowBlue"><span data-text="Đang giao"></span></li>
+            <li class="DotRowPurble"><span data-text="Hoàn thành"></span></li>
+            <li class="DotRowBlack"><span data-text="Đã hủy"></span></li>
+        </ul>
+    </div>
 
     <!-- Phần nội dung ở dưới đây-->
     <div class="row">
@@ -65,7 +72,7 @@
                             Mã nhân viên <p-sortIcon field="maNV" />
                         </th>
                         <th pSortableColumn="tenNV" style="min-width:200px !important">
-                            Tên nhân viên <p-sortIcon field="temNV" />
+                            Tên nhân viên <p-sortIcon field="tenNV" />
                         </th>
                         <th pSortableColumn="maKhachHang" style="min-width:200px !important">
                             Mã khách hàng <p-sortIcon field="maKhachHang" />
@@ -82,15 +89,17 @@
                         <th pSortableColumn="ngayBan" style="min-width:200px !important">
                             Ngày thanh toán <p-sortIcon field="ngayBan" />
                         </th>
-                        <th pSortableColumn="trangThai" style="min-width:200px !important">
-                            Trạng thái<p-sortIcon field="trangThai" />
-                        </th>
                         <th alignFrozen="right" class="active-sm" pFrozenColumn>
                         </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-order>
-                    <tr [pSelectableRow]="order">
+                    <tr [pSelectableRow]="order" [ngClass]="{
+                        'DotRowBlue': order.trangThai == 'Đang giao',
+                        'DotRowGreen':order.trangThai=='Mới tạo',
+                        'DotRowPurble':order.trangThai=='Đã hủy',
+                        'DotRowBlack': order.trangThai.includes('Đã hủy')
+                      }">
                         <td pFrozenColumn>{{ order.maHoaDon }}</td>
                         <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
                         <td class="text-right">{{ order.tongTriGia}}</td>
@@ -101,7 +110,6 @@
                         <td>{{ order.maHinhThuc }}</td>
                         <td>{{ order.ghiChu }}</td>
                         <td>{{ order.ngayThanhToan }}</td>
-                        <td>{{ order.trangThai }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
                             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
                                 [routerLink]="['/saleorder/saleOrderDetail']"
