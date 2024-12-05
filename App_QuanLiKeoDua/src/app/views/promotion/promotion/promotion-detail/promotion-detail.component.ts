@@ -105,7 +105,7 @@ export class PromotionDetailComponent {
         if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
-          
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
         }
       },
       error: (error: any) => {
@@ -170,9 +170,8 @@ export class PromotionDetailComponent {
         next: (response: any) => {
           if (response.status === 1) {
             callback(response.data.giaBan);
-            console.log(response.data.giaBan);
           } else {
-            console.log("Không lấy được giá hàng hóa");
+            
           }
         },
         error: (error: any) => {

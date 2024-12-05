@@ -54,7 +54,7 @@ export const routes: Routes = [
         canActivate: [PermissionGuard],
       },
       {
-        path: 'product',
+        path: 'products',
         loadChildren: () => import('./views/products/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem hàng hóa' },
         canActivate: [PermissionGuard],
@@ -81,6 +81,12 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('./views/promotion/routes').then((m) => m.routes),
         data: { requiredPermission: 'Xem khuyến mãi' },
+        canActivate: [PermissionGuard],
+      },
+      {
+        path: 'stock',
+        loadChildren: () => import('./views/stock/routes').then((m) => m.routes),
+        data: { requiredPermission: 'Xem hàng hóa' },
         canActivate: [PermissionGuard],
       }
     ]

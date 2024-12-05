@@ -24,6 +24,10 @@
           <div class="form-group button-group">
             <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc" (click)="save()">Lưu
             </button>
+            <button type="submit" (click)="ConfirmSaleInvoiceFinish()" class="btn-green"
+                [disabled]="!this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
+                Xác nhận đơn hàng hoàn thành
+            </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/saleorder']">Trở về</button>
           </div>

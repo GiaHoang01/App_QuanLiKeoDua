@@ -13,7 +13,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Hàng hóa',
-        url: '/product',
+        url: '/products',
         icon: '',
         permission: 'Xem hàng hóa',
       },
@@ -100,6 +100,12 @@ export const navItems: INavData[] = [
       },
     ]
   } ,
+  {
+    name: 'Quản lý tồn kho',
+    url: '/stock',
+    icon: "bi bi-gift-fill",
+    permission: 'Xem khuyến mãi',
+  },
   {
     name: 'Khuyến mãi',
     url: '/promotion',
