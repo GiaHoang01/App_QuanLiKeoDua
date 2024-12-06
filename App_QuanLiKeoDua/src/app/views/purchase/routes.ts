@@ -33,7 +33,7 @@ export const routes: Routes = [
   {
     path: 'confirmPurchaseOrder',
     loadComponent: () => import('./confirm-purchase-order/confirm-purchase-order.component').then(m => m.ConfirmPurchaseOrderComponent),
-    data: { title: 'Danh sách phiếu nhập', requiredPermission: 'Xem tài khoản' },
+    data: { title: 'Xác nhận phiếu nhập', requiredPermission: 'Xem tài khoản' },
     canActivate: [PermissionGuard],
   },
   {

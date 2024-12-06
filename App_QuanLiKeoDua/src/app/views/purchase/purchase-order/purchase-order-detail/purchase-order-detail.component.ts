@@ -135,8 +135,6 @@ export class PurchaseOrderDetailComponent implements OnInit {
   }
   
   save() {
-    console.log(this.data.purchase);
-    console.log(this.data.purchaseOrderDetail);
     const body = {
       PurchaseOrder:this.data.purchase,
       PurchaseOrderDetail:this.data.purchaseOrderDetail,

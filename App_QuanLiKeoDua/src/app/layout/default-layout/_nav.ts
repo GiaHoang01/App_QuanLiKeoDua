@@ -68,7 +68,7 @@ export const navItems: INavData[] = [
         permission: 'Xem phiếu nhập hàng',
       },
       {
-        name: 'Duyệt phiếu nhập',
+        name: 'Xác nhận phiếu nhập',
         url: '/confirmPurchaseOrder',
         icon: '',
         permission: 'Cập nhật phiếu nhập hàng', 
