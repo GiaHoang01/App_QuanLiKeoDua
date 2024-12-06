@@ -59,8 +59,8 @@
                 showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pFrozenColumn pSortableColumn="maHoaDon" style="min-width:100px !important">
-                            Mã hóa đơn <p-sortIcon field="maHoaDon" />
+                        <th pFrozenColumn pSortableColumn="soCT" style="min-width:100px !important">
+                            Số CT <p-sortIcon field="soCT" />
                         </th>
                         <th pSortableColumn="ngayBan" style="min-width:200px !important">
                             Ngày bán <p-sortIcon field="ngayBan" />
@@ -68,14 +68,8 @@
                         <th pSortableColumn="tongTriGia" style="min-width:200px !important">
                             Tổng trị giá <p-sortIcon field="tongTriGia" />
                         </th>
-                        <th pSortableColumn="maNV" style="min-width:200px !important">
-                            Mã nhân viên <p-sortIcon field="maNV" />
-                        </th>
                         <th pSortableColumn="tenNV" style="min-width:200px !important">
                             Tên nhân viên <p-sortIcon field="tenNV" />
-                        </th>
-                        <th pSortableColumn="maKhachHang" style="min-width:200px !important">
-                            Mã khách hàng <p-sortIcon field="maKhachHang" />
                         </th>
                         <th pSortableColumn="tenKhachHang" style="min-width:200px !important">
                             Tên khách hàng <p-sortIcon field="tenKhachHang" />
@@ -100,12 +94,10 @@
                         'DotRowPurble':order.trangThai=='Đã hủy',
                         'DotRowBlack': order.trangThai.includes('Đã hủy')
                       }">
-                        <td pFrozenColumn>{{ order.maHoaDon }}</td>
+                        <td pFrozenColumn>VG-{{order.tenKhachHang}}</td>
                         <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
                         <td class="text-right">{{ order.tongTriGia}}</td>
-                        <td>{{ order.maNV }}</td>
                         <td>{{ order.tenNV }}</td>
-                        <td>{{ order.maKhachHang }}</td>
                         <td>{{ order.tenKhachHang }}</td>
                         <td>{{ order.maHinhThuc }}</td>
                         <td>{{ order.ghiChu }}</td>
