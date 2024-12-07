@@ -27,12 +27,12 @@
               (click)="save()">Lưu
             </button>
             <button type="submit" (click)="ConfirmSaleInvoiceFinish()" class="btn-green"
-              [disabled]="!this.data.saleInvoiceOrder.maNV">
-              Xác nhận đơn hàng hoàn thành
+              [disabled]="!this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrder.trangThai=='Hoàn tất'">
+              Xác nhận hoàn thành
             </button>
-            <button type="submit" (click)="ConfirmCancelSaleInvoice()" class="btn-green"
-              [disabled]="!this.data.saleInvoiceOrder.maNV">
-              Xác nhận hủy đơn hàng
+            <button type="submit" (click)="ConfirmCancelSaleInvoice()" class="btn-red"
+              [disabled]="!this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'">
+              Xác nhận hủy
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/saleorder']">Trở về</button>
