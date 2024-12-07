@@ -1,94 +1,66 @@
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
 <!-- Container chính cho trang -->
-<div class="container">
+<div class="container mt-4">
 
   <!-- Phần master -->
-  <div class="row mb-3">
-    <!-- Thêm khoảng cách phía dưới cho đẹp -->
-    <div class="col-6">
+  <div class="row mb-4">
+    <!-- Nhân viên, Nhóm quyền và Nút thêm mới nằm ngang hàng -->
+    <div class="col-md-4 mb-3">
       <div class="row">
-        <label for="dropdown" class="col-3">Nhân viên</label>
-        <div class="col-9">
-          <p-select [options]="this.dsTenNV" name="tenNhanVien" [(ngModel)]="this.tenNhanVien"
-            placeholder="-- Chọn nhân viên --" (onChange)="onNhanVienChange($event)">
+        <label for="dropdown" class="col-4">Tài khoản</label>
+        <div class="col-8">
+          <p-select [options]="dsTenTK" name="tenTaiKhoan" [(ngModel)]="tenTaiKhoan" placeholder="-- Chọn tài khoản --">
           </p-select>
-
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Phần nội dung ở dưới đây-->
-  <div class="row">
-    <div class="col-12">
-      <p-tabs value="0">
-        <p-tablist>
-          <p-tab value="0">Quyền</p-tab>
-          <p-tab value="1">Nhóm quyền</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-          <p-tabpanel value="0">
-            <p-table [value]="this.quyen" selectionMode="single" showGridlines [sortOrder]="-1" [scrollable]="true"
-              scrollHeight="200px" rowHover="true">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th>#</th>
-                  <th pFrozenColumn pSortableColumn="maQuyen">
-                    Mã quyền
-                    <p-sortIcon field="maQuyen" />
-                  </th>
-                  <th pSortableColumn="tenNhomQuyen">
-                    Tên quyền
-                    <p-sortIcon field="tenQuyen" />
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowData let-i="rowIndex">
-                <tr>
-                  <td class="STT">{{ i + 1 }}</td>
-                  <td>
-                    <span>{{ rowData.maQuyen }}</span>
-                  </td>
-                  <td>
-                    <span>{{ rowData.tenQuyen }}</span>
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </p-tabpanel>
-          <p-tabpanel value="1">
-            <div class="card">
-              <p-table [value]="this.nhomQuyen" selectionMode="single" showGridlines [sortOrder]="-1"
-                [scrollable]="true" scrollHeight="200px" rowHover="true">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>#</th>
-                    <th pFrozenColumn pSortableColumn="maNhomQuyen">
-                      Mã nhóm quyền
-                      <p-sortIcon field="maNhomQuyen" />
-                    </th>
-                    <th pSortableColumn="tenNhomQuyen">
-                      Tên nhóm quyền
-                      <p-sortIcon field="tenNhomQuyen" />
-                    </th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-i="rowIndex">
-                  <tr>
-                    <td class="STT">{{ i + 1 }}</td>
-                    <td>
-                      <span>{{ rowData.maNhomQuyen }}</span>
-                    </td>
-                    <td>
-                      <span>{{ rowData.tenNhomQuyen }}</span>
-                    </td>
-                  </tr>
-                </ng-template>
-                
-              </p-table>
-            </div>
-          </p-tabpanel>
-        </p-tabpanels>
-      </p-tabs>
+    <div class="col-md-5 mb-3">
+      <div class="row">
+        <label for="dropdown" class="col-4">Chọn nhóm quyền</label>
+        <div class="col-8">
+          <app-quick-search [filterObjectList]="nhomQuyen" [fieldShow]="'maNhomQuyen'" [outputField]="'maNhomQuyen'"
+            placeHolder="Nhập tên để tìm" [(value)]="tenNhomQuyen" (CallBackEvent)="quickSearchNhomQuyen($event)"
+            name="maNhomQuyen" (selectedEvent)="tenNhomQuyen = $event.tenNhomQuyen;GetQuyenByTenNhomQuyen(tenNhomQuyen)" [inputClass]="'border-bottom1'"
+            [hearder]="['Mã nhóm quyền ','Tên nhóm quyền']" [fields]="['maNhomQuyen','tenNhomQuyen']">
+            >
+          </app-quick-search>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <button class="btn-green" (click)="Save()" style="color: white;">Lưu</button>
     </div>
   </div>
+
+  <!-- Phần bảng quyền ở dưới -->
+  <div class="row">
+    <div class="col-12">
+      <p-table [value]="quyen" selectionMode="single" showGridlines [sortOrder]="-1" [scrollable]="true"
+        scrollHeight="200px" rowHover="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th pFrozenColumn pSortableColumn="maQuyen">
+                Mã quyền
+              <p-sortIcon field="maQuyen" />
+            </th>
+            <th pSortableColumn="tenQuyen">
+                Tên quyền
+              <p-sortIcon field="tenQuyen" />
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-i="rowIndex">
+          <tr>
+            <td class="STT">{{ i + 1 }}</td>
+            <td>{{ rowData.maQuyen }}</td>
+            <td>{{ rowData.tenQuyen }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
 </div>
