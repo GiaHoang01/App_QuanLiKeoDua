@@ -24,7 +24,7 @@ export const navItems: INavData[] = [
         permission: 'Xem khách hàng',
       },
       {
-        name: 'Nhà     cung cấp',
+        name: 'Nhà cung cấp',
         url: '/vendor',
         icon: '',
         permission: 'Xem nhà cung cấp',
