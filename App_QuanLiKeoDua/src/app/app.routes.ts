@@ -32,13 +32,13 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./views/sale/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem hóa đơn' },
         canActivate: [PermissionGuard],
       },
       {
         path: 'employee',
         loadChildren: () => import('./views/employees/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem nhân viên' },
         canActivate: [PermissionGuard],
       },
       {
@@ -62,19 +62,19 @@ export const routes: Routes = [
       {
         path: 'customer',
         loadChildren: () => import('./views/customers/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem khách hàng' },
         canActivate: [PermissionGuard],
       },
       {
         path: '',
         loadChildren: () => import('./views/shipping/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem tài khoản' },
+        data: { requiredPermission: 'Xem phiếu giao hàng' },
         canActivate: [PermissionGuard],
       }, 
       {
         path: 'home', 
         loadChildren: () => import('./views/home/routes').then((m) => m.routes),
-        data: { requiredPermission: 'Xem phiếu nhập hàng' },
+        data: { requiredPermission: 'Xem tài khoản' },
         canActivate: [PermissionGuard],
       },
       {

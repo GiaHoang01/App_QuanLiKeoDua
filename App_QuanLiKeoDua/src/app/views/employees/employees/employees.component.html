@@ -188,23 +188,7 @@
         <input type="text" p-inputtext name="diaChi" class="border-bottom1" [(ngModel)]="data.employee.diaChi" tabindex="9">
       </div>
     </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="role">Mã nhóm quyền</label>
-        <app-quick-search
-              [filterObjectList]="data.nhomQuyens" [fieldShow]="'maNhomQuyen'"[outputField]="'maNhomQuyen'"
-              placeHolder="Nhập tên để tìm" [(value)]="data.employee.maNhomQuyen"
-              (CallBackEvent)="quickSearchNhomQuyen($event)" name="maNhomQuyen"
-              (selectedEvent)="data.employee.maNhomQuyen = $event.maNhomQuyen;" [inputClass]="'border-bottom1'"
-              [hearder]="['Mã nhóm quyền ','Tên nhóm quyền']" [fields]="['maNhomQuyen','tenNhomQuyen']">
-        >
-        </app-quick-search>
-      </div>
-    </div>
-  </div>
-  <div class="row" style="padding-bottom: 10px;" *ngIf="!IsUpdate">
-    <div class="col-sm-6">
+    <div class="col-sm-6" *ngIf="!IsUpdate">
       <div class="form-group">
         <label for="password">Mật khẩu</label>
         <input type="matKhau" p-inputtext id="matKhau" class="border-bottom1" [(ngModel)]="data.employee.matKhau" tabindex="11">
@@ -213,9 +197,6 @@
   </div>
 
 </ng-template>
-
-  
-  
   <!-- Footer Template -->
   <ng-template pTemplate="footer">
     <div class="border-style-top">
