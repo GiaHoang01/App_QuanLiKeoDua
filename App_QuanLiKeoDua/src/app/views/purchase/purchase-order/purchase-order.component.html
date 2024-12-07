@@ -38,6 +38,7 @@
         </button>
         <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']"
           [queryParams]="{id:'',status:1}">Thêm mới</button>
+          <button class="btn-green" (click)="exportExcel()" style="color: white;margin-left: 5px;">Xuất Excel</button>
       </div>
 
     </div>

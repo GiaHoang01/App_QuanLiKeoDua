@@ -129,9 +129,30 @@ export class SaleorderDetailComponent {
   {
     const body = {
       MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
-      MaNV:this.data.saleInvoiceOrder.maNV
     };
     this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "ConfirmSaleInvoiceFinish", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+        } else {
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
+        }
+      },
+      
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+  ConfirmCancelSaleInvoice()
+  {
+    const body = {
+      MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "ConfirmCancelSaleInvoice", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
@@ -341,4 +362,5 @@ export class SaleorderDetailComponent {
     }
     this.data.saleInvoiceOrder.tongTriGia= this.data.saleInvoiceOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
+  
 }

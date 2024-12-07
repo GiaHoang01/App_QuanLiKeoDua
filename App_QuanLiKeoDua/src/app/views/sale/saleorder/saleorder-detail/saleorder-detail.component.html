@@ -22,11 +22,17 @@
       <div class="row">
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc" (click)="save()">Lưu
+            <button class="btn-green"
+              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
+              (click)="save()">Lưu
             </button>
             <button type="submit" (click)="ConfirmSaleInvoiceFinish()" class="btn-green"
-                [disabled]="!this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
-                Xác nhận đơn hàng hoàn thành
+              [disabled]="!this.data.saleInvoiceOrder.maNV">
+              Xác nhận đơn hàng hoàn thành
+            </button>
+            <button type="submit" (click)="ConfirmCancelSaleInvoice()" class="btn-green"
+              [disabled]="!this.data.saleInvoiceOrder.maNV">
+              Xác nhận hủy đơn hàng
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/saleorder']">Trở về</button>
@@ -52,8 +58,8 @@
         <label class="col-3 col-form-label">Hình thức TT</label>
         <div class="col-9">
           <p-select [options]="hinhThuc" name="hinhThuc" [(ngModel)]="data.saleInvoiceOrder.maHinhThuc" name="gioiTinh"
-          placeholder="--Vui lòng chọn--">
-        </p-select>
+            placeholder="--Vui lòng chọn--">
+          </p-select>
         </div>
       </div>
     </div>
@@ -159,7 +165,7 @@
               <td class="text-sm text-left">{{item.tenHangHoa}}</td>
               <td class="number"
                 *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
-                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i"
+                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i" [min]="0" [max]="item.soLuongTon" 
                   (ngModelChange)="calculateThanhTien(item)">
               </td>
               <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" class="text-right">
