@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
-    data: { title: 'Trang chủ', requiredPermission: 'Xem nhân viên' },
+    data: { title: 'Trang chủ', requiredPermission: 'Xem tài khoản' },
     canActivate: [PermissionGuard],
   }
 ];

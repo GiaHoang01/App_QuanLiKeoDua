@@ -15,7 +15,7 @@ export const navItems: INavData[] = [
         name: 'Hàng hóa',
         url: '/products',
         icon: '',
-        permission: 'VIEW_SALE_ORDER',
+        permission: 'Xem hàng hóa',
       },
       {
         name: 'Khách hàng',
@@ -40,7 +40,7 @@ export const navItems: INavData[] = [
         name: 'Đơn đặt hàng',
         url: '/saleorder',
         icon: '',
-        permission: 'Xem tài khoản',
+        permission: 'Xem hóa đơn',
       },
       {
         name: 'Duyệt đơn hàng',
@@ -68,10 +68,10 @@ export const navItems: INavData[] = [
         permission: 'Xem phiếu nhập hàng',
       },
       {
-        name: 'Duyệt phiếu nhập',
+        name: 'Xác nhận phiếu nhập',
         url: '/confirmPurchaseOrder',
         icon: '',
-        permission: 'VIEW_SALE_ORDER', 
+        permission: 'Xem phiếu nhập hàng', 
       },
     ]
   },
@@ -84,19 +84,19 @@ export const navItems: INavData[] = [
         name:'Nhận phiếu giao hàng',
         url:'/shippingnoteconfirm',
         icon:'',
-        permission: 'Xem tài khoản', 
+        permission: 'Xem phiếu giao hàng', 
       },
       {
         name:'Phiếu giao hàng',
         url:'/shippingnote',
         icon:'',
-        permission: 'Xem tài khoản', 
+        permission: 'Xem phiếu giao hàng', 
       },
       {
         name:'Hủy phiếu giao hàng',
         url:'/shippingnotecancel',
         icon:'',
-        permission: 'Xem tài khoản', 
+        permission: 'Xem phiếu giao hàng', 
       },
     ]
   } ,
@@ -115,6 +115,12 @@ export const navItems: INavData[] = [
   {
     name: 'Tài khoản',
     url: '/accounts',
+    icon: "bi bi-person-fill",
+    permission: 'Xem tài khoản',
+  },
+  {
+    name: 'Sao lưu & phục hồi',
+    url: '/save',
     icon: "bi bi-person-fill",
     permission: 'Xem tài khoản',
   }

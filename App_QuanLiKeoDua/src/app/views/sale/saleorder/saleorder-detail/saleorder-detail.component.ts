@@ -250,7 +250,35 @@ export class SaleorderDetailComponent {
       }
     });
   }
-  
+  url:string="";
+  PayVnPay()
+  {
+    const paymentInformation = {
+      orderType: "Sale",         
+      amount: this.data.saleInvoiceOrder.tongTriGia,      
+      orderDescription: "Chuyển tiền đơn đặt hàng",  
+      name: this.filter.tenKH
+  };
+    const body = {
+      ...paymentInformation
+    };
+    this.apiService.callAPI(API_ENDPOINT.PAYMENT_ENDPOINT.PAYMENT + "", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.url = response.data.url;
+          window.location.href = this.url;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
 
   quickSearchHangHoa(searchString:string ="")
   {

@@ -10,11 +10,9 @@ export class PermissionGuard implements CanActivate {
 
   canActivate(route: any): boolean {
     const requiredPermission = route.data['requiredPermission'];
-    console.log('Required permission for route:', requiredPermission); // Log quyền yêu cầu
     const hasPermission = this.authService.hasPermission(requiredPermission);
 
     if (hasPermission) {
-      console.log(`Access granted to route with permission: ${requiredPermission}`);
       return true;
     }
 

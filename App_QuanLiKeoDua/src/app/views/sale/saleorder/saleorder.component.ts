@@ -104,7 +104,6 @@ export class SaleorderComponent implements OnInit {
         if (response.status == 1) {
           this.globalService.paging.TotalRows = response.data.totalRows;
           this.data.saleInvoiceOrders = response.data.saleInvoiceList;
-          console.log(this.data.saleInvoiceOrders)
         } else {
 
         }
