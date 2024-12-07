@@ -18,11 +18,11 @@ export class AuthService {
   }
 
   // Lấy tên đăng nhập
-  getTenDangNhap(): string | null {
+  getTenDangNhap(): string {
     if (!this.tenDangNhap) {
       this.tenDangNhap = localStorage.getItem('tenDangNhap');
     }
-    return this.tenDangNhap;
+    return this.tenDangNhap||'';
   }
 
   // Xóa thông tin đăng nhập
