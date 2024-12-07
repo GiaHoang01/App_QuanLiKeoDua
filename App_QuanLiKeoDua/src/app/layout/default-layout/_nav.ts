@@ -15,7 +15,7 @@ export const navItems: INavData[] = [
         name: 'Hàng hóa',
         url: '/products',
         icon: '',
-        permission: 'Xem hàng hóa',
+        permission: 'VIEW_SALE_ORDER',
       },
       {
         name: 'Khách hàng',
@@ -40,7 +40,7 @@ export const navItems: INavData[] = [
         name: 'Đơn đặt hàng',
         url: '/saleorder',
         icon: '',
-        permission: 'Xem hóa đơn',
+        permission: 'Xem tài khoản',
       },
       {
         name: 'Duyệt đơn hàng',
@@ -59,7 +59,7 @@ export const navItems: INavData[] = [
         name: 'Yêu cầu nhập hàng',
         url: '/purchaseOrderRequest',
         icon: '',
-        permission: 'Cập nhật phiếu nhập hàng', 
+        permission: 'Xem phiếu nhập hàng', 
       },
       {
         name: 'Phiếu nhập hàng',
@@ -71,7 +71,7 @@ export const navItems: INavData[] = [
         name: 'Duyệt phiếu nhập',
         url: '/confirmPurchaseOrder',
         icon: '',
-        permission: 'Cập nhật phiếu nhập hàng', 
+        permission: 'VIEW_SALE_ORDER', 
       },
     ]
   },
