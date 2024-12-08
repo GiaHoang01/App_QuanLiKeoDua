@@ -35,7 +35,7 @@ interface Filters {
 @Component({
   selector: 'app-saleorder-add',
   standalone: true,
-  imports: [SidebarModule, ToastModule, Ripple,SelectModule,DropdownModule,
+  imports: [SidebarModule, ToastModule, Ripple, SelectModule, DropdownModule,
     NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './saleorder-add.component.html',
@@ -86,7 +86,7 @@ export class SaleorderAddComponent {
           if (this.status == 2) {
 
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.chiTietHoaDonBanHang;
             this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
             this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
             this.data.saleInvoiceOrderDetail.forEach((item, index) => {
@@ -98,7 +98,7 @@ export class SaleorderAddComponent {
               this.initEdit(item, index);
             });
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.ctHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.ctHoaDonBanHang;
           }
         } else {
 
@@ -197,6 +197,7 @@ export class SaleorderAddComponent {
       }
     });
   }
+
   GetCustomerByID(maKH: string) {
     const body = {
       MaKH: maKH,
@@ -261,6 +262,26 @@ export class SaleorderAddComponent {
       });
   }
 
+  getSoLuongTon(maHangHoa: string, callback: (soLuongTon: number) => void) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+
+    this.apiService
+      .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status === 1) {
+            callback(response.data.soLuongTon);
+          } else {
+            console.log("Không lấy được tên hàng hóa");
+          }
+        },
+        error: (error: any) => {
+          console.error("Lỗi khi gọi API: ", error);
+        },
+      });
+  }
 
   onAddRow() {
     let tempItem = {
@@ -299,6 +320,9 @@ export class SaleorderAddComponent {
       this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
       this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
     });
+    this.getSoLuongTon(itemSelected.maHangHoa, (soLuongTon: number) => {
+      this.data.saleInvoiceOrderDetail[index].soLuongTon = soLuongTon;
+    })
   }
 
   addNew() {

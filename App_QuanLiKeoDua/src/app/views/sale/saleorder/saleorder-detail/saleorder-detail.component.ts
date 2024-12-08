@@ -323,6 +323,26 @@ export class SaleorderDetailComponent {
       });
   }
 
+  getSoLuongTon(maHangHoa: string) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+  
+    this.apiService
+      .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status === 1) {
+            return response.data.soLuongTon;
+          } else {
+            console.log("Không lấy được tên hàng hóa");
+          }
+        },
+        error: (error: any) => {
+          console.error("Lỗi khi gọi API: ", error);
+        },
+      });
+  }
 
   onAddRow() {
     let tempItem = {
@@ -361,6 +381,7 @@ export class SaleorderDetailComponent {
       this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
       this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
     });
+
   }
   
   addNew()

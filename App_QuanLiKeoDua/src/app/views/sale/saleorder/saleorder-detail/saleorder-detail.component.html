@@ -165,7 +165,7 @@
               <td class="text-sm text-left">{{item.tenHangHoa}}</td>
               <td class="number"
                 *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
-                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i" [min]="0" [max]="item.soLuongTon" 
+                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i" [min]="0" [max]="getSoLuongTon(item.maHangHoa)" 
                   (ngModelChange)="calculateThanhTien(item)">
               </td>
               <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" class="text-right">
