@@ -86,7 +86,6 @@ export class PurchaseOrderAddComponent implements OnInit {
         if (response.status == 1) {
          if(this.status==2)
          {
-          console.log(response);
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
