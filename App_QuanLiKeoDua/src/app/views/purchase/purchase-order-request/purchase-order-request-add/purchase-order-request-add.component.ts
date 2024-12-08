@@ -17,6 +17,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { AuthService } from '../../../../../scss/services/Auth.service';
 interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
@@ -46,7 +47,7 @@ export class PurchaseOrderAddComponent implements OnInit {
   isShowConfirm:boolean=false;
   constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
   protected utilsService: UtilsService,private apiService: APIService,
-   protected globalService: GlobalService) { }
+   protected globalService: GlobalService,public authService: AuthService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
@@ -85,7 +86,6 @@ export class PurchaseOrderAddComponent implements OnInit {
         if (response.status == 1) {
          if(this.status==2)
          {
-          console.log(response);
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);

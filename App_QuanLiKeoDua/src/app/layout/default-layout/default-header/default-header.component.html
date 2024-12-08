@@ -11,9 +11,7 @@
     </c-header-nav>
 
     <c-header-nav class="d-none d-md-flex ms-auto ">
-      <a cNavLink>
-        <i class="bi bi-bell-fill"></i>
-      </a>
+      
     </c-header-nav>
 
     <c-header-nav class="ms-auto ms-md-0">
@@ -103,13 +101,12 @@
                     <label for="username">Tên đăng nhập</label>
                     <input 
                         type="text" 
-                        id="username" 
                         name="username" 
                         class="form-control" 
                         [(ngModel)]="user.username" 
                         required 
                         disabled="true"
-                        placeholder="Nhập tên đăng nhập">
+                        >
                 </div>
             </div>
 

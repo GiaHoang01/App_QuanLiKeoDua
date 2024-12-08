@@ -167,11 +167,11 @@
     <ng-template pTemplate="footer">
         <div class="border-style-top">
             <button type="submit" (click)="saveProduct(true)" class="btn-green"
-                [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
+            [disabled]="!this.authService.hasPermission('update hàng hóa')&&(!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia)">
                 Lưu
             </button>
             <button type="submit" (click)="saveProduct(false)" class="btn-green"
-                [disabled]="!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia">
+                [disabled]="!this.authService.hasPermission('update hàng hóa')&&(!this.data.product.tenHangHoa || !this.data.product.hinhAnh || !this.data.product.loaiHangHoa || !this.data.product.ngayCapNhatGia)">
                 Lưu & thêm mới
             </button>
             <button type="button" class="btn-red" (click)="closeDialog()">

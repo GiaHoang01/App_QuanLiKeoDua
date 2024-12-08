@@ -23,7 +23,7 @@
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
           <div class="form-group button-group">
             <button class="btn-green" *ngIf="this.data.purchase.trangThai!='Hoàn tất'"
-              (click)="confirm()">Xác nhận
+              (click)="confirm()" [disabled]="!this.authService.hasPermission('update chi tiết phiếu nhập')">Xác nhận
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/confirmPurchaseOrder']">Trở về</button>

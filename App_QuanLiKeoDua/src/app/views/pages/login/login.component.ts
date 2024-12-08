@@ -68,7 +68,7 @@ export class LoginComponent {
       next: (response: any) => {
         if (response.status == 1) {
           this.isCheckAccount = true;
-          this.tenDangNhap = response.data.tenDangNhap;
+          this.tenDangNhap = response.data.userName;
           this.authService.setTenDangNhap(this.tenDangNhap);
           this.getPermissions();
         } else {

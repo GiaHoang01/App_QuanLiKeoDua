@@ -17,6 +17,7 @@ import { SelectModule } from 'primeng/select';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface DataResult {
   employee: any,
@@ -61,7 +62,7 @@ export class EmployeesComponent implements OnInit {
     nhomQuyens: []
   }
   searchString: string = "";
-  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,private messageService: MessageService,
+  constructor(public authService: AuthService,private route: ActivatedRoute, protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 

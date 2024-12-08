@@ -130,10 +130,10 @@
     <!-- Footer Template -->
     <ng-template pTemplate="footer">
         <div class="border-style-top">
-            <button type="submit" (click)="saveVendor(true)" class="btn-green">
+            <button type="submit" (click)="saveVendor(true)"[disabled]="!this.authService.hasPermission('update nhà cung cấp')" class="btn-green">
                 Lưu
             </button>
-            <button type="submit" (click)="saveVendor(false)" class="btn-green">
+            <button type="submit" (click)="saveVendor(false)"[disabled]="!this.authService.hasPermission('update nhà cung cấp')" class="btn-green">
                 Lưu & thêm mới
             </button>
             <button type="button" class="btn-red" (click)="closeDialog()">

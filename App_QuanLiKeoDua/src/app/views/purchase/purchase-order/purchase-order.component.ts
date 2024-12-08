@@ -16,7 +16,9 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
-interface filters extends TransactionFilter {
+import { AuthService } from '../../../../scss/services/Auth.service';
+interface filters extends TransactionFilter
+{
 
 }
 
@@ -51,7 +53,7 @@ export class PurchaseOrderComponent implements OnInit {
   IsShowPopupDelete: boolean = false;
   maPhieuNhap: string = "";
 
-  constructor(private messageService: MessageService, private route: ActivatedRoute, private router: Router, protected utilsService: UtilsService,
+  constructor(public authService: AuthService,private messageService:MessageService,private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 

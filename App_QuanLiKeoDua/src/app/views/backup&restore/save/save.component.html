@@ -7,7 +7,8 @@
       </div>
       <div class="card-body">
         <p>Nhấn nút bên dưới để tạo sao lưu dữ liệu của bạn.</p>
-        <button class="btn btn-primary" (click)="createBackup()">Tạo Sao Lưu</button>
+        <button class="btn btn-primary" (click)="createBackup()"
+        [disabled]="!this.authService.hasPermission('update tài khoản')">Tạo Sao Lưu</button>
       </div>
     </div>
   
@@ -33,6 +34,7 @@
       <button 
         class="btn btn-primary"
         (click)="restoreBackup()"
+        [disabled]="!this.authService.hasPermission('update tài khoản')"
         [disabled]="!selectedFile">
         Phục Hồi Dữ Liệu
       </button>

@@ -15,6 +15,7 @@ import { DatePickerComponent } from '../../../components/datepicker/datepicker.c
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
 import { deepCopy } from '@angular-devkit/core/src/utils/object';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface DataResult {
   product: any,
@@ -61,7 +62,7 @@ export class ProductsComponent {
     note:'',
   }
   searchString: string = "";
-  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
+  constructor(public authService: AuthService,private route: ActivatedRoute, protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService,) {
   }
 

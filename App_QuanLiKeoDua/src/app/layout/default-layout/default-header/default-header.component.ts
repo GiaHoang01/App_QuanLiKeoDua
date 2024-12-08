@@ -35,13 +35,14 @@ import { API_ENDPOINT } from '../../../../environments/environments';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { APIService } from '../../../../scss/services/api.service';
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
   standalone: true,
   providers: [MessageService],
   imports: [
-    Ripple,ToastModule,
+    Ripple, ToastModule,
     FormsModule,
     DialogModule,
     ContainerComponent,
@@ -86,12 +87,12 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   });
 
   title: string = ''; // Biến title để lưu tiêu đề trang
-  apiService: any;
 
   constructor(
-    private messageService:MessageService,
+    private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router,
+    private apiService: APIService,
     private authService: AuthService,
     private cdRef: ChangeDetectorRef
   ) {
@@ -148,13 +149,13 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     }
 
     const body = {
-      UserName:this.user.username,
-      PassWord:this.user.newPassword
+      UserName: this.user.username,
+      PassWordNew: this.user.newPassword
     };
-    this.apiService.callAPI(API_ENDPOINT.ACCOUNT_ENDPOINT.LOGIN + "getPermission", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.ACCOUNT_ENDPOINT.LOGIN + "resetPass", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.messageService.add({ severity: 'success', summary: 'Thông báo', detail: 'Lưu thành công',life:1000 });
+          this.messageService.add({ severity: 'success', summary: 'Thông báo', detail: 'Lưu thành công', life: 1000 });
         } else {
 
         }
