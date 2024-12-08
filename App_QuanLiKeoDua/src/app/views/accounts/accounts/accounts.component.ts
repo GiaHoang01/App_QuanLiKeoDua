@@ -13,6 +13,7 @@ import { AppQuickSearchComponent } from '../../../components/app-quick-search/ap
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { AuthService } from '../../../../scss/services/Auth.service';
 @Component({
   selector: 'app-accounts',
   standalone: true,
@@ -27,7 +28,7 @@ export class AccountsComponent implements OnInit{
   dsTenTK!:any[];
   tenNhomQuyen:string="";
   tenTaiKhoan:string="";
-  constructor(private route: ActivatedRoute,private apiService: APIService,private messageService: MessageService){}
+  constructor(public authService: AuthService,private route: ActivatedRoute,private apiService: APIService,private messageService: MessageService){}
   ngOnInit(): void {
     this.getAllNameAccount();
     this.quickSearchNhomQuyen();

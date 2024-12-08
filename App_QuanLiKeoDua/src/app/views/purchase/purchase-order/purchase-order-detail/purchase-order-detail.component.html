@@ -23,11 +23,11 @@
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
             <button class="btn-orange" [disabled]="this.data.purchase.trangThai!='Hoàn tất một nữa'"
-              (click)="createNew_PurchaseUnderSelling()">
+              (click)="createNew_PurchaseUnderSelling()" *ngIf="!this.authService.hasPermission('update phiếu nhập hàng')">
               Yêu cầu nhập hàng thiếu
             </button>
-            <button class="btn-green" (click)="save()"> Lưu </button>
-            <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
+            <button class="btn-green" (click)="save()" *ngIf="!this.authService.hasPermission('update phiếu nhập hàng')"> Lưu </button>
+            <button class="btn-blue" (click)="addNew()" *ngIf="!this.authService.hasPermission('Thêm phiếu nhập hàng')"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/purchaseOrder']">Trở về</button>
           </div>
         </div>

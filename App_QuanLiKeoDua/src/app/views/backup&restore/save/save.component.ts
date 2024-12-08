@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../scss/services/Auth.service';
 @Component({
 
   selector: 'app-save',
@@ -21,7 +22,7 @@ export class SaveComponent {
   selectedFile: File | null = null;
   selectedFileName:string="";
   link: string = "";
-  constructor(private http: HttpClient, private apiService: APIService,private messageService: MessageService) { }
+  constructor(public authService: AuthService,private http: HttpClient, private apiService: APIService,private messageService: MessageService) { }
 
   createBackup() {
     const body = {

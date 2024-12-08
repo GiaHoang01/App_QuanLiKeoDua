@@ -153,10 +153,10 @@
     <!-- Footer Template -->
     <ng-template pTemplate="footer">
         <div class="border-style-top">
-            <button type="submit" (click)="saveCustomer(true)" class="btn-green">
+            <button type="submit" (click)="saveCustomer(true)"  [disabled]="!this.authService.hasPermission('update khách hàng')"class="btn-green">
                 Lưu
             </button>
-            <button type="submit" (click)="saveCustomer(false)" class="btn-green">
+            <button type="submit" (click)="saveCustomer(false)" [disabled]="!this.authService.hasPermission('update khách hàng')"class="btn-green">
                 Lưu & thêm mới
             </button>
             <button type="button" class="btn-red" (click)="closeDialog()">

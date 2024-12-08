@@ -104,6 +104,7 @@
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
                 [routerLink]="['/confirmPurchaseOrder/confirmPurchaseOrderDetail']"
+                [disabled]="!this.authService.hasPermission('Xem chi tiết phiếu nhập')"
                 [queryParams]="{id:purchase.maPhieuNhap,status:2}"><i class="bi bi-pencil-square"></i></button>
             </td>
           </tr>

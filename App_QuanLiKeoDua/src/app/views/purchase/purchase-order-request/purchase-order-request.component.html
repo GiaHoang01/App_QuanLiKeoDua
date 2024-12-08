@@ -35,7 +35,8 @@
         <button (click)="toggleExpansion()" class="btn-green">
           <i class="bi bi-funnel-fill"></i>
         </button>
-        <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']" [queryParams]="{id:'',status:1}">Thêm mới</button>
+        <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']" [queryParams]="{id:'',status:1}"
+        [disabled]="!this.authService.hasPermission('Thêm phiếu nhập hàng')">Thêm mới</button>
       </div>
       
     </div>
@@ -94,10 +95,12 @@
           <td alignFrozen="right" pFrozenColumn class="active-sm">
             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
               [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']"
-              [queryParams]="{ id: purchase.maPhieuNhap, status: 2 }">
+              [queryParams]="{ id: purchase.maPhieuNhap, status: 2 }"
+              [disabled]="!this.authService.hasPermission('Xem chi tiết phiếu nhập')">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(purchase.maPhieuNhap)">
+            <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(purchase.maPhieuNhap)"
+            [disabled]="!this.authService.hasPermission('Xóa phiếu nhập hàng')" >
               <i class="bi bi-trash3-fill"></i>
             </button>
           </td>

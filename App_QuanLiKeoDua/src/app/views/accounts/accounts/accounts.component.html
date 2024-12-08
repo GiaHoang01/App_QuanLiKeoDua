@@ -30,7 +30,8 @@
     </div>
 
     <div class="col-md-3 mb-3">
-      <button class="btn-green" (click)="Save()" style="color: white;">Lưu</button>
+      <button class="btn-green" (click)="Save()" style="color: white;" [disabled]="!this.authService.hasPermission('update tài khoản ')"
+      >Lưu</button>
     </div>
   </div>
 
