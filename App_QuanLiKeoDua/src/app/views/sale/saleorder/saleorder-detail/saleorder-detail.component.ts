@@ -323,27 +323,24 @@ export class SaleorderDetailComponent {
       });
   }
 
-  getSoLuongTon(maHangHoa: string) {
+  validateSoLuong(item: any) {
     const body = {
-      MaHangHoa: maHangHoa,
+      MaHangHoa: item.maHangHoa,
     };
   
-    this.apiService
-      .callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body)
-      .subscribe({
-        next: (response: any) => {
-          if (response.status === 1) {
-            return response.data.soLuongTon;
-          } else {
-            console.log("Không lấy được tên hàng hóa");
-          }
-        },
-        error: (error: any) => {
-          console.error("Lỗi khi gọi API: ", error);
-        },
-      });
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body).subscribe({
+      next: (response: any) => {
+        const soLuongTon = response.status === 1 ? response.data.soLuongTon : 0;
+        if (item.soLuong > soLuongTon) {
+          item.soLuong = soLuongTon;
+        }
+      },
+      error: (error: any) => {
+        console.error("Lỗi khi gọi API: ", error);
+      },
+    });
   }
-
+  
   onAddRow() {
     let tempItem = {
      maHang:"",
