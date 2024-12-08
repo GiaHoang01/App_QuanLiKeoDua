@@ -17,6 +17,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { AuthService } from '../../../../../scss/services/Auth.service';
 interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
@@ -33,17 +34,17 @@ interface Filters{
 @Component({
   selector: 'app-purchase-order-detail',
   standalone: true,
-  imports: [ SidebarModule,ToastModule,Ripple,
-  NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
+  imports: [ SidebarModule,ToastModule,Ripple,NgScrollbarModule,RouterModule,CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective,TableModule,AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './purchase-order-detail.component.html',
   styleUrl: './purchase-order-detail.component.scss'
 })
 
 export class PurchaseOrderDetailComponent implements OnInit {
+[x: string]: any;
   id: string | null = null;
   status:number=0;
-  constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
+  constructor(public authService: AuthService,private route: ActivatedRoute,private router: Router,private messageService: MessageService,
   protected utilsService: UtilsService,private apiService: APIService,
    protected globalService: GlobalService) { }
   data: DataResult = {
@@ -135,8 +136,6 @@ export class PurchaseOrderDetailComponent implements OnInit {
   }
   
   save() {
-    console.log(this.data.purchase);
-    console.log(this.data.purchaseOrderDetail);
     const body = {
       PurchaseOrder:this.data.purchase,
       PurchaseOrderDetail:this.data.purchaseOrderDetail,

@@ -35,7 +35,7 @@ interface Filters {
 @Component({
   selector: 'app-saleorder-add',
   standalone: true,
-  imports: [SidebarModule, ToastModule, Ripple,SelectModule,DropdownModule,
+  imports: [SidebarModule, ToastModule, Ripple, SelectModule, DropdownModule,
     NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './saleorder-add.component.html',
@@ -86,7 +86,7 @@ export class SaleorderAddComponent {
           if (this.status == 2) {
 
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.chiTietHoaDonBanHang;
             this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
             this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
             this.data.saleInvoiceOrderDetail.forEach((item, index) => {
@@ -98,7 +98,7 @@ export class SaleorderAddComponent {
               this.initEdit(item, index);
             });
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.ctHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.ctHoaDonBanHang;
           }
         } else {
 
@@ -197,6 +197,7 @@ export class SaleorderAddComponent {
       }
     });
   }
+
   GetCustomerByID(maKH: string) {
     const body = {
       MaKH: maKH,
@@ -261,6 +262,23 @@ export class SaleorderAddComponent {
       });
   }
 
+  validateSoLuong(item: any) {
+    const body = {
+      MaHangHoa: item.maHangHoa,
+    };
+
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body).subscribe({
+      next: (response: any) => {
+        const soLuongTon = response.status === 1 ? response.data.soLuongTon : 0;
+        if (item.soLuong > soLuongTon) {
+          item.soLuong = soLuongTon;
+        }
+      },
+      error: (error: any) => {
+        console.error("Lỗi khi gọi API: ", error);
+      },
+    });
+  }
 
   onAddRow() {
     let tempItem = {

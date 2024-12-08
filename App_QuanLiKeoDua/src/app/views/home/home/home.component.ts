@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     const title = this.route.snapshot.data['title'];
     this.titleService.setTitle(title);
-    console.log(this.titleService.getTitle());
     this.thuData = [];
     this.chiData = [];
     this.GetTotalCompletedOrders();

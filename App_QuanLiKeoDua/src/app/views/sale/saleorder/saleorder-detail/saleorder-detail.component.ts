@@ -114,7 +114,7 @@ export class SaleorderDetailComponent {
         if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
-
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
         }
       },
       error: (error: any) => {
@@ -125,7 +125,50 @@ export class SaleorderDetailComponent {
       }
     });
   }
+  ConfirmSaleInvoiceFinish()
+  {
+    const body = {
+      MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "ConfirmSaleInvoiceFinish", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+        } else {
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
+        }
+      },
+      
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
 
+      }
+    });
+  }
+  ConfirmCancelSaleInvoice()
+  {
+    const body = {
+      MaHoaDon: this.data.saleInvoiceOrder.maHoaDon,
+    };
+    this.apiService.callAPI(API_ENDPOINT.ORDER_ENDPOINT.SALEINVOICE_ORDER + "ConfirmCancelSaleInvoice", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+        } else {
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
+        }
+      },
+      
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
   GetEmployeeByID(maNV: string) {
     const body = {
       MaNV: maNV,
@@ -207,7 +250,35 @@ export class SaleorderDetailComponent {
       }
     });
   }
-  
+  url:string="";
+  PayVnPay()
+  {
+    const paymentInformation = {
+      orderType: "Sale",         
+      amount: this.data.saleInvoiceOrder.tongTriGia,      
+      orderDescription: "Chuyển tiền đơn đặt hàng",  
+      name: this.filter.tenKH
+  };
+    const body = {
+      ...paymentInformation
+    };
+    this.apiService.callAPI(API_ENDPOINT.PAYMENT_ENDPOINT.PAYMENT + "", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.url = response.data.url;
+          window.location.href = this.url;
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
 
   quickSearchHangHoa(searchString:string ="")
   {
@@ -252,7 +323,24 @@ export class SaleorderDetailComponent {
       });
   }
 
-
+  validateSoLuong(item: any) {
+    const body = {
+      MaHangHoa: item.maHangHoa,
+    };
+  
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body).subscribe({
+      next: (response: any) => {
+        const soLuongTon = response.status === 1 ? response.data.soLuongTon : 0;
+        if (item.soLuong > soLuongTon) {
+          item.soLuong = soLuongTon;
+        }
+      },
+      error: (error: any) => {
+        console.error("Lỗi khi gọi API: ", error);
+      },
+    });
+  }
+  
   onAddRow() {
     let tempItem = {
      maHang:"",
@@ -290,6 +378,7 @@ export class SaleorderDetailComponent {
       this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
       this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
     });
+
   }
   
   addNew()
@@ -319,4 +408,5 @@ export class SaleorderDetailComponent {
     }
     this.data.saleInvoiceOrder.tongTriGia= this.data.saleInvoiceOrderDetail.reduce((total, item) => total + (item.thanhTien || 0), 0);
   }
+  
 }

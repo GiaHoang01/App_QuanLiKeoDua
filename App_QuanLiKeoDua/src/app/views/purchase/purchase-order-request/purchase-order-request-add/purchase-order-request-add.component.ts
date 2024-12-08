@@ -17,6 +17,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
+import { AuthService } from '../../../../../scss/services/Auth.service';
 interface DataResult {
   purchase:any,
   purchaseOrderDetail: any[],
@@ -43,9 +44,10 @@ interface Filters{
 export class PurchaseOrderAddComponent implements OnInit {
   id: string | null = null;
   status:number=0;
+  isShowConfirm:boolean=false;
   constructor(private route: ActivatedRoute,private router: Router,private messageService: MessageService,
   protected utilsService: UtilsService,private apiService: APIService,
-   protected globalService: GlobalService) { }
+   protected globalService: GlobalService,public authService: AuthService) { }
   data: DataResult = {
     purchase:{},
     purchaseOrderDetail: [],
@@ -63,6 +65,10 @@ export class PurchaseOrderAddComponent implements OnInit {
       this.id = params['id'];
       this.status = params['status'];
     });
+    if(this.status==2)
+    {
+      this.isShowConfirm=true;
+    }
     this.quickSearchNhanVien();
     this.quickSearchNhaCungCap();
     this.quickSearchHangHoa();
@@ -80,7 +86,6 @@ export class PurchaseOrderAddComponent implements OnInit {
         if (response.status == 1) {
          if(this.status==2)
          {
-          console.log(response);
           this.data.purchase = response.data.phieuNhap;
           this.data.purchaseOrderDetail=response.data.chiTietPhieuNhap;
           this.SearchTenNCC_ByMaNCC(response.data.phieuNhap.maNCC);
@@ -111,8 +116,6 @@ export class PurchaseOrderAddComponent implements OnInit {
   }
 
   save() {
-    console.log(this.data.purchase);
-    console.log(this.data.purchaseOrderDetail);
     const body = {
       PurchaseOrder:this.data.purchase,
       PurchaseOrderDetail:this.data.purchaseOrderDetail,
@@ -122,6 +125,28 @@ export class PurchaseOrderAddComponent implements OnInit {
       next: (response: any) => {
         if (response.status == 1) {
           console.log(response);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+
+  confirm()
+  {
+    const body = {
+      PurchaseOrder:this.data.purchase,
+    };
+    this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "SaveChangeStatusPurchaseOrder", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 });
         } else {
 

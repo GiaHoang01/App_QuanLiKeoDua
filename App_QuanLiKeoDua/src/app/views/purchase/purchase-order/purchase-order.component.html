@@ -38,6 +38,7 @@
         </button>
         <button class="btn-green" [routerLink]="['/purchaseOrderRequest/purchaseOrderRequestAdd']"
           [queryParams]="{id:'',status:1}">Thêm mới</button>
+          <button class="btn-green" (click)="exportExcel()" style="color: white;margin-left: 5px;">Xuất Excel</button>
       </div>
 
     </div>
@@ -45,9 +46,9 @@
   <div class="ColorByStatus">
     <ul>
       <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
+      <li class="DotRowPurble"><span data-text="Chờ xác nhận"></span></li>
       <li class="DotRowBlue"><span data-text="Hoàn tất một nữa"></span></li>
       <li class="DotRowBlack"><span data-text="Hoàn tất"></span></li>
-      <li class="DotRowPurble"><span data-text="Đặt lại hàng thiếu"></span></li>
     </ul>
   </div>
   <!-- Phần nội dung ở dưới đây-->
@@ -62,20 +63,23 @@
               <p-sortIcon field="maPhieuNhap" />
             </th>
             <th pSortableColumn="ngayNhap" class="header-min">
-              Ngày Nhập
+              Ngày Đặt
               <p-sortIcon field="ngayNhap" />
             </th>
+            <th pSortableColumn="ngayNhap" class="header-min">
+              Ngày Nhập
+              <p-sortIcon field="ngayNhap" />
             <th pSortableColumn="tongTriGia" class="header-min">
               Tổng trị giá
               <p-sortIcon field="tongTriGia" />
             </th>
-            <th pSortableColumn="maNV" class="header-min">
-              Mã nhân viên
-              <p-sortIcon field="maNV" />
+            <th pSortableColumn="tenNV" class="header-min">
+              Tên nhân viên
+              <p-sortIcon field="tenNV" />
             </th>
-            <th pSortableColumn="maNCC" class="header-min">
-              Mã NCC
-              <p-sortIcon field="maNCC" />
+            <th pSortableColumn="tenNCC" class="header-min">
+              Tên NCC
+              <p-sortIcon field="tenNCC" />
             </th>
             <th pSortableColumn="ghiChu" class="header-max">
               Ghi chú
@@ -91,21 +95,22 @@
               'DotRowGreen': purchase.trangThai == 'Mới tạo',
               'DotRowBlue': purchase.trangThai == 'Hoàn tất một nữa',
               'DotRowBlack': purchase.trangThai == 'Hoàn tất',
-              'DotRowPurple': purchase.trangThai == 'Đặt lại hàng thiếu',
+              'DotRowPurple': purchase.trangThai == 'Chờ xác nhận',
             }">
             <td pFrozenColumn>{{ purchase.maPhieuNhap }}</td>
+            <td class="text-center" [appFormatDate]="purchase.ngayDat" format="dateFilter"></td>
             <td class="text-center" [appFormatDate]="purchase.ngayNhap" format="dateFilter"></td>
             <td class="text-right">{{ purchase.tongTriGia }}</td>
-            <td>{{ purchase.maNV }}</td>
-            <td>{{ purchase.maNCC }}</td>
+            <td>{{ purchase.tenNV }}</td>
+            <td>{{ purchase.tenNCC }}</td>
             <td>{{ purchase.ghiChu }}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">
               <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                [routerLink]="['/purchaseOrder/purchaseOrderDetail']"
+                [routerLink]="['/purchaseOrder/purchaseOrderDetail']"[disabled]="!this.authService.hasPermission('Xem chi tiết phiếu nhập')"
                 [queryParams]="{ id: purchase.maPhieuNhap, status: 2 }">
                 <i class="bi bi-pencil-square"></i>
               </button>
-              <button class="btn btn-link px-1" type="button" title="Xóa" (click)="showDialog(purchase.maPhieuNhap)">
+              <button class="btn btn-link px-1" type="button" title="Xóa" [disabled]="!this.authService.hasPermission('Xóa phiếu nhập hàng')" (click)="showDialog(purchase.maPhieuNhap)">
                 <i class="bi bi-trash3-fill"></i>
               </button>
             </td>
@@ -127,12 +132,7 @@
   </div>
 </div>
 
-<p-dialog 
-  header="Header" 
-  [(visible)]="IsShowPopupDelete" 
-  [modal]="true" 
-  [styleClass]="'custom-dialog'"
-  >
+<p-dialog header="Header" [(visible)]="IsShowPopupDelete" [modal]="true" [styleClass]="'custom-dialog'">
   <!-- Header Template -->
   <ng-template pTemplate="header">
     <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">

@@ -4,8 +4,8 @@ import { PermissionGuard } from '../../../scss/services/guard.service';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./customers/customers.component').then(m => m.CustomersComponent),
-    data: {title: 'Khách hàng' ,requiredPermission: 'Xem khách hàng'},
+    loadComponent: () => import('./stock/stock.component').then(m => m.StockComponent),
+    data: { title: 'Quản lý tồn kho', requiredPermission: 'Xem hàng hóa' },
     canActivate: [PermissionGuard],
   }
 ];

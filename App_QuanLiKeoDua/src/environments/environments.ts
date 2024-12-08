@@ -1,7 +1,12 @@
 
 const API_BASE = "http://localhost:5047/api/";
 export const API_ENDPOINT = {
-   
+    BACKUPRESTORE_ENDPOINT: {
+        BACKUPRESTORE: API_BASE + "BackupRestore/"
+    },
+    PAYMENT_ENDPOINT: {
+        PAYMENT: API_BASE + "Payment",
+    },
     ACCOUNT_ENDPOINT: {
         LOGIN: API_BASE + "TaiKhoan/",
     },

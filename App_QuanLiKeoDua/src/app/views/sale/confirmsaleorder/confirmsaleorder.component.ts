@@ -220,7 +220,6 @@ export class ConfirmsaleorderComponent {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.employees = response.data.nhanViens;
-          console.log(this.data.employees)
         } else {
 
         }
@@ -301,7 +300,7 @@ export class ConfirmsaleorderComponent {
           this.closeDialog();
           this.getData();
         } else {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
           this.closeDialog();
           this.getData();
         }
@@ -328,7 +327,7 @@ export class ConfirmsaleorderComponent {
           this.closeDialog();
           this.getData();
         } else {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail:response.message,life:1000 });
+          this.messageService.add({severity: 'error',summary: 'Lỗi',detail: 'Lưu thất bại',life: 1000});
           this.closeDialog();
           this.getData();
         }

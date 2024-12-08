@@ -29,12 +29,22 @@ import {
 import { IconDirective } from '@coreui/icons-angular';
 import { AuthService } from '../../../../scss/services/Auth.service';
 import { filter } from 'rxjs/operators';
-
+import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { API_ENDPOINT } from '../../../../environments/environments';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
+import { APIService } from '../../../../scss/services/api.service';
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
   standalone: true,
+  providers: [MessageService],
   imports: [
+    Ripple, ToastModule,
+    FormsModule,
+    DialogModule,
     ContainerComponent,
     HeaderTogglerDirective,
     SidebarToggleDirective,
@@ -79,8 +89,10 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   title: string = ''; // Biến title để lưu tiêu đề trang
 
   constructor(
+    private messageService: MessageService,
     private route: ActivatedRoute,
     private router: Router,
+    private apiService: APIService,
     private authService: AuthService,
     private cdRef: ChangeDetectorRef
   ) {
@@ -102,11 +114,11 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     while (currentRoute.firstChild) {
       currentRoute = currentRoute.firstChild;
       if (currentRoute.data && currentRoute.data['title']) {
-        title = currentRoute.data['title']; 
+        title = currentRoute.data['title'];
       }
     }
 
-    this.title = title || 'Trang chủ'; 
+    this.title = title || 'Trang chủ';
     this.cdRef.detectChanges();
   }
 
@@ -119,4 +131,47 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   sidebarId = input('');
+  isDialog: boolean = false;
+  user = {
+    username: '',
+    newPassword: '',
+    confirmPassword: ''
+  };
+  ResetAccount() {
+    this.user.username = this.authService.getTenDangNhap();
+    this.isDialog = true;
+  }
+
+  save() {
+    if (this.user.newPassword !== this.user.confirmPassword) {
+      alert('Mật khẩu mới và nhập lại mật khẩu không khớp!');
+      return;
+    }
+
+    const body = {
+      UserName: this.user.username,
+      PassWordNew: this.user.newPassword
+    };
+    this.apiService.callAPI(API_ENDPOINT.ACCOUNT_ENDPOINT.LOGIN + "resetPass", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Thông báo', detail: 'Lưu thành công', life: 1000 });
+        } else {
+
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+
+  }
+
+
+  closeDialog() {
+    this.isDialog = false;
+  }
 }

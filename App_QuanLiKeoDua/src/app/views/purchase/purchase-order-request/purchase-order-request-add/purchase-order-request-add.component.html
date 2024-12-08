@@ -22,9 +22,9 @@
       <div class="row">
         <div class="col-sm-9 text-right col-md-9 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" [disabled]="this.data.purchase.trangThai=='Hoàn tất'" (click)="save()">Lưu
+            <button class="btn-orange"(click)="confirm()"[disabled]="!this.authService.hasPermission('update phiếu nhập hàng')" *ngIf="isShowConfirm">Duyệt đơn hàng</button>
+            <button class="btn-green" [disabled]="this.data.purchase.trangThai=='Hoàn tất'" [disabled]="!this.authService.hasPermission('update phiếu nhập hàng')"(click)="save()">Lưu
             </button>
-            <button class="btn-green">Xuất Excel</button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
             <button class="btn-blue" [routerLink]="['/purchaseOrderRequest']">Trở về</button>
           </div>
@@ -174,8 +174,6 @@
             <tr class="row-control" *ngIf="this.data.purchase.trangThai!='Hoàn tất'">
               <td colspan="999">
                 <button class="btn-green" (click)="onAddRow()">Thêm (F12)</button>
-                <span>| </span>
-                <button class="btn-green" data-toggle="modal" data-target="#searchItem">Thêm nhiều</button>
               </td>
             </tr>
           </tbody>

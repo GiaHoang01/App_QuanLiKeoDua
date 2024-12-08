@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./products/products.component').then(m => m.ProductsComponent),
-    data: { title: 'Hàng hóa', requiredPermission: 'VIEW_SALE_ORDER' },
+    data: { title: 'Hàng hóa', requiredPermission: 'Xem hàng hóa' },
     canActivate: [PermissionGuard],
   }
 ];

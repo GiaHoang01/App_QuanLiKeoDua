@@ -32,8 +32,8 @@
         </div>
         <div class="col-sm-4 form-group-button" style="margin-top: 20px;">
             <div class="btn-group mr-2">
-                <button class="btn btn-success" style="color: white;">Tìm</button>
-                <button type="button" class="btn btn-success" style="color: white;" (click)="toggleExpansion()">
+                <button class="btn-green" style="color: white;">Tìm</button>
+                <button type="button" class="btn-green" style="color: white;" (click)="toggleExpansion()">
                     <i class="bi bi-funnel-fill"></i>
                 </button>
             </div>
@@ -239,9 +239,9 @@
         <div class="border-style-top">
             <button type="submit" (click)="ConfirmSaleInvoice()" class="btn-green"
                 [disabled]="!this.data.saleInvoiceOrder.maNV">
-                Xác nhận đơn hàng
+                Xác nhận thanh toán
             </button>
-            <button type="submit" (click)="CancelSaleInvoice()" class="btn-green"
+            <button type="submit" (click)="CancelSaleInvoice()" class="btn-red"
                 [disabled]="!this.data.saleInvoiceOrder.ghiChu || !this.data.saleInvoiceOrder.maNV">
                 Hủy đơn hàng
             </button>

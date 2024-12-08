@@ -9,30 +9,37 @@ import { DropdownModule } from 'primeng/dropdown';
 import { API_ENDPOINT } from '../../../../environments/environments';
 import { APIService } from '../../../../scss/services/api.service';
 import { FormsModule } from '@angular/forms';
+import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Ripple } from 'primeng/ripple';
+import { AuthService } from '../../../../scss/services/Auth.service';
 @Component({
   selector: 'app-accounts',
   standalone: true,
-  imports: [FormsModule,SelectModule,CommonModule, TabsModule,TableModule,DropdownModule],
+  providers: [MessageService],
+  imports: [ ToastModule,Ripple,AppQuickSearchComponent,FormsModule,SelectModule,CommonModule, TabsModule,TableModule,DropdownModule],
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit{
   quyen!: any[];
   nhomQuyen!: any[];
-  dsTenNV!:any[];
-  tenNhanVien:string="";
-  constructor(private route: ActivatedRoute,private apiService: APIService){}
+  dsTenTK!:any[];
+  tenNhomQuyen:string="";
+  tenTaiKhoan:string="";
+  constructor(public authService: AuthService,private route: ActivatedRoute,private apiService: APIService,private messageService: MessageService){}
   ngOnInit(): void {
-    this.getAllNameEmployees();
-    this.GetNhomQuyenByTenNV();
-    this.GetQuyenByMaNhomQuyen();
+    this.getAllNameAccount();
+    this.quickSearchNhomQuyen();
+    this.GetQuyenByTenNhomQuyen();
   }
 
-  GetQuyenByMaNhomQuyen(tenNhanVien:string="") {
+  GetQuyenByTenNhomQuyen(tenNhomQuyen:string="") {
     const body = {
-      TenNV:tenNhanVien
+      TenNQ:tenNhomQuyen
     };
-    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "GetQuyenByTenNV", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "GetQuyenByTenNhomQuyen", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.quyen = response.data.quyens;
@@ -49,11 +56,11 @@ export class AccountsComponent implements OnInit{
     });
   }
 
-  GetNhomQuyenByTenNV(tenNV:string="") {
+  quickSearchNhomQuyen(searchString: string = '') {
     const body = {
-      TenNV:tenNV
+      SearchString: searchString,
     };
-    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "GetNhomQuyenByTenNV", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "quickSearchNhomQuyen", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
           this.nhomQuyen = response.data.nhomQuyens;
@@ -70,13 +77,13 @@ export class AccountsComponent implements OnInit{
     });
   }
 
-  getAllNameEmployees() {
+  getAllNameAccount() {
     const body = {
     };
-    this.apiService.callAPI(API_ENDPOINT.EMPLOYEES_ENDPOINT.EMPLOYEE + "getAllNameEmployees", body).subscribe({
+    this.apiService.callAPI(API_ENDPOINT.ACCOUNT_ENDPOINT.LOGIN + "getAllNameAccount", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-            this.dsTenNV = response.data.nameEmployees;
+            this.dsTenTK = response.data.nameAccount;
         } else {
 
         }
@@ -89,10 +96,31 @@ export class AccountsComponent implements OnInit{
       }
     });
   }
+  Save()
+  {
+    const body = {
+      TenTaiKhoan:this.tenTaiKhoan,
+      TenNhomQuyen:this.tenNhomQuyen
+    };
+    this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "UpdateRole", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công',life:1000 })
+        } else {
 
-  onNhanVienChange(event: any): void {
-    const selectedNhanVien = this.tenNhanVien;
-    this.GetNhomQuyenByTenNV(selectedNhanVien);
-    this.GetQuyenByMaNhomQuyen(selectedNhanVien);
+        }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
+  }
+ 
+  onNhomQuyenChange(event: any): void {
+    const selectedNhanVien = this.tenNhomQuyen;
+    this.GetQuyenByTenNhomQuyen(selectedNhanVien);
   }
 }

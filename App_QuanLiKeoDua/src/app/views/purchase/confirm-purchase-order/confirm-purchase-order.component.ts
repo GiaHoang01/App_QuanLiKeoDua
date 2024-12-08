@@ -12,6 +12,7 @@ import { API_ENDPOINT } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../../scss/services/Auth.service';
 interface filters extends TransactionFilter
 {
 
@@ -45,7 +46,7 @@ export class ConfirmPurchaseOrderComponent  implements OnInit{
   filters!: filters;
   searchString:string="";
 
-  constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
+  constructor(public authService: AuthService,private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 

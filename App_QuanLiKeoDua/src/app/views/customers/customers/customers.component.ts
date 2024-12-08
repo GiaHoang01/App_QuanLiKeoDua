@@ -15,6 +15,7 @@ import { DatePickerComponent } from '../../../components/datepicker/datepicker.c
 import { AppQuickSearchComponent } from '../../../components/app-quick-search/app-quick-search.component';
 import { SelectModule } from 'primeng/select';
 import { DropdownModule } from 'primeng/dropdown';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface DataResult {
   customer: any, // thông tin chi tiết của khách hàng
@@ -74,7 +75,7 @@ export class CustomersComponent /*implements OnInit*/ {
     addressShow: [],
   }
 
-  constructor(private route: ActivatedRoute, protected utilsService: UtilsService,
+  constructor(public authService: AuthService,private route: ActivatedRoute, protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 
