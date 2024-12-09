@@ -45,8 +45,8 @@ interface Filters {
 export class SaleorderAddComponent {
   id: string | null = null;
   status: number = 0;
-  isPromotion:boolean=false;
-  constructor(public authService: AuthService,private route: ActivatedRoute, private router: Router, private messageService: MessageService,
+  isPromotion: boolean = false;
+  constructor(public authService: AuthService, private route: ActivatedRoute, private router: Router, private messageService: MessageService,
     protected utilsService: UtilsService, private apiService: APIService,
     protected globalService: GlobalService) { }
   data: DataResult = {
@@ -276,7 +276,7 @@ export class SaleorderAddComponent {
           if (response.status === 1) {
             callback(response.data.tiLeKhuyenMai);
           } else {
-            console.log("Không thể lấy tỉ lệ khuyến mãi");
+            callback(0);
           }
         },
         error: (error: any) => {
@@ -326,16 +326,11 @@ export class SaleorderAddComponent {
     this.data.saleInvoiceOrderDetail[item].maHangHoa = itemSelected.maHangHoa;
     this.data.saleInvoiceOrderDetail[item].tenHangHoa = itemSelected.tenHangHoa;
     this.data.saleInvoiceOrderDetail[item].soLuong = 1;
-    if (this.isPromotion) {
-      this.getTiLeKhuyenMai_withByMaHangHoa(itemSelected.maHangHoa, (tiLeKhuyenMai: number) => {
-        this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan - itemSelected.giaBan * tiLeKhuyenMai;
-        this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong-tiLeKhuyenMai*(itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong);
-      });
-    }
-    else{
-      this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan;
-      this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong;
-    }
+    this.getTiLeKhuyenMai_withByMaHangHoa(itemSelected.maHangHoa, (tiLeKhuyenMai: number) => {
+      this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan - itemSelected.giaBan * tiLeKhuyenMai;
+      this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong - tiLeKhuyenMai * (itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong);
+    })
+
   }
 
 
@@ -345,19 +340,12 @@ export class SaleorderAddComponent {
     this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
       this.data.saleInvoiceOrderDetail[index].tenHangHoa = tenHangHoa;
       this.data.saleInvoiceOrderDetail[index].soLuong = itemSelected.soLuong;
-      if (this.isPromotion) {
         this.getTiLeKhuyenMai_withByMaHangHoa(itemSelected.maHangHoa, (tiLeKhuyenMai: number) => {
           this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia - itemSelected.donGia * tiLeKhuyenMai;
-          this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien-itemSelected.thanhTien*tiLeKhuyenMai;
+          this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien - itemSelected.thanhTien * tiLeKhuyenMai;
         });
-      }
-      else{
-        this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
-        this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
-      }
-      
     });
-    
+
   }
 
 
@@ -375,11 +363,6 @@ export class SaleorderAddComponent {
     this.getData();
   }
 
-  checkTiLeKhuyenMai()
-  {
-    this.isPromotion=true;
-    this.getData();
-  }
   calculateThanhTien(item: any): void {
     item.thanhTien = item.soLuong * item.donGia;
     this.calculateTotal();

@@ -45,6 +45,7 @@ interface Filters {
 export class SaleorderDetailComponent {
   id: string | null = null;
   status: number = 0;
+  isSave:boolean=false;
   isPromotion: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
     protected utilsService: UtilsService, private apiService: APIService,
@@ -114,6 +115,7 @@ export class SaleorderDetailComponent {
       next: (response: any) => {
         if (response.status == 1) {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công', life: 1000 });
+          this.isSave=true;
         } else {
           this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Lưu thất bại', life: 1000 });
         }
@@ -253,6 +255,7 @@ export class SaleorderDetailComponent {
   checkTiLeKhuyenMai() {
     this.isPromotion = true;
     this.getData();
+    this.isSave=false;
   }
 
   url: string = "";

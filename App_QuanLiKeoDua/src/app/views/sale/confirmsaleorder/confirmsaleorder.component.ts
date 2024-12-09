@@ -86,6 +86,7 @@ export class ConfirmsaleorderComponent {
       cartId:"",
       employeeId:"",
     };
+    this.quickSearchNhanVien();
     this.getData()
   }
 
@@ -132,7 +133,6 @@ export class ConfirmsaleorderComponent {
       complete: () => {
       }
     });
-    this.quickSearchNhanVien();
   }
   getDetail(maHoaDon:string) {
     const body = {

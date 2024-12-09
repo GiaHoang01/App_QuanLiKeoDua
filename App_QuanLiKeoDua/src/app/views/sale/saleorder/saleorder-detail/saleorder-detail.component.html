@@ -23,11 +23,11 @@
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
             <button class="btn-green"
-              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
+              [disabled]="!isSave || !this.data.saleInvoiceOrder.maNV || !this.data.saleInvoiceOrder.maKhachHang || this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'"
               (click)="checkTiLeKhuyenMai()">Kiểm tra khuyến mãi
             </button>
             <button class="btn-green"
-              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
+              [disabled]="isSave || !this.data.saleInvoiceOrder.maNV || !this.data.saleInvoiceOrder.maKhachHang || this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'"
               (click)="save()">Lưu
             </button>
             <button type="submit" (click)="ConfirmSaleInvoiceFinish()" class="btn-green"
