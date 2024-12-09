@@ -121,7 +121,7 @@ export const navItems: INavData[] = [
   {
     name: 'Sao lưu & phục hồi',
     url: '/save',
-    icon: "bi bi-person-fill",
+    icon: "bi bi-database-fill",
     permission: 'Xem tài khoản',
   }
 ];
