@@ -18,7 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface DataResult {
   product: any,
@@ -47,7 +47,7 @@ export class StockComponent {
   }
   searchString: string = "";
 
-  constructor(private messageService:MessageService,private route: ActivatedRoute, protected utilsService: UtilsService,
+  constructor(public authService: AuthService,private messageService:MessageService,private route: ActivatedRoute, protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
   getData() {

@@ -18,6 +18,7 @@ import { deepCopy } from '@angular-devkit/core/src/utils/object';
 import { TransactionFilter } from '../../../interfaces/listfilter';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface filters extends TransactionFilter
 {
@@ -71,7 +72,7 @@ export class ConfirmsaleorderComponent {
     saleInvoiceOrderDetail:[],
     employees:[]
   }
-  constructor(private route: ActivatedRoute,protected utilsService: UtilsService,private messageService: MessageService,
+  constructor(public authService: AuthService,private route: ActivatedRoute,protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 
@@ -85,6 +86,7 @@ export class ConfirmsaleorderComponent {
       cartId:"",
       employeeId:"",
     };
+    this.quickSearchNhanVien();
     this.getData()
   }
 
@@ -131,7 +133,6 @@ export class ConfirmsaleorderComponent {
       complete: () => {
       }
     });
-    this.quickSearchNhanVien();
   }
   getDetail(maHoaDon:string) {
     const body = {

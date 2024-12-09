@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { Ripple } from 'primeng/ripple';
 import { SelectModule } from 'primeng/select';
 import { DropdownModule } from 'primeng/dropdown';
+import { AuthService } from '../../../../../scss/services/Auth.service';
 
 interface DataResult {
   saleInvoiceOrder: any,
@@ -35,7 +36,7 @@ interface Filters {
 @Component({
   selector: 'app-saleorder-add',
   standalone: true,
-  imports: [SidebarModule, ToastModule, Ripple,SelectModule,DropdownModule,
+  imports: [SidebarModule, ToastModule, Ripple, SelectModule, DropdownModule,
     NgScrollbarModule, RouterModule, CommonModule, FormsModule, ButtonModule, DatePickerComponent, FormatDateDirective, TableModule, AppQuickSearchComponent],
   providers: [MessageService],
   templateUrl: './saleorder-add.component.html',
@@ -44,7 +45,8 @@ interface Filters {
 export class SaleorderAddComponent {
   id: string | null = null;
   status: number = 0;
-  constructor(private route: ActivatedRoute, private router: Router, private messageService: MessageService,
+  isPromotion: boolean = false;
+  constructor(public authService: AuthService, private route: ActivatedRoute, private router: Router, private messageService: MessageService,
     protected utilsService: UtilsService, private apiService: APIService,
     protected globalService: GlobalService) { }
   data: DataResult = {
@@ -86,7 +88,7 @@ export class SaleorderAddComponent {
           if (this.status == 2) {
 
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.chiTietHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.chiTietHoaDonBanHang;
             this.GetCustomerByID(response.data.hoaDonBanHang.maKhachHang);
             this.GetEmployeeByID(response.data.hoaDonBanHang.maNV);
             this.data.saleInvoiceOrderDetail.forEach((item, index) => {
@@ -98,7 +100,7 @@ export class SaleorderAddComponent {
               this.initEdit(item, index);
             });
             this.data.saleInvoiceOrder = response.data.hoaDonBanHang;
-            this.data.saleInvoiceOrderDetail=response.data.ctHoaDonBanHang;
+            this.data.saleInvoiceOrderDetail = response.data.ctHoaDonBanHang;
           }
         } else {
 
@@ -197,6 +199,7 @@ export class SaleorderAddComponent {
       }
     });
   }
+
   GetCustomerByID(maKH: string) {
     const body = {
       MaKH: maKH,
@@ -261,6 +264,44 @@ export class SaleorderAddComponent {
       });
   }
 
+  getTiLeKhuyenMai_withByMaHangHoa(maHangHoa: string, callback: (tiLe: number) => void) {
+    const body = {
+      MaHangHoa: maHangHoa,
+    };
+
+    this.apiService
+      .callAPI(API_ENDPOINT.PROMOTION_ENDPOINT.PROMOTION + "getTiLeKhuyenMai", body)
+      .subscribe({
+        next: (response: any) => {
+          if (response.status === 1) {
+            callback(response.data.tiLeKhuyenMai);
+          } else {
+            callback(0);
+          }
+        },
+        error: (error: any) => {
+          console.error("Lỗi khi gọi API: ", error);
+        },
+      });
+  }
+
+  validateSoLuong(item: any) {
+    const body = {
+      MaHangHoa: item.maHangHoa,
+    };
+
+    this.apiService.callAPI(API_ENDPOINT.PRODUCT_ENDPOINT.PRODUCT + "getSoLuongTon", body).subscribe({
+      next: (response: any) => {
+        const soLuongTon = response.status === 1 ? response.data.soLuongTon : 0;
+        if (item.soLuong > soLuongTon) {
+          item.soLuong = soLuongTon;
+        }
+      },
+      error: (error: any) => {
+        console.error("Lỗi khi gọi API: ", error);
+      },
+    });
+  }
 
   onAddRow() {
     let tempItem = {
@@ -285,8 +326,11 @@ export class SaleorderAddComponent {
     this.data.saleInvoiceOrderDetail[item].maHangHoa = itemSelected.maHangHoa;
     this.data.saleInvoiceOrderDetail[item].tenHangHoa = itemSelected.tenHangHoa;
     this.data.saleInvoiceOrderDetail[item].soLuong = 1;
-    this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan;
-    this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong;
+    this.getTiLeKhuyenMai_withByMaHangHoa(itemSelected.maHangHoa, (tiLeKhuyenMai: number) => {
+      this.data.saleInvoiceOrderDetail[item].donGia = itemSelected.giaBan - itemSelected.giaBan * tiLeKhuyenMai;
+      this.data.saleInvoiceOrderDetail[item].thanhTien = itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong - tiLeKhuyenMai * (itemSelected.giaBan * this.data.saleInvoiceOrderDetail[item].soLuong);
+    })
+
   }
 
 
@@ -296,10 +340,14 @@ export class SaleorderAddComponent {
     this.getTenHangHoa_withByMaHangHoa(itemSelected.maHangHoa, (tenHangHoa: string) => {
       this.data.saleInvoiceOrderDetail[index].tenHangHoa = tenHangHoa;
       this.data.saleInvoiceOrderDetail[index].soLuong = itemSelected.soLuong;
-      this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia;
-      this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien;
+        this.getTiLeKhuyenMai_withByMaHangHoa(itemSelected.maHangHoa, (tiLeKhuyenMai: number) => {
+          this.data.saleInvoiceOrderDetail[index].donGia = itemSelected.donGia - itemSelected.donGia * tiLeKhuyenMai;
+          this.data.saleInvoiceOrderDetail[index].thanhTien = itemSelected.thanhTien - itemSelected.thanhTien * tiLeKhuyenMai;
+        });
     });
+
   }
+
 
   addNew() {
     this.router.navigate(['/saleOrder/saleOrderAdd'], {

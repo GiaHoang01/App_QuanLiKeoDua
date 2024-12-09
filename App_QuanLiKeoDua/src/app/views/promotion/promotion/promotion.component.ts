@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { AuthService } from '../../../../scss/services/Auth.service';
 
 interface filters extends TransactionFilter
 {
@@ -53,7 +54,7 @@ export class PromotionComponent {
   data: DataResult = {
     promotionList: []
   }
-  constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,private messageService: MessageService,
+  constructor(public authService: AuthService,private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,private messageService: MessageService,
     private apiService: APIService, protected globalService: GlobalService) {
   }
 

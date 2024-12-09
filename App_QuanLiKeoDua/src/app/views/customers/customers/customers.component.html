@@ -1,6 +1,5 @@
 <!-- Container chính cho trang -->
 <div class="container">
-
     <!-- Phần master -->
     <div class="row mb-3"> <!-- Adds margin at the bottom -->
         <div class="col-sm-8">
@@ -24,7 +23,7 @@
     <!-- Phần nội dung ở dưới đây-->
     <div class="row">
         <div class="col-12">
-            <p-table [value]="data.customers" [(selection)]="selectedProduct" selectionMode="single" showGridlines
+            <p-table [value]="data.customers" [(selection)]="selectedCustomer" selectionMode="single" showGridlines
                 [sortOrder]="-1" [scrollable]="true" scrollHeight="330px" rowHover="true">
                 <ng-template pTemplate="header">
                     <tr>
@@ -56,11 +55,11 @@
                         <td pFrozenColumn>{{ o.tenKhachHang }}</td>
                         <td>{{ o.gioiTinh }}</td>
                         <td>{{ o.email }}</td>
-                        <td>{{ o.tenTaiKhoan }}</td>
-                        <td>{{ getLoaiKhachHangLabel(o.maLoaiKH) }}</td>
+                        <td >{{ o.tenTaiKhoan }}</td>
+                        <td>{{ getLoaiKhachHang(o.maLoaiKH) }}</td>
                         <td alignFrozen="right" pFrozenColumn class="active-sm">
                             <button class="btn btn-link px-1" type="button" title="Chỉnh sửa"
-                                (click)="showDetail(o.maKhachHang)"><i class="bi bi-pencil-square"></i></button>
+                                (click)="ShowDetail(o.maKhachHang)"><i class="bi bi-pencil-square"></i></button>
                             <button class="btn btn-link px-1" type="button" title="Xóa"
                                 (click)="DeleteCustomer(o.maKhachHang)"><i class="bi bi-trash3-fill"></i></button>
                         </td>
@@ -76,8 +75,7 @@
     </div>
 </div>
 
-<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm">
-
+<p-dialog header="Header" [(visible)]="IsShowPopupEdit" [modal]="true" class="sm" [style]="{width: '800px'}">
     <!-- Header Template -->
     <ng-template pTemplate="header">
         <div class="inline-flex align-items-center w-full h-2rem gap-2 border-style-bottom p-2">
@@ -105,7 +103,7 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" class="border-bottom1" [(ngModel)]="data.customer.email"
-                        tabindex="7">
+                        tabindex="2">
                 </div>
             </div>
         </div>
@@ -115,7 +113,7 @@
                 <div class="form-group">
                     <label for="accountName">Tên tài khoản</label>
                     <input type="text" p-inputtext name="tenTaiKhoan" class="border-bottom1"
-                        [(ngModel)]="data.customer.tenTaiKhoan" tabindex="3">
+                        [(ngModel)]="data.customer.tenTaiKhoan" tabindex="3" disabled="true">
                 </div>
             </div>
 
@@ -142,28 +140,118 @@
                 <div class="form-group">
                     <label for="gender">Số điện thoại</label>
                     <input type="text" p-inputtext name="tenTaiKhoan" class="border-bottom1"
-                        [(ngModel)]="data.customer.sdt" tabindex="3">
+                        [(ngModel)]="data.customer.sdt" tabindex="4">
                 </div>
             </div>
         </div>
 
+        <div class="row" *ngIf="data.addressShow && data.addressShow.length > 0">
+            <div class="col-12">
+                <label>Danh sách địa chỉ giao hàng</label>
+                <div *ngFor="let address of data.addressShow; let i = index" 
+                     class="row mb-2" 
+                     style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                    <!-- Radio button -->
+                    <div class="col-sm-1 d-flex align-items-center">
+                        <input 
+                            class="form-check-input ms-3" 
+                            type="radio" 
+                            name="macDinh" 
+                            [value]="address.macDinh" 
+                            [(ngModel)]="selectedAddress"
+                            [checked]="address.macDinh" 
+                            style="transform: scale(1);" />
+                    </div>
+                    <!-- Nội dung địa chỉ -->
+                    <div class="col-sm-9">
+                        <p><strong>Địa chỉ:</strong> {{ address.diaChi }}</p>
+                        <p><strong>Số điện thoại:</strong> {{ address.sdt }}</p>
+                    </div>
+                    <!-- Cột X để xóa -->
+                    <div class="col-sm-2 d-flex align-items-center justify-content-end">
+                        <button class="btn btn-danger btn-sm" title="Xóa" (click)="DeleteAddress(address.maThongTin)">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+             
+        <!-- Button or link to toggle the shipping information section -->
+        <button (click)="showShippingInfo = !showShippingInfo" class="btn-green">
+            Thêm thông tin giao hàng
+        </button>
+
+        <!-- Shipping information section, only visible when showShippingInfo is true -->
+         <div *ngIf="showShippingInfo">
+            <div class="row" style="padding-bottom: 10px;" >
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="employeeName">Số điện thoại liên lạc giao hàng</label>
+                        <input type="text" name="tenKH" p-inputtext class="border-bottom1"
+                            [(ngModel)]="data.addressSave.sdt" tabindex="1" (input)="onInputChange($event)">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;" >
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="employeeName">Số nhà, tên đường</label>
+                        <input type="text" name="tenKH" p-inputtext class="border-bottom1"
+                            [(ngModel)]="data.addressSave.soNha" tabindex="2">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;" >
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="employeeName">Phường/Xã</label>
+                        <input type="text" name="tenKH" p-inputtext class="border-bottom1"
+                            [(ngModel)]="data.addressSave.phuong" tabindex="3">
+                    </div>
+                </div>
+    
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="email">Quận/Huyện</label>
+                        <input type="email" name="email" class="border-bottom1" [(ngModel)]="data.addressSave.quan"
+                            tabindex="2">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="employeeName">Thành phố</label>
+                        <input
+                            type="text"
+                            name="tenKH"
+                            p-inputtext
+                            class="border-bottom1"
+                            [value]="'Thành phố Hồ Chí Minh'"
+                            tabindex="3"
+                            disabled="true"
+                        />
+                    </div>
+                </div>
+            </div>   
+         </div>
+        
 
     </ng-template>
 
     <!-- Footer Template -->
     <ng-template pTemplate="footer">
         <div class="border-style-top">
-            <button type="submit" (click)="saveCustomer(true)"  [disabled]="!this.authService.hasPermission('update khách hàng')"class="btn-green">
+            <button type="submit" (click)="saveCustomerAndAddress()" class="btn-green" [disabled]="!canSave()">
                 Lưu
             </button>
-            <button type="submit" (click)="saveCustomer(false)" [disabled]="!this.authService.hasPermission('update khách hàng')"class="btn-green">
+            <!-- <button type="submit" (click)="saveCustomerAndAddress(false)" class="btn-green">
                 Lưu & thêm mới
-            </button>
+            </button> --> 
             <button type="button" class="btn-red" (click)="closeDialog()">
                 Hủy
             </button>
         </div>
     </ng-template>
-
-
 </p-dialog>

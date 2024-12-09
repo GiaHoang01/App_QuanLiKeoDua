@@ -103,7 +103,7 @@ export const navItems: INavData[] = [
   {
     name: 'Quản lý tồn kho',
     url: '/stock',
-    icon: "bi bi-gift-fill",
+    icon: "bi bi-boxes",
     permission: 'Xem khuyến mãi',
   },
   {

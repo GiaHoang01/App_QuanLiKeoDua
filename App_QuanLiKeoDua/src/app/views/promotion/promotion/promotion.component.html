@@ -31,8 +31,8 @@
         [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
         <ng-template pTemplate="header">
           <tr>
-            <th pFrozenColumn pSortableColumn="maKhuyenMai" style="min-width:100px !important">
-              Mã khuyến mãi <p-sortIcon field="maKhuyenMai" />
+            <th pFrozenColumn>
+              #
             </th>
             <th pSortableColumn="tenCTKhuyenMai" style="min-width:200px !important">
               Tên chương trình khuyến mãi <p-sortIcon field="tenCTKhuyenMai" />
@@ -44,9 +44,9 @@
             </th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-o>
+        <ng-template pTemplate="body" let-o let-index="rowIndex">
           <tr [pSelectableRow]="o">
-            <td pFrozenColumn>{{ o.maKhuyenMai }}</td>
+            <td pFrozenColumn>{{ (index) + 1 }}</td>
             <td>{{ o.tenCTKhuyenMai }}</td>
             <td>{{ o.ghiChu }}</td>
             <td alignFrozen="right" pFrozenColumn class="active-sm">

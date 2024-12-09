@@ -22,10 +22,12 @@
       <div class="row">
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
-            <button class="btn-green" [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc" (click)="save()">Lưu
+            <button class="btn-green"
+              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || this.data.saleInvoiceOrder.trangThai.includes('Đã hủy') || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
+              (click)="save()">Lưu
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
-            <button class="btn-blue" [routerLink]="['/saleOrder']">Trở về</button>
+            <button class="btn-blue" [routerLink]="['/saleorder']">Trở về</button>
           </div>
         </div>
       </div>
@@ -48,8 +50,8 @@
         <label class="col-3 col-form-label">Hình thức TT:</label>
         <div class="col-9">
           <p-select [options]="hinhThuc" name="hinhThuc" [(ngModel)]="data.saleInvoiceOrder.maHinhThuc" name="gioiTinh"
-          placeholder="--Vui lòng chọn--">
-        </p-select>
+            placeholder="--Vui lòng chọn--">
+          </p-select>
         </div>
       </div>
     </div>
@@ -65,11 +67,11 @@
       <div class="row mb-2">
         <label class="col-3 col-form-label">Tên Khách hàng:</label>
         <div class="col-9">
-          <app-quick-search [filterObjectList]="data.customers" [fieldShow]="'tenKhachHang'" [outputField]="'maKhachHang'"
-            placeHolder="Nhập tên để tìm" [(value)]="filter.tenKH"
+          <app-quick-search [filterObjectList]="data.customers" [fieldShow]="'tenKhachHang'"
+            [outputField]="'maKhachHang'" placeHolder="Nhập tên để tìm" [(value)]="filter.tenKH"
             [isDisabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'"
-            (selectedEvent)="this.data.saleInvoiceOrder.maKhachHang = $event.maKhachHang;" [inputClass]="'border-bottom1'"
-            [hearder]="['Mã KH', 'Tên KH']" [fields]="['maKhachHang', 'tenKhachHang']">
+            (selectedEvent)="this.data.saleInvoiceOrder.maKhachHang = $event.maKhachHang;"
+            [inputClass]="'border-bottom1'" [hearder]="['Mã KH', 'Tên KH']" [fields]="['maKhachHang', 'tenKhachHang']">
           </app-quick-search>
         </div>
       </div>
@@ -89,8 +91,8 @@
       <div class="row mb-2">
         <label class="col-3 col-form-label">Ngày tạo:</label>
         <div class="col-9">
-          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayBan" [inputClass]="' border-bottom1'" [isShowTime]="true"
-            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false" >
+          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayBan" [inputClass]="' border-bottom1'"
+            [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
           </app-date-picker>
         </div>
       </div>
@@ -99,8 +101,8 @@
       <div class="row mb-2">
         <label class="col-3 col-form-label">Ngày thanh toán:</label>
         <div class="col-9">
-          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayThanhToan" [inputClass]="' border-bottom1'" [isShowTime]="true"
-            [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
+          <app-date-picker [(dateValue)]="data.saleInvoiceOrder.ngayThanhToan" [inputClass]="' border-bottom1'"
+            [isShowTime]="true" [format]="'DD/MM/YYYY HH:MM'" [isShowWeek]="false">
           </app-date-picker>
         </div>
       </div>
@@ -140,35 +142,39 @@
                   [(value)]="item.maHangHoa" [hearder]="['Mã hàng', 'Tên hàng']" [fields]="['maHangHoa','tenHangHoa']"
                   styleField="isExpiryDate" [styleList]='[{"true" : "#e34724"}, {"false": "black"}]'>
                 </app-quick-search>
-              <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'">
+              <td
+                *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'">
                 {{item.maHangHoa}}
               </td>
               <td class="text-sm text-left">{{item.tenHangHoa}}</td>
-              <td class="number" *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
-                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i"
+              <td class="number"
+                *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
+                <input type="number" [(ngModel)]="item.soLuong" class="form-control" [name]="'soLuong'+i" [min]="0" (ngModelChange)="validateSoLuong(item)"
                   (ngModelChange)="calculateThanhTien(item)">
               </td>
-              <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" class="text-right" >
+              <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" class="text-right">
                 {{item.soLuong}}
               </td>
-              <td  class="number" (ngModelChange)="calculateThanhTien(item)">
+              <td class="number" (ngModelChange)="calculateThanhTien(item)">
                 {{item.donGia}}
               </td>
-              <td class="number" *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
+              <td class="number"
+                *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất' || this.data.saleInvoiceOrder.trangThai!='Đang giao'">
                 <input type="number" [(ngModel)]="item.thanhTien" class="form-control text-right" [name]="'thanhTien'+i"
                   [readonly]="true">
               </td>
-              <td *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'" class="text-right">
+              <td
+                *ngIf="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao'"
+                class="text-right">
                 {{item.thanhTien}}
               </td>
               <td alignFrozen="right" pFrozenColumn class="active-sm">
                 <button class="btn btn-link px-1" type="button" title="Xóa"
                   [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất'" (click)="deleteRow(i)"><i
-                  class="bi bi-trash3-fill"></i>
+                    class="bi bi-trash3-fill"></i>
                 </button>
               </td>
             </tr>
-
             <!-- Thêm dòng điều khiển -->
             <tr class="row-control" *ngIf="this.data.saleInvoiceOrder.trangThai!='Hoàn tất'">
               <td colspan="999">
@@ -185,7 +191,8 @@
       <div class="row">
         <span class="col-3">Tổng trị giá:</span>
         <span class="col-3">
-          <input type="number"disabled="true" [(ngModel)]="this.data.saleInvoiceOrder.tongTriGia" class="border-bottom1" name="tongTriGia">
+          <input type="number" disabled="true" [(ngModel)]="this.data.saleInvoiceOrder.tongTriGia"
+            class="border-bottom1" name="tongTriGia">
         </span>
       </div>
     </div>

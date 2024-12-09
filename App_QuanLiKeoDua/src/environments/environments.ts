@@ -35,7 +35,8 @@ export const API_ENDPOINT = {
         CUSTOMER: API_BASE + "KhachHang/"
     },
     SHIPPING_ENDPOINT:{
+        SHIPPING_INFO: API_BASE + "ThongTinGiaoHang/",
         SHIPPING_NOTE: API_BASE + "PhieuGiaoHang/",
         SHIPPING_NOTE_CANCEL: API_BASE + "PhieuHuyDon/"
-    }
+    },
 }

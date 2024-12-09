@@ -28,12 +28,12 @@ interface DataResult {
 @Component({
   selector: 'app-purchase-order',
   standalone: true,
-  imports: [Ripple,ToastModule,DialogModule,RouterModule,ButtonModule,TableModule, CommonModule, PaginatorComponent, DatePickerComponent,FormsModule,FormatDateDirective],
+  imports: [Ripple, ToastModule, DialogModule, RouterModule, ButtonModule, TableModule, CommonModule, PaginatorComponent, DatePickerComponent, FormsModule, FormatDateDirective],
   templateUrl: './purchase-order.component.html',
   providers: [MessageService, ConfirmationService],
   styleUrl: './purchase-order.component.scss'
 })
-export class PurchaseOrderComponent  implements OnInit{
+export class PurchaseOrderComponent implements OnInit {
   isExpanded: boolean = false;
   title: any;
   selectedProduct!: any;
@@ -49,9 +49,9 @@ export class PurchaseOrderComponent  implements OnInit{
     purchaseOrders: []
   }
   filters!: filters;
-  searchString:string="";
-  IsShowPopupDelete:boolean=false;
-  maPhieuNhap:string="";
+  searchString: string = "";
+  IsShowPopupDelete: boolean = false;
+  maPhieuNhap: string = "";
 
   constructor(public authService: AuthService,private messageService:MessageService,private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
     private apiService: APIService, protected globalService: GlobalService) {
@@ -64,14 +64,14 @@ export class PurchaseOrderComponent  implements OnInit{
       searchString: ""
     };
   }
-  
+
   getData() {
     const body = {
       SearchString: this.searchString,
       PageSize: this.globalService.paging.PageSize,
       PageIndex: this.globalService.paging.PageIndex,
-      FromDate:this.filters.fromDate,
-      ToDate:this.filters.toDate
+      FromDate: this.filters.fromDate,
+      ToDate: this.filters.toDate
     };
     this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "getAllPurchaseOrder", body).subscribe({
@@ -94,27 +94,27 @@ export class PurchaseOrderComponent  implements OnInit{
 
   deletePurchaseOrder() {
     const body = {
-     MaPhieuNhap:this.maPhieuNhap
+      MaPhieuNhap: this.maPhieuNhap
     };
     this.globalService.OnLoadpage();
     this.apiService.callAPI(API_ENDPOINT.PURCHASE_ENDPOINT.PURCHASE_ORDER + "DeletePurchaseOrder_Request", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.IsShowPopupDelete=false;
-          this.messageService.add({ severity: 'success', summary: 'Thông báo', detail: 'Xóa thành công',life:1000 });
+          this.IsShowPopupDelete = false;
+          this.messageService.add({ severity: 'success', summary: 'Thông báo', detail: 'Xóa thành công', life: 1000 });
           this.getData();
         } else {
-          this.IsShowPopupDelete=false;
+          this.IsShowPopupDelete = false;
           this.messageService.add({
-            severity: 'error', 
+            severity: 'error',
             summary: 'Thông báo',
-            detail: response.message, 
+            detail: response.message,
             life: 1000
-        });
+          });
         }
       },
       error: (error: any) => {
-       
+
       },
       complete: () => {
         this.globalService.OffLoadpage();
@@ -122,17 +122,37 @@ export class PurchaseOrderComponent  implements OnInit{
     });
   }
 
-  close()
-  {
-    this.IsShowPopupDelete=false;
+  close() {
+    this.IsShowPopupDelete = false;
   }
 
-  showDialog(maPhieuNhap:any)
-  {
-    this.IsShowPopupDelete=true;
-    this.maPhieuNhap=maPhieuNhap;
+  showDialog(maPhieuNhap: any) {
+    this.IsShowPopupDelete = true;
+    this.maPhieuNhap = maPhieuNhap;
+  }
+  exportExcel() {
+    // if (!this.selectedProducts.length) {
+    //   this.messageService.add({ severity: 'warn', summary: 'Thông báo', detail: 'Chưa chọn sản phẩm nào để xuất.' });
+    //   return;
+    // }
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(this.data.purchaseOrders);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, "purchaseOrders");
+    });
   }
 
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    import("file-saver").then(FileSaver => {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
+  }
   // Toggle để phóng to/thu nhỏ phần bộ lọc
   toggleExpansion() {
     this.isExpanded = !this.isExpanded;
