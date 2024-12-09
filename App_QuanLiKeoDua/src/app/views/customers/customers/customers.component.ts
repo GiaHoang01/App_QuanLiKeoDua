@@ -146,7 +146,7 @@ export class CustomersComponent /*implements OnInit*/ {
       next: (response: any) => {
         if (response.status == 1) {
           this.data.addressShow = response.data.shippingInfo;
-          console.log("address", this.data.addressShow);
+          console.log("address-show", this.data.addressShow);
         } else {
           console.log("Lỗi khi call API: getAllInfoDelivery");
         }
@@ -170,6 +170,32 @@ export class CustomersComponent /*implements OnInit*/ {
         next: (response: any) => {
           if (response.status == 1) {
             this.getDataCustomer();
+          } else {
+            console.log("Xóa thất bại:", response.message);
+          }
+        },
+        error: (error: any) => {
+          console.log(error);
+        }
+      });
+    }
+  }
+
+  DeleteAddress(maThongTin: string) {
+    // Hiển thị hộp thoại xác nhận
+    const isConfirmed = confirm("Bạn có chắc chắn muốn xóa địa chỉ này không?");
+
+    if (isConfirmed) {
+      const body = {
+        MaKhachHang: this.maKH,
+        MaThongTin: maThongTin
+      };
+      this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_INFO + "DeleteInfoDelivery", body).subscribe({
+        next: (response: any) => {
+          if (response.status == 1) {
+            //this.getDataCustomer();
+            //this.GetCustomerByID(this.maKH);
+            this.getDataAdressByCustomer();
           } else {
             console.log("Xóa thất bại:", response.message);
           }
@@ -234,11 +260,32 @@ export class CustomersComponent /*implements OnInit*/ {
       },
       error: (error: any) => {
         console.log(error);
-      }
+      },
+      complete: () => {this.data.addressSave = {}, this.showShippingInfo = false;}
     });
   }
   
-
+  UpdateCustomer() {
+    const body = {
+      KhachHang: this.data.customer,
+    };
+    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "UpdateCustomer", body).subscribe({
+      next: (response: any) => {
+        if (response.status == 1) {
+          this.IsUpdate = false;
+          this.IsShowPopupEdit = false;
+          //this.getDataCustomer();
+          if (this.data.addressSave && Object.keys(this.data.addressSave).length > 0) {
+            this.AddAddress();
+          }
+        } else { }
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => { }
+    });
+  }
   // AddAddress() {
   //   const body = {
   //     MaKH: this.maKH,
@@ -269,7 +316,7 @@ export class CustomersComponent /*implements OnInit*/ {
       this.AddCustomer(); // Gọi AddCustomer, AddAddress sẽ được xử lý bên trong.
     }
     this.getDataCustomer();
-    this.data.addressSave = {};
+    //this.data.addressSave = {};
   }
   
 
@@ -299,24 +346,7 @@ export class CustomersComponent /*implements OnInit*/ {
   //   });
   // }
 
-  UpdateCustomer() {
-    const body = {
-      KhachHang: this.data.customer,
-    };
-    this.apiService.callAPI(API_ENDPOINT.CUSTOMER_ENDPOINT.CUSTOMER + "UpdateCustomer", body).subscribe({
-      next: (response: any) => {
-        if (response.status == 1) {
-          this.IsUpdate = false;
-          this.IsShowPopupEdit = false;
-          this.getDataCustomer();
-        } else { }
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-      complete: () => { }
-    });
-  }
+  
 
   // saveCustomer() {
   //   // if (isClose) {
@@ -338,7 +368,7 @@ export class CustomersComponent /*implements OnInit*/ {
   // }
 
   closeDialog() {
-    this.data.customer = {};
+    //this.data.customer = {};
     this.data.addressShow = [];
     this.data.addressSave = {};
     this.IsShowPopupEdit = false;
