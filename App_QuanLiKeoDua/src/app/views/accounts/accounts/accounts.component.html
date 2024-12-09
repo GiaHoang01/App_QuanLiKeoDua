@@ -20,7 +20,7 @@
         <label for="dropdown" class="col-4">Chọn nhóm quyền</label>
         <div class="col-8">
           <app-quick-search [filterObjectList]="nhomQuyen" [fieldShow]="'maNhomQuyen'" [outputField]="'maNhomQuyen'"
-            placeHolder="Nhập tên để tìm" [(value)]="tenNhomQuyen" (CallBackEvent)="quickSearchNhomQuyen($event)"
+            placeHolder="Nhập quyền để tìm" [(value)]="tenNhomQuyen" (CallBackEvent)="quickSearchNhomQuyen($event)"
             name="maNhomQuyen" (selectedEvent)="tenNhomQuyen = $event.tenNhomQuyen;GetQuyenByTenNhomQuyen(tenNhomQuyen)" [inputClass]="'border-bottom1'"
             [hearder]="['Mã nhóm quyền ','Tên nhóm quyền']" [fields]="['maNhomQuyen','tenNhomQuyen']">
             >

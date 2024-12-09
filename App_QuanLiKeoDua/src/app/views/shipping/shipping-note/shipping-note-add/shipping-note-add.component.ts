@@ -133,8 +133,6 @@ export class ShippingNoteAddComponent implements OnInit {
                 this.data.shippingNote = response.data.phieuGiaoHang;
                 //this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
 
-                console.log("shipping-note:", this.data.shippingNote);
-
                 // Nếu status = 2 và MaThongTinHienTai không null, chọn địa chỉ theo MaThongTinHienTai
                 if (this.status == 2) {
                   this.filter.maHoaDon = response.data.phieuGiaoHang.maHoaDon;
@@ -142,7 +140,6 @@ export class ShippingNoteAddComponent implements OnInit {
                     this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
                         address.maThongTin === maThongTinHienTai
                     );
-                    console.log("đây là selectedAddress nhé: ", this.selectedAddress);
                  }// else {
                 //     // Nếu MaThongTinHienTai là null hoặc status khác 2, chọn địa chỉ mặc định (macDinh)
                 //     // this.selectedAddress = this.data.shippingNote.thongTinGiaoHang.find((address: any) =>
@@ -150,7 +147,6 @@ export class ShippingNoteAddComponent implements OnInit {
                 //     );
                 // }
                  //console.log("test coi lỗi không nè", this.data.shippingNote.maHoaDon);
-                console.log("selectedAddress:", this.selectedAddress);
                 this.id = this.data.shippingNote.maHoaDon;
             }
         },
