@@ -23,11 +23,11 @@
         <div class="col-sm-10 text-right col-md-10 offset-md-3">
           <div class="form-group button-group">
             <button class="btn-green"
-              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
+              [disabled]="this.data.saleInvoiceOrder.trangThai=='Hoàn tất' || this.data.saleInvoiceOrder.trangThai=='Đang giao' || this.data.saleInvoiceOrder.trangThai.includes('Đã hủy') || this.data.saleInvoiceOrder.trangThai=='Đang giao' || !this.data.saleInvoiceOrder.maKhachHang || !this.data.saleInvoiceOrder.maNV || this.data.saleInvoiceOrderDetail.length==0 || !this.data.saleInvoiceOrder.maHinhThuc"
               (click)="save()">Lưu
             </button>
             <button class="btn-blue" (click)="addNew()"> Thêm mới</button>
-            <button class="btn-blue" [routerLink]="['/saleOrder']">Trở về</button>
+            <button class="btn-blue" [routerLink]="['/saleorder']">Trở về</button>
           </div>
         </div>
       </div>

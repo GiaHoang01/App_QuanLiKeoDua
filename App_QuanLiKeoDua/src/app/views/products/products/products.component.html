@@ -29,9 +29,6 @@
                         <th pFrozenColumn>
                             #
                         </th>
-                        <th pFrozenColumn pSortableColumn="maHangHoa" class="header-min">
-                            Mã hàng Hóa <p-sortIcon field="maHangHoa" />
-                        </th>
                         <th pSortableColumn="tenHangHoa" class="header-max">
                             Tên hàng hóa <p-sortIcon field="tenHangHoa" />
                         </th>
@@ -54,7 +51,6 @@
                 <ng-template pTemplate="body" let-o let-index="rowIndex">
                     <tr [pSelectableRow]="o">
                         <td pFrozenColumn>{{ (index) + 1 }}</td>
-                        <td pFrozenColumn>{{ o.maHangHoa }}</td>
                         <td>{{ o.tenHangHoa }}</td>
                         <td>{{ o.giaBan }}</td>
                         <td>{{ o.moTa }}</td>
