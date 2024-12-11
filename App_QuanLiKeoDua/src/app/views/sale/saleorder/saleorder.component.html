@@ -48,7 +48,7 @@
         <ul>
             <li class="DotRowGreen"><span data-text="Mới tạo"></span></li>
             <li class="DotRowBlue"><span data-text="Đang giao"></span></li>
-            <li class="DotRowPurble"><span data-text="Hoàn thành"></span></li>
+            <li class="DotRowPurble"><span data-text="Hoàn tất"></span></li>
             <li class="DotRowBlack"><span data-text="Đã hủy"></span></li>
         </ul>
     </div>
@@ -92,7 +92,7 @@
                     <tr [pSelectableRow]="order" [ngClass]="{
                         'DotRowBlue': order.trangThai == 'Đang giao',
                         'DotRowGreen':order.trangThai=='Mới tạo',
-                        'DotRowPurble':order.trangThai=='Đã hủy',
+                        'DotRowPurple':order.trangThai=='Hoàn tất',
                         'DotRowBlack': order.trangThai.includes('Đã hủy')
                       }">
                         <td pFrozenColumn>VG-{{order.tenKhachHang}}</td>
