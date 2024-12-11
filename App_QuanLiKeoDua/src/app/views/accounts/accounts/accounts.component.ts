@@ -105,7 +105,7 @@ export class AccountsComponent implements OnInit{
     this.apiService.callAPI(API_ENDPOINT.NHOMQUYEN_ENDPOINT.NhomQuyen + "UpdateRole", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công',life:1000 })
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công',life:1000 })
         } else {
 
         }
