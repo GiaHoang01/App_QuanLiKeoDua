@@ -76,7 +76,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-s>
             <tr>
-              <td pFrozenColumn>{{ s.maPhieuHuy }}</td>
+              <td pFrozenColumn>PN-{{ s.ngayHuy }}</td>
               <td class="text-center" [appFormatDate]="s.ngayHuy" format="dateFilter"></td>
               <!-- <td class="text-center" [appFormatDate]="s.NgayGiao" format="dateFilter"></td> -->
               <td>{{ s.lyDo }}</td>

@@ -12,6 +12,7 @@ import { API_ENDPOINT } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
 
 interface filters extends TransactionFilter { }
 
@@ -41,7 +42,7 @@ export class ShippingNoteComponent implements OnInit {
   searchString: string = "";
 
   constructor(private route: ActivatedRoute, private router: Router, protected utilsService: UtilsService,
-    private apiService: APIService, protected globalService: GlobalService) {
+    private apiService: APIService, protected globalService: GlobalService, private messageService:MessageService) {
   }
 
   ngOnInit(): void {

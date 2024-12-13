@@ -85,7 +85,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-purchase>
           <tr [pSelectableRow]="purchase">
-          <td pFrozenColumn>{{ purchase.maPhieuNhap }}</td>
+          <td pFrozenColumn>PN-{{ purchase.ngayDat }}</td>
           <td class="text-center" [appFormatDate]="purchase.ngayDat" format="dateFilter"></td>
           <td class="text-center" [appFormatDate]="purchase.ngayNhap" format="dateFilter"></td>
           <td class="text-right">{{ purchase.tongTriGia }}</td>

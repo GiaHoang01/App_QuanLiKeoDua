@@ -88,7 +88,7 @@
                 'DotRowBlack': s.TrangThai == 'Hoàn tất',
                 'DotRowRed': s.TrangThai == 'Chưa hoàn tất',
               }">
-              <td pFrozenColumn>{{ s.MaPhieuGiao }}</td>
+              <td pFrozenColumn>PG-{{ s.ngayTao }}</td>
               <td class="text-center" [appFormatDate]="s.NgayTao" format="dateFilter"></td>
               <td class="text-center" [appFormatDate]="s.NgayGiao" format="dateFilter"></td>
               <td>{{ s.TenNV }}</td>

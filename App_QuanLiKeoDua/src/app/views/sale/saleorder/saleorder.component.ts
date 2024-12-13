@@ -128,7 +128,7 @@ export class SaleorderComponent implements OnInit {
           this.getData();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công', life: 1000 });
         } else {
-
+          this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Lưu thất bại', life: 1000 });
         }
       },
       error: (error: any) => {

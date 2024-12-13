@@ -168,13 +168,9 @@ export class ShippingNoteConfirmAddComponent implements OnInit{
           if (response.status == 1) {
             this.id = response.data.maThongTin;
             this.status = response.data.status;
-            //this.status == 2;
-            //this.getData();
-            console.log('id', this.id);
-            console.log('status', this.status);
-            console.log("Lưu thành công!");
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Lưu thành công', life: 1000 });
           } else {
-            console.log("Lưu thất bại");
+            this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Lưu thất bại', life: 1000 });
           }
         },
         error: (error: any) => {

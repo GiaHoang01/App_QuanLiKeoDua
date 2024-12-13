@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { ButtonModule } from 'primeng/button'; 
 
+
 interface filters extends TransactionFilter{}
 
 interface DataResult {

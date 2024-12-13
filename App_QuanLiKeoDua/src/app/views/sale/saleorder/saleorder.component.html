@@ -60,7 +60,7 @@
                 showGridlines [sortOrder]="-1" [scrollable]="true" scrollHeight="500px" rowHover="true">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pFrozenColumn pSortableColumn="soCT" style="min-width:100px !important">
+                        <th pFrozenColumn pSortableColumn="soCT" style="min-width:150px !important">
                             Số CT <p-sortIcon field="soCT" />
                         </th>
                         <th pSortableColumn="ngayBan" style="min-width:200px !important">
@@ -88,14 +88,14 @@
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-order>
+                <ng-template pTemplate="body" let-order let-index="rowIndex">
                     <tr [pSelectableRow]="order" [ngClass]="{
                         'DotRowBlue': order.trangThai == 'Đang giao',
                         'DotRowGreen':order.trangThai=='Mới tạo',
                         'DotRowPurple':order.trangThai=='Hoàn tất',
                         'DotRowBlack': order.trangThai.includes('Đã hủy')
                       }">
-                        <td pFrozenColumn>VG-{{order.tenKhachHang}}</td>
+                        <td pFrozenColumn>VG-{{order.ngayBan}}</td>
                         <td class="text-center" [appFormatDate]="order.ngayBan" format="dateFilter"></td>
                         <td class="text-right">{{ order.tongTriGia}}</td>
                         <td>{{ order.tenNV }}</td>

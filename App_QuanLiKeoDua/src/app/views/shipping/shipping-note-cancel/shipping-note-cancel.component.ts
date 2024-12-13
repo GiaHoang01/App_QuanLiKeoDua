@@ -12,6 +12,7 @@ import { API_ENDPOINT } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { FormatDateDirective } from '../../../directive/date-format.directive';
 import { ButtonModule } from 'primeng/button'; 
+import { MessageService } from 'primeng/api';
 
 interface filters extends TransactionFilter{}
 
@@ -41,7 +42,7 @@ export class ShippingNoteCancelComponent implements OnInit {
   searchString:string="";
 
   constructor(private route: ActivatedRoute,private router:Router,protected utilsService: UtilsService,
-    private apiService: APIService, protected globalService: GlobalService) {
+    private apiService: APIService, protected globalService: GlobalService, private messageService:MessageService) {
   }
 
   ngOnInit(): void {
@@ -86,8 +87,9 @@ export class ShippingNoteCancelComponent implements OnInit {
     this.apiService.callAPI(API_ENDPOINT.SHIPPING_ENDPOINT.SHIPPING_NOTE_CANCEL + "DeleteShippingNoteCancel", body).subscribe({
       next: (response: any) => {
         if (response.status == 1) {
-          console.log("Xoá thành công");
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Xóa thành công', life: 1000 });
         } else {
+          this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'Xóa thất bại', life: 1000 });
         }
       },
       error: (error: any) => {
