@@ -25,6 +25,7 @@ interface DataResult {
   standalone: true,
   imports: [RouterModule, ButtonModule, TableModule, CommonModule, PaginatorComponent, DatePickerComponent, FormsModule, FormatDateDirective],
   templateUrl: './shipping-note.component.html',
+    providers: [MessageService],
   styleUrl: './shipping-note.component.scss'
 })
 export class ShippingNoteComponent implements OnInit {
